@@ -5,20 +5,16 @@
 <meta charset="UTF-8">
 <title>Prueba Navbar</title>
 
-<!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- FontAwesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<!-- ✅ TU CSS -->
 <link rel="stylesheet" href="Style.css">
 
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
         <div class="logo">
@@ -33,7 +29,6 @@
     </ul>
 </aside>
 
-<!-- MAIN -->
 <div class="main-content">
     <div class="topbar">
         <div class="topbar-left">
@@ -70,7 +65,7 @@
     <h1 style="color:white;">Contenido de prueba</h1>
 </div>
 
-<!-- ✅ TU JS -->
+<!--  js -->
 <script src="admin.js"></script>
 
 </body>
