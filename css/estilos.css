@@ -62,7 +62,7 @@ body {
 }
 
 /* Tooltips personalizados */
-.tooltip-inner {    
+.tooltip-inner {
     background-color: var(--primary);
     color: var(--text-light);
     font-size: 0.85rem;
@@ -607,5 +607,120 @@ h2 {
     .chat-float-btn {
         right: 15px;
         bottom: 20px;
+    }
+}
+
+/* 404 */
+.error-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+}
+
+.vs-404-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 3rem 2.5rem;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    border-top: 6px solid var(--secondary);
+    /* Color institucional */
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+.vs-404-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.vs-404-code {
+    font-size: 5rem;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
+}
+
+.vs-404-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.vs-404-description {
+    color: var(--secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.vs-404-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.vs-404-btn-primary {
+    background-color: var(--primary);
+    color: var(--text-light);
+    padding: 0.7rem 1.6rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.vs-404-btn-primary:hover {
+    background-color: var(--secondary);
+    transform: translateY(-2px);
+}
+
+.vs-404-btn-secondary {
+    background-color: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 0.7rem 1.6rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.vs-404-btn-secondary:hover {
+    background-color: var(--secondary);
+    color: var(--text-light);
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .vs-404-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .vs-404-code {
+        font-size: 3.5rem;
+    }
+
+    .vs-404-title {
+        font-size: 1.3rem;
     }
 }
