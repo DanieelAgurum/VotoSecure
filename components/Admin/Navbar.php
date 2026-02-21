@@ -1,7 +1,7 @@
-<?php 
-session_start(); 
+<?php
+session_start();
 // config.php
-define('BASE_URL', '/VotoSecure'); 
+define('BASE_URL', '/VotoSecure');
 ?>
 
 <link rel="stylesheet" href="../../css/admin.css">
@@ -10,16 +10,7 @@ define('BASE_URL', '/VotoSecure');
 <div class="layout">
 
     <aside class="sidebar">
-        <div class="logo">
-            <i class="bi bi-shield-lock"></i>
-            <span>VotoSecure</span>
-        </div>
-        
         <nav>
-            <a href="<?= BASE_URL ?>/Vista/Admin/Index.php" class="nav-link">
-                <i class="bi bi-house-door"></i>
-                <span>Dashboard</span>
-            </a>
             <a href="#" class="nav-link">
                 <i class="bi bi-file-earmark"></i>
                 <span>Contenido</span>
@@ -40,15 +31,20 @@ define('BASE_URL', '/VotoSecure');
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Salir</span>
             </a>
+            <!-- Dashboard al final, centrado y con color diferente -->
+            <a href="<?= BASE_URL ?>/Vista/Admin/Index.php" class="nav-link logo" style="justify-content: center; color: var(--accent); font-weight: bold; margin-top: 30px;">
+                <i class="bi bi-house-door"></i>
+                <span>Dashboard</span>
+            </a>
         </nav>
     </aside>
 
     <main class="content">
 
-        <div class=" header dashboard-header">
-         
-            <div class="dashboard-title">
-               
+        <!-- ===== HEADER / TOPBAR ===== -->
+        <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: var(--header-bg);">
+            
+            <div>
                 <h1>Dashboard</h1>
                 <p>Bienvenido al panel administrativo</p>
             
@@ -56,7 +52,7 @@ define('BASE_URL', '/VotoSecure');
 
             <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
                 <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
-                    <?= strtoupper(substr($_SESSION['admin_nombre'] ?? 'A',0,1)) ?>
+                    <?= strtoupper(substr($_SESSION['admin_nombre'] ?? 'A', 0, 1)) ?>
                 </div>
                 <div>
                     <p style="margin:0; font-weight:600; color:#1e293b;">Administrador</p>
