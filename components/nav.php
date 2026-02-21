@@ -8,7 +8,7 @@
 
         <div class="collapse navbar-collapse" id="menu">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-3">
-                <li class="nav-item"><a class="nav-link" href="../views/index.html">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="../views/candidatos.html">Candidatos</a></li>
                 <li class="nav-item"><a class="nav-link" href="../views/propuestas.html">Propuestas</a></li>
                 <li class="nav-item"><a class="nav-link" href="../views/ayuda.html">Ayuda</a></li>
