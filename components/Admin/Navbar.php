@@ -43,11 +43,11 @@ define('BASE_URL', '/VotoSecure');
 
         <!-- ===== HEADER / TOPBAR ===== -->
         <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: var(--header-bg);">
-            
+
             <div>
-                <h1>Dashboard</h1>
+                <h1></h1>
                 <p>Bienvenido al panel administrativo</p>
-            
+
             </div>
 
             <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
