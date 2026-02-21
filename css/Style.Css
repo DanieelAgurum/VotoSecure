@@ -1,165 +1,62 @@
-/* estilos.php - Stylesheet for VotoSeguro Admin Candidate Registration (adapted palette) */
+/* ===== CONTENEDOR GENERAL ===== */
 
-:root {
-    --primary-color: #0F172A;      /* Azul oscuro */
-    --secondary-color: #1E293B;    /* Azul medio */
-    --accent-color: #22D3EE;       /* Azul claro / acento */
-    --success-color: #22C55E;      /* Verde */
-    --danger-color: #EF4444;       /* Rojo */
-    --warning-color: #F59E0B;      /* Amarillo */
-    --light-color: #F1F5F9;        /* Fondo claro */
-    --dark-color: #334155;         /* Texto oscuro */
-    --border-radius: 0.375rem;
-    --box-shadow: 0 0.5rem 1rem rgba(15, 23, 42, 0.15);
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+.content-area {
+    margin-left: 260px;
     min-height: 100vh;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
 
-.container-fluid {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+/* ===== CAJA DEL FORM ===== */
+
+.form-wrapper {
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
 }
 
-.card {
-    border-radius: calc(var(--border-radius) * 2);
-    box-shadow: var(--box-shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* ===== TITULO ===== */
+
+.form-title {
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #0f172a;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 1rem 3rem rgba(15, 23, 42, 0.2);
+/* ===== INPUTS ===== */
+
+.custom-input {
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
 }
 
-.card-header {
-    border-radius: calc(var(--border-radius) * 2) calc(var(--border-radius) * 2) 0 0;
-    padding: 1.5rem;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+.custom-input:focus {
+    border-color: #1E293B;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
 }
 
-.card-header h2 {
+/* ===== BOTÓN ===== */
+
+.btn-submit {
+    width: 100%;
+    padding: 14px;
+    background: #1E293B;
+    border: none;
+    border-radius: 10px;
     font-weight: 600;
-    font-size: 1.8rem;
-    color: var(--text-light);
+    color: white;
+    transition: 0.3s ease;
 }
 
-.form-label {
-    font-weight: 500;
-    color: var(--dark-color);
-    margin-bottom: 0.5rem;
-}
-
-.form-control,
-.form-select {
-    border: 2px solid var(--bg-soft);
-    border-radius: var(--border-radius);
-    padding: 0.75rem 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.form-control:focus,
-.form-select:focus {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 0.2rem rgba(34, 211, 238, 0.25);
-    outline: none;
-}
-
-.form-control-lg,
-.form-select-lg {
-    font-size: 1rem;
-    padding: 0.875rem 1rem;
-}
-
-textarea.form-control {
-    resize: vertical;
-    font-family: inherit;
-    min-height: 120px;
-}
-
-.btn {
-    border-radius: var(--border-radius);
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.btn-lg {
-    padding: 0.75rem 1.5rem;
-    font-size: 1.1rem;
-}
-
-.btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    color: var(--text-light);
-}
-
-.btn-primary:hover {
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
-}
-
-.btn-secondary {
-    background-color: var(--secondary-color);
-    border-color: var(--secondary-color);
-    color: var(--text-light);
-}
-
-.btn-secondary:hover {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.text-muted {
-    font-size: 0.875rem;
-    color: var(--dark-color);
-}
-
-.mb-3 {
-    margin-bottom: 1.5rem;
-}
-
-.d-grid {
-    display: grid;
-}
-
-@media (max-width: 768px) {
-    .card-body {
-        padding: 1.5rem !important;
-    }
-
-    .card-header h2 {
-        font-size: 1.5rem;
-    }
-
-    .d-md-flex {
-        flex-direction: column;
-    }
-
-    .btn-lg {
-        width: 100%;
-        margin-bottom: 0.5rem;
-    }
-}
-
-@media (min-width: 768px) {
-    .d-md-flex {
-        display: flex;
-    }
-
-    .justify-content-md-end {
-        justify-content: flex-end;
-    }
-
-    .d-md-flex .btn {
-        margin-left: 0.5rem;
-    }
+.btn-submit:hover {
+    background: #1E293B;
+    transform: translateY(-2px);
 }

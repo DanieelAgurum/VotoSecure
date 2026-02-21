@@ -9,7 +9,6 @@ define('BASE_URL', '/VotoSecure');
 
 <div class="layout">
 
-    <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar">
         <div class="logo">
             <i class="bi bi-shield-lock"></i>
@@ -44,18 +43,17 @@ define('BASE_URL', '/VotoSecure');
         </nav>
     </aside>
 
-    <!-- ===== CONTENEDOR PRINCIPAL ===== -->
     <main class="content">
 
-        <!-- ===== HEADER / TOPBAR ===== -->
-        <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: var(--header-bg);">
-            
-            <div>
+        <div class=" header dashboard-header">
+         
+            <div class="dashboard-title">
+               
                 <h1>Dashboard</h1>
                 <p>Bienvenido al panel administrativo</p>
+            
             </div>
 
-            <!-- ===== USER PROFILE ===== -->
             <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
                 <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
                     <?= strtoupper(substr($_SESSION['admin_nombre'] ?? 'A',0,1)) ?>

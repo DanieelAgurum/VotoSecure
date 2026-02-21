@@ -20,12 +20,12 @@
 </head>
 
 <body>
-
+<?php include __DIR__ . '/../../components/Admin/Navbar.php'; ?>
 <div class="container-fluid">
     <div class="row">
 
   
-        <?php include __DIR__ . '/../../components/Admin/Navbar.php'; ?>
+      
 
         <div class="col-md-10 col-lg-10 main-content">
 
