@@ -493,6 +493,8 @@ h2 {
     padding: 1rem;
     overflow-y: auto;
     background-color: var(--bg-light);
+    display: flex;
+    flex-direction: column;
 }
 
 .chat-message {
@@ -500,7 +502,8 @@ h2 {
     padding: 0.6rem 0.9rem;
     border-radius: 15px;
     font-size: 0.9rem;
-    max-width: 80%;
+    max-width: 75%;
+    word-wrap: break-word;
 }
 
 .chat-message.bot {
@@ -568,11 +571,83 @@ h2 {
     color: var(--primary);
 }
 
-/* Escuchando */
-.mic-btn.listening {
-    background-color: var(--danger);
-    color: #fff;
+.mic-btn.recording {
+    background-color: #dc3545;
     animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+    }
+
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+    }
+}
+
+.chat-message.typing {
+    display: flex;
+    gap: 5px;
+}
+
+.chat-message.typing .dot {
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border-radius: 50%;
+    animation: blink 1.4s infinite both;
+}
+
+/* BOT → izquierda */
+.chat-message.bot {
+    justify-content: flex-start;
+}
+
+.chat-message.bot .message-bubble {
+    background: #2c3e50;
+    color: #fff;
+    border-radius: 15px 15px 15px 0;
+}
+
+/* USER → derecha */
+.chat-message.user {
+    justify-content: flex-end;
+}
+
+.chat-message.user .message-bubble {
+    background: #3498db;
+    color: #fff;
+    border-radius: 15px 15px 0 15px;
+}
+
+.chat-message.typing .dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.chat-message.typing .dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0.2;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.2;
+    }
 }
 
 /* Botón enviar personalizado */
@@ -600,7 +675,8 @@ h2 {
 @media (max-width: 576px) {
     .chat-panel {
         height: 70vh;
-        right: 15px;
+        width: 90%;
+        right: 20px;
         bottom: 90px;
     }
 
