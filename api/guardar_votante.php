@@ -125,7 +125,7 @@ if (!empty($errores)) {
 
 try {
     // Verificar si el CURP ya existe
-    $stmt = $pdo->prepare("SELECT id FROM voters WHERE curp = ?");
+    $stmt = $pdo->prepare("SELECT id FROM votantes WHERE curp = ?");
     $stmt->execute([$curp]);
     
     if ($stmt->fetch()) {
@@ -160,7 +160,7 @@ try {
     
     // Insertar voter
     $sql = "
-    INSERT INTO voters (
+    INSERT INTO votantes (
         nombre, apellido_paterno, apellido_materno, fecha_nacimiento,
         genero, nacionalidad, curp, rfc, calle, num_exterior, num_interior,
         colonia, codigo_postal, municipio, entidad, entre_calles,
