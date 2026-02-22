@@ -1,4 +1,11 @@
 # =========================================================
-# ⚠️ PÁGINA 404 PERSONALIZADA
+# 🔒 EVITAR ACCESO A CARPETAS
 # =========================================================
-ErrorDocument 404 /vista/404.php
+Options -Indexes
+
+# =========================================================
+# ⚠️ PÁGINAS DE ERROR PERSONALIZADAS
+# =========================================================
+ErrorDocument 403 /VotoSecure/vista/403.php
+ErrorDocument 404 /VotoSecure/vista/404.php
+

@@ -17,6 +17,7 @@ define('BASE_URL', '/VotoSecure');
     <title>Registro de Votantes - VotoSecure</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../../css/RegistroVotantes.css">
 </head>
 
@@ -44,6 +45,8 @@ define('BASE_URL', '/VotoSecure');
                         <span id="esp32Status"><span class="badge bg-secondary">No conectado</span></span>
                     </div>
                 </div>
+                <!-- Log de debug visible -->
+                <div id="esp32Log" class="alert alert-dark small p-2 mb-3" style="display: none; max-height: 150px; overflow-y: auto; font-family: monospace;"></div>
 
                 <!-- Información de Foto -->
                 <div class="section-title">
@@ -187,16 +190,22 @@ define('BASE_URL', '/VotoSecure');
                         <div class="input-wrapper">
                             <i class="fas fa-fingerprint"></i>
                             <input type="text" class="form-control" id="curp" name="curp" placeholder="AAAA000000HGRRRR01" maxlength="18" style="text-transform: uppercase;" required>
+                            <button type="button" class="btn btn-sm btn-outline-primary btn-generar" onclick="generarCURP()" title="Generar CURP">
+                                <i class="fas fa-magic"></i>
+                            </button>
                         </div>
-                        <small class="text-muted">18 caracteres (Formato: XXXX000000XXXRX-XX)</small>
+                        <small class="text-muted">18 caracteres - Se auto-llena con los datos ingresados</small>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label required-field">RFC</label>
                         <div class="input-wrapper">
                             <i class="fas fa-file-contract"></i>
                             <input type="text" class="form-control" id="rfc" name="rfc" placeholder="AAAA000000XXX" maxlength="13" style="text-transform: uppercase;" required>
+                            <button type="button" class="btn btn-sm btn-outline-primary btn-generar" onclick="generarRFC()" title="Generar RFC">
+                                <i class="fas fa-magic"></i>
+                            </button>
                         </div>
-                        <small class="text-muted">10 o 13 caracteres con homoclave</small>
+                        <small class="text-muted">10 o 13 caracteres con homoclave - Se auto-llena con los datos ingresados</small>
                     </div>
                 </div>
 
@@ -351,8 +360,11 @@ define('BASE_URL', '/VotoSecure');
                         <div class="input-wrapper">
                             <i class="fas fa-key"></i>
                             <input type="text" class="form-control" id="clave_elector" name="clave_elector" placeholder="000000000000" maxlength="18" style="text-transform: uppercase;">
+                            <button type="button" class="btn btn-sm btn-outline-primary btn-generar" onclick="generarClaveElector()" title="Generar Clave de Elector">
+                                <i class="fas fa-magic"></i>
+                            </button>
                         </div>
-                        <small class="text-muted">18 caracteres (opcional para pre-registro)</small>
+                        <small class="text-muted">18 caracteres - Se auto-llena con los datos ingresados</small>
                     </div>
                 </div>
 
@@ -366,257 +378,7 @@ define('BASE_URL', '/VotoSecure');
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        let videoStream = null;
-        let capturedImageData = null;
-
-        // ================= ESP32 NFC + FINGERPRINT =================
-        let port = null,
-            reader = null,
-            writer = null;
-        const esp32Status = document.getElementById('esp32Status');
-        const esp32Log = document.getElementById('esp32Log');
-
-        const log = m => {
-            if (esp32Log) esp32Log.textContent += m + "\n";
-            console.log(m);
-        };
-
-        // Conectar al ESP32
-        async function connectESP32() {
-            try {
-                port = await navigator.serial.requestPort();
-                await port.open({
-                    baudRate: 115200
-                });
-
-                const decoder = new TextDecoderStream();
-                port.readable.pipeTo(decoder.writable);
-                reader = decoder.readable.getReader();
-                writer = port.writable.getWriter();
-
-                esp32Status.innerHTML = '<span class="badge bg-success">✅ Conectado</span>';
-                log("ESP32 conectado y listo");
-            } catch (e) {
-                log("Error al conectar: " + e.message);
-                alert("Error conectando al ESP32");
-            }
-        }
-
-        // Leer línea del ESP32
-        async function readLine() {
-            let buffer = "";
-            while (true) {
-                const {
-                    value
-                } = await reader.read();
-                if (!value) continue;
-                buffer += value;
-                const lines = buffer.split(/\r?\n/);
-                buffer = lines.pop();
-                for (let line of lines) {
-                    line = line.trim();
-                    if (line.length) return line;
-                }
-            }
-        }
-
-        // ================= FOTO =================
-
-        // Vista previa de la imagen (desde archivo)
-        function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                const output = document.getElementById('imagePreview');
-                output.src = reader.result;
-                output.style.display = 'block';
-                document.getElementById('placeholderPreview').style.display = 'none';
-                capturedImageData = reader.result;
-                document.getElementById('foto_capturada').value = capturedImageData;
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-        // Abrir cámara
-        function openCamera() {
-            const modal = new bootstrap.Modal(document.getElementById('cameraModal'));
-            modal.show();
-
-            navigator.mediaDevices.getUserMedia({
-                    video: {
-                        facingMode: 'user'
-                    }
-                })
-                .then(function(stream) {
-                    videoStream = stream;
-                    document.getElementById('videoElement').srcObject = stream;
-                    document.getElementById('videoElement').style.display = 'block';
-                    document.getElementById('capturedPhoto').style.display = 'none';
-                    document.getElementById('captureBtn').style.display = 'inline-block';
-                    document.getElementById('retakeBtn').style.display = 'none';
-                    document.getElementById('usePhotoBtn').style.display = 'none';
-                })
-                .catch(function(err) {
-                    alert('Error al acceder a la cámara: ' + err.message);
-                    closeCamera();
-                });
-        }
-
-        // Capturar foto
-        function capturePhoto() {
-            const video = document.getElementById('videoElement');
-            const canvas = document.getElementById('canvasElement');
-            const capturedPhoto = document.getElementById('capturedPhoto');
-
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            canvas.getContext('2d').drawImage(video, 0, 0);
-
-            capturedImageData = canvas.toDataURL('image/jpeg');
-            capturedPhoto.src = capturedImageData;
-
-            video.style.display = 'none';
-            capturedPhoto.style.display = 'block';
-
-            document.getElementById('captureBtn').style.display = 'none';
-            document.getElementById('retakeBtn').style.display = 'inline-block';
-            document.getElementById('usePhotoBtn').style.display = 'inline-block';
-        }
-
-        // Repetir foto
-        function retakePhoto() {
-            const video = document.getElementById('videoElement');
-            const capturedPhoto = document.getElementById('capturedPhoto');
-
-            video.style.display = 'block';
-            capturedPhoto.style.display = 'none';
-
-            document.getElementById('captureBtn').style.display = 'inline-block';
-            document.getElementById('retakeBtn').style.display = 'none';
-            document.getElementById('usePhotoBtn').style.display = 'none';
-        }
-
-        // Usar foto capturada
-        function usePhoto() {
-            const imagePreview = document.getElementById('imagePreview');
-            const placeholderPreview = document.getElementById('placeholderPreview');
-
-            // Mostrar la foto original
-            imagePreview.src = capturedImageData;
-            imagePreview.style.display = 'block';
-            placeholderPreview.style.display = 'none';
-            document.getElementById('foto_capturada').value = capturedImageData;
-
-            closeCamera();
-        }
-
-        // Cerrar cámara
-        function closeCamera() {
-            if (videoStream) {
-                videoStream.getTracks().forEach(track => track.stop());
-                videoStream = null;
-            }
-            const modalEl = document.getElementById('cameraModal');
-            const modal = bootstrap.Modal.getInstance(modalEl);
-            if (modal) {
-                modal.hide();
-            }
-            setTimeout(() => {
-                document.getElementById('videoElement').srcObject = null;
-                document.getElementById('capturedPhoto').src = '';
-            }, 300);
-        }
-
-        // Convertir CURP a mayúsculas automáticamente
-        document.getElementById('curp').addEventListener('input', function() {
-            this.value = this.value.toUpperCase();
-        });
-
-        // Convertir RFC a mayúsculas automáticamente
-        document.getElementById('rfc').addEventListener('input', function() {
-            this.value = this.value.toUpperCase();
-        });
-
-        // Convertir Clave de Elector a mayúsculas automáticamente
-        document.getElementById('clave_elector').addEventListener('input', function() {
-            this.value = this.value.toUpperCase();
-        });
-
-        // Validación y envío del formulario con ESP32
-        document.getElementById('registroForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const curp = document.getElementById('curp').value;
-            const rfc = document.getElementById('rfc').value;
-
-            if (curp.length !== 18) {
-                alert('La CURP debe tener 18 caracteres');
-                return;
-            }
-
-            if (rfc.length < 10 || rfc.length > 13) {
-                alert('El RFC debe tener entre 10 y 13 caracteres');
-                return;
-            }
-
-            // Si, obtener datos NFC y huella
-            if (port && writer) {
-                log("Iniciando registro en ESP32...");
-                document.getElementById('btnRegistrar').disabled = true;
-                esp32Log.textContent = "";
-
-                try {
-                    await writer.write(new TextEncoder().encode("REGISTER\n"));
-
-                    // Esperar datos del ESP32
-                    while (true) {
-                        const msg = await readLine();
-                        log("ESP32: " + msg);
-
-                        // Formato: UID|TOKEN|FINGER
-                        if (msg.includes("|") && msg.split("|").length === 3) {
-                            const [uid, token, finger] = msg.split("|");
-
-                            // Enviar todos los datos al servidor
-                            const formData = new FormData(this);
-                            formData.append('uid', uid.trim());
-                            formData.append('token', token.trim());
-                            formData.append('finger_id', finger.trim());
-                            formData.append('foto', capturedImageData);
-
-                            const res = await fetch('../api/guardar_votante.php', {
-                                method: 'POST',
-                                body: formData
-                            });
-
-                            const text = await res.text();
-                            log("Servidor: " + text);
-
-                            if (res.ok && text.trim() === 'OK') {
-                                alert('✅ Registro completo');
-                                this.reset();
-                                document.getElementById('imagePreview').style.display = 'none';
-                                document.getElementById('placeholderPreview').style.display = 'flex';
-                                capturedImageData = null;
-                            } else {
-                                alert('❌ Error al guardar: ' + text);
-                            }
-
-                            break;
-                        }
-                    }
-                } catch (err) {
-                    log("Error: " + err.message);
-                    alert('❌ Error durante el registro');
-                }
-
-                document.getElementById('btnRegistrar').disabled = false;
-            } else {
-                // Sin ESP32 - enviar normalmente
-                alert('⚠️ ESP32 no conectado. Conecte el dispositivo para completar el registro.');
-            }
-        });
-    </script>
+    <script src="../../js/registroVotantes.js"></script>
 </body>
 
 </html>
