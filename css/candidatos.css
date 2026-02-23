@@ -1,0 +1,685 @@
+/* ========================================
+   Estilos para Candidatos y Propuestas
+   VotoSeguro - Sistema de Votación
+   ======================================== */
+
+/* ---------- Estilos para candidatos.php ---------- */
+.candidates-section {
+    padding: 40px 20px 60px;
+    min-height: calc(100vh - 200px);
+}
+
+.candidates-title {
+    text-align: center;
+    margin-bottom: 50px;
+    color: var(--accent);
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.candidates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.candidate-card {
+    background: var(--bg-light);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.candidate-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(34, 211, 238, 0.2);
+}
+
+.candidate-photo {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+}
+
+.candidate-photo-placeholder {
+    width: 100%;
+    height: 220px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: var(--text-light);
+}
+
+.candidate-info {
+    padding: 25px;
+}
+
+.candidate-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.candidate-party {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.candidate-position {
+    color: var(--text-dark);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--bg-soft);
+}
+
+.candidate-position span {
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+.btn-proposal {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: var(--text-light);
+    text-decoration: none;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-proposal:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 20px rgba(34, 211, 238, 0.4);
+    color: var(--text-light);
+}
+
+/* ---------- Estilos para propuestas.php ---------- */
+.proposal-section {
+    padding: 40px 20px 60px;
+    min-height: calc(100vh - 200px);
+}
+
+.proposal-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.proposal-card {
+    background: var(--bg-light);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.proposal-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    padding: 40px;
+    text-align: center;
+    color: var(--text-light);
+}
+
+.proposal-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--accent);
+    margin-bottom: 20px;
+}
+
+.proposal-name {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.proposal-party {
+    font-size: 1.2rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.proposal-position {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.proposal-slogan {
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--text-light);
+    margin: 15px 0;
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.proposal-body {
+    padding: 40px;
+}
+
+.proposal-video {
+    margin: 25px 0;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+}
+
+.proposal-video iframe,
+.proposal-video video {
+    width: 100%;
+    aspect-ratio: 16/9;
+}
+
+.proposal-biography {
+    background: var(--bg-soft);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+.proposal-biography h3 {
+    color: var(--primary);
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+.proposal-biography p {
+    color: var(--text-dark);
+    line-height: 1.8;
+    margin: 0;
+}
+
+.proposal-title-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--bg-soft);
+}
+
+.proposal-title-section h2 {
+    margin: 0;
+    color: var(--primary);
+    font-size: 1.8rem;
+}
+
+.proposal-icon {
+    font-size: 2rem;
+}
+
+.proposal-text {
+    color: var(--text-dark);
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.proposal-actions {
+    padding: 30px 40px 40px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-back {
+    display: inline-block;
+    padding: 12px 30px;
+    background: var(--bg-soft);
+    color: var(--text-dark);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+    background: var(--secondary);
+    color: var(--text-light);
+}
+
+.not-found {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.not-found h2 {
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    /* Candidatos */
+    .candidates-title {
+        font-size: 1.8rem;
+        padding: 0 15px;
+    }
+
+    .candidates-grid {
+        grid-template-columns: 1fr;
+        padding: 0 15px;
+        gap: 20px;
+    }
+
+    .candidate-card {
+        margin-bottom: 0;
+    }
+
+    .candidate-photo {
+        height: 200px;
+    }
+
+    .candidate-info {
+        padding: 20px;
+    }
+
+    .candidate-name {
+        font-size: 1.2rem;
+    }
+
+    .candidate-party {
+        font-size: 0.95rem;
+    }
+
+    .candidate-position {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+        padding-bottom: 12px;
+    }
+
+    .btn-proposal {
+        padding: 10px 18px;
+        font-size: 0.95rem;
+    }
+
+    /* Propuestas */
+    .proposal-header {
+        padding: 30px 20px;
+    }
+
+    .proposal-name {
+        font-size: 1.5rem;
+    }
+
+    .proposal-body {
+        padding: 25px;
+    }
+
+    .proposal-title-section h2 {
+        font-size: 1.4rem;
+    }
+
+    .proposal-text {
+        font-size: 1rem;
+    }
+
+    .proposal-actions {
+        padding: 20px;
+        flex-direction: column;
+    }
+
+    .btn-back,
+    .btn-proposal {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ---------- Vista previa de todas las propuestas ---------- */
+.all-proposals-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.all-proposals-title {
+    text-align: center;
+    color: var(--accent);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.all-proposals-subtitle {
+    text-align: center;
+    color: var(--text-dark);
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+}
+
+.all-proposals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 30px;
+}
+
+.proposal-preview-card {
+    background: var(--bg-light);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.proposal-preview-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(34, 211, 238, 0.2);
+}
+
+.proposal-preview-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: var(--text-light);
+}
+
+.proposal-preview-photo {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent);
+    margin-right: 15px;
+}
+
+.proposal-preview-info {
+    flex: 1;
+}
+
+.proposal-preview-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+}
+
+.proposal-preview-party {
+    font-size: 0.95rem;
+    margin: 0;
+    opacity: 0.9;
+}
+
+.proposal-preview-position {
+    font-size: 0.85rem;
+    margin: 0;
+    opacity: 0.8;
+}
+
+.proposal-preview-slogan {
+    padding: 15px 20px;
+    font-style: italic;
+    color: var(--text-dark);
+    background: var(--bg-soft);
+    margin: 0;
+    font-size: 0.95rem;
+    border-left: 4px solid var(--accent);
+}
+
+.proposal-preview-video {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.proposal-preview-video-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.proposal-preview-card:hover .proposal-preview-video-thumb {
+    transform: scale(1.05);
+}
+
+.proposal-preview-video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+
+.proposal-preview-video:hover .proposal-preview-video-overlay {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.proposal-preview-video-overlay span {
+    font-size: 3rem;
+    color: var(--text-light);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.proposal-preview-content {
+    padding: 20px;
+    flex: 1;
+}
+
+.proposal-preview-content h4 {
+    color: var(--primary);
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.proposal-preview-content p {
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.btn-view-proposal {
+    display: block;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: var(--text-light);
+    text-decoration: none;
+    text-align: center;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-view-proposal:hover {
+    background: var(--secondary);
+    color: var(--text-light);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .all-proposals-grid {
+        grid-template-columns: 1fr;
+        padding: 0 10px;
+    }
+
+    .all-proposals-title {
+        font-size: 1.8rem;
+    }
+
+    .all-proposals-subtitle {
+        font-size: 1rem;
+    }
+
+    .all-proposals-container {
+        padding: 15px 10px;
+    }
+
+    .proposal-preview-header {
+        padding: 15px;
+    }
+
+    .proposal-preview-photo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .proposal-preview-name {
+        font-size: 1rem;
+    }
+
+    .proposal-preview-content {
+        padding: 15px;
+    }
+
+    .proposal-preview-content h4 {
+        font-size: 0.9rem;
+    }
+
+    .proposal-preview-content p {
+        font-size: 0.85rem;
+    }
+}
+
+/* ---------- Modal de Video ---------- */
+.video-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.video-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.video-modal-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.3s ease;
+}
+
+.video-modal-close:hover {
+    color: var(--accent);
+}
+
+.video-modal-body {
+    width: 100%;
+    aspect-ratio: 16/9;
+}
+
+.video-modal-body iframe {
+    width: 100%;
+    height: 100%;
+}
+
+/* ---------- Video Thumbnails en propuestas ---------- */
+.proposal-video {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    background: #000;
+}
+
+.proposal-video-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.proposal-video:hover .proposal-video-thumb {
+    transform: scale(1.05);
+}
+
+.proposal-video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+
+.proposal-video:hover .proposal-video-overlay {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.proposal-video-overlay span {
+    font-size: 4rem;
+    color: var(--text-light);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .video-modal {
+        padding: 0;
+    }
+    
+    .video-modal-content {
+        max-width: 100%;
+        border-radius: 0;
+        height: 100%;
+    }
+    
+    .video-modal-body {
+        height: 100%;
+        aspect-ratio: auto;
+    }
+    
+    .video-modal-close {
+        top: 10px;
+        right: 10px;
+        font-size: 30px;
+        background: rgba(0, 0, 0, 0.5);
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        border-radius: 50%;
+    }
+}
+
