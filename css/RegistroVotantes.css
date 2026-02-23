@@ -1,0 +1,258 @@
+
+.body {
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.form-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.form-header {
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+    padding: 30px;
+    text-align: center;
+    color: white;
+}
+
+.form-header h1 {
+    margin: 10px 0 5px;
+    font-size: 28px;
+}
+
+.form-header p {
+    margin: 0;
+    opacity: 0.8;
+    font-size: 14px;
+}
+
+.form-header i {
+    font-size: 48px;
+    color: #22D3EE;
+}
+
+.form-body {
+    padding: 40px;
+}
+
+.section-title {
+    color: #0F172A;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #22D3EE;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #334155;
+    margin-bottom: 5px;
+}
+
+.form-control,
+.form-select {
+    border: 2px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #22D3EE;
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.1);
+}
+
+.photo-upload {
+    border: 2px dashed #CBD5E1;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #F8FAFC;
+}
+
+.photo-upload:hover {
+    border-color: #22D3EE;
+    background: #F0F9FF;
+}
+
+.photo-upload i {
+    font-size: 48px;
+    color: #94A3B8;
+    margin-bottom: 10px;
+}
+
+.photo-preview {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #22D3EE;
+    display: none;
+    margin: 0 auto;
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, #22D3EE 0%, #06B6D4 100%);
+    color: #0F172A;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(34, 211, 238, 0.3);
+}
+
+.btn-back {
+    color: #64748B;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+.btn-back:hover {
+    color: #22D3EE;
+}
+
+.required-field::after {
+    content: '*';
+    color: #EF4444;
+    margin-left: 3px;
+}
+
+.input-group-text {
+    background: #F1F5F9;
+    border: 2px solid #E2E8F0;
+    border-left: none;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94A3B8;
+}
+
+.input-wrapper .form-control {
+    padding-left: 45px;
+    padding-right: 50px;
+}
+
+.input-wrapper .btn-generar {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 4px 10px;
+    border-radius: 6px;
+    z-index: 10;
+}
+
+.info-box {
+    background: #F0F9FF;
+    border-left: 4px solid #22D3EE;
+    padding: 15px;
+    border-radius: 0 10px 10px 0;
+    margin-bottom: 25px;
+}
+
+.info-box i {
+    color: #22D3EE;
+    margin-right: 10px;
+}
+
+.photo-preview-container {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #22D3EE;
+}
+
+.photo-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.photo-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #F1F5F9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-placeholder i {
+    font-size: 60px;
+    color: #CBD5E1;
+}
+
+.photo-options .btn {
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.photo-options .btn:hover {
+    transform: translateY(-2px);
+}
+
+.photo-options .btn i {
+    margin-right: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .form-body {
+        padding: 20px;
+    }
+
+    .section-title {
+        font-size: 16px;
+    }
+
+    .form-card {
+        margin: 0 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .photo-preview-container {
+        width: 120px;
+        height: 120px;
+    }
+}
+
