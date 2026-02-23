@@ -19,9 +19,15 @@
     <section class="candidates-section">
         <h1 class="candidates-title">Conoce a los Candidatos</h1>
 
-        <div class="candidates-grid">
+        <!-- Buscador de Candidatos -->
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Buscar candidato por nombre, partido o cargo...">
+            <span class="search-icon">🔍</span>
+        </div>
+
+        <div class="candidates-grid" id="candidatesGrid">
             <!-- Candidato 1 -->
-            <div class="candidate-card">
+            <div class="candidate-card" data-name="carlos martinez" data-party="partido azul" data-position="presidente">
                 <img src="/votosecure/img/image.png"
                     alt="Carlos Martínez"
                     class="candidate-photo">
@@ -39,7 +45,7 @@
             </div>
 
             <!-- Candidato 2 -->
-            <div class="candidate-card">
+            <div class="candidate-card" data-name="maría gonzález" data-party="partido rojo" data-position="presidente">
                 <img src="/votosecure/img/image.png"
                     alt="María González"
                     class="candidate-photo">
@@ -57,7 +63,7 @@
             </div>
 
             <!-- Candidato 3 -->
-            <div class="candidate-card">
+            <div class="candidate-card" data-name="roberto sánchez" data-party="partido verde" data-position="presidente">
                 <img src="/votosecure/img/image.png"
                     alt="Roberto Sánchez"
                     class="candidate-photo">
@@ -75,7 +81,7 @@
             </div>
 
             <!-- Candidato 4 -->
-            <div class="candidate-card">
+            <div class="candidate-card" data-name="laura hernández" data-party="partido nacional" data-position="gobernador">
                 <img src="/votosecure/img/image.png"
                     alt="Laura Hernández"
                     class="candidate-photo">
@@ -93,7 +99,7 @@
             </div>
 
             <!-- Candidato 5 -->
-            <div class="candidate-card">
+            <div class="candidate-card" data-name="antonio lópez" data-party="partido morado" data-position="alcalde">
                 <img src="/votosecure/img/image.png"
                     alt="Antonio López"
                     class="candidate-photo">
@@ -111,7 +117,7 @@
             </div>
 
             <!-- Candidato 6 -->
-            <div class="candidate-card">
+            <div class="candidate-card" data-name="patricia rivera" data-party="partido gris" data-position="presidente">
                 <img src="/votosecure/img/image.png"
                     alt="Patricia Rivera"
                     class="candidate-photo">
@@ -139,6 +145,31 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/votosecure/js/nav.js"></script>
     <script src="/votosecure/js/abrirChatbot.js"></script>
+    
+    <!-- Script para el buscador de candidatos -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const candidateCards = document.querySelectorAll('.candidate-card');
+            
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase().trim();
+                
+                candidateCards.forEach(card => {
+                    const name = card.getAttribute('data-name') || '';
+                    const party = card.getAttribute('data-party') || '';
+                    const position = card.getAttribute('data-position') || '';
+                    
+                    // Buscar en nombre, partido o cargo
+                    if (name.includes(searchTerm) || party.includes(searchTerm) || position.includes(searchTerm)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

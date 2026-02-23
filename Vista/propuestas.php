@@ -103,9 +103,15 @@
                     <h1 class="all-proposals-title">Propuestas de los Candidatos</h1>
                     <p class="all-proposals-subtitle">Conoce las propuestas de todos los candidatos</p>
                     
-                    <div class="all-proposals-grid">
+                    <!-- Buscador de Propuestas -->
+                    <div class="search-container">
+                        <input type="text" id="searchProposalsInput" class="search-input" placeholder="Buscar candidato por nombre, partido o cargo...">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    
+                    <div class="all-proposals-grid" id="proposalsGrid">
                         <?php foreach ($candidatos as $key => $cand): ?>
-                            <div class="proposal-preview-card">
+                            <div class="proposal-preview-card" data-name="<?= strtolower($cand['nombre']) ?>" data-party="<?= strtolower($cand['partido']) ?>" data-position="<?= strtolower($cand['puesto']) ?>">
                                 <div class="proposal-preview-header">
                                     <img src="<?= $cand['foto'] ?>" 
                                          alt="<?= $cand['nombre'] ?>" 
@@ -250,6 +256,29 @@
     <script src="/votosecure/js/nav.js"></script>
     <script src="/votosecure/js/abrirChatbot.js"></script>
     <script>
+        // Funcionalidad del buscador de propuestas
+        const searchProposalsInput = document.getElementById('searchProposalsInput');
+        if (searchProposalsInput) {
+            const proposalCards = document.querySelectorAll('.proposal-preview-card');
+            
+            searchProposalsInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase().trim();
+                
+                proposalCards.forEach(card => {
+                    const name = card.getAttribute('data-name') || '';
+                    const party = card.getAttribute('data-party') || '';
+                    const position = card.getAttribute('data-position') || '';
+                    
+                    // Buscar en nombre, partido o cargo
+                    if (name.includes(searchTerm) || party.includes(searchTerm) || position.includes(searchTerm)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        }
+
         function openVideoModal(videoId, candidateName) {
             // Detectar si es móvil
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
