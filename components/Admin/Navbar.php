@@ -1,62 +1,54 @@
-<?php
-session_start();
-// config.php
-define('BASE_URL', '/VotoSecure');
-?>
-
-<link rel="stylesheet" href="../../css/admin.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
-<div class="layout">
-
-    <aside class="sidebar">
-        <nav>
-            <a href="#" class="nav-link">
-                <i class="bi bi-file-earmark"></i>
-                <span>Contenido</span>
+<nav class="navbar-admin navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+        <div class="d-flex align-items-center gap-3">
+            <button class="toggle-sidebar btn" id="toggleSidebar" type="button">
+                <i class="bi bi-list"></i>
+            </button>
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-shield-check"></i>
+                VotoSecure
             </a>
-            <a href="<?= BASE_URL ?>/Vista/Admin/Candidatos.php" class="nav-link">
-                <i class="bi bi-people"></i>
-                <span>Candidatos</span>
-            </a>
-            <a href="#" class="nav-link">
-                <i class="bi bi-graph-up"></i>
-                <span>Reportes</span>
-            </a>
-            <a href="#" class="nav-link">
-                <i class="bi bi-gear"></i>
-                <span>Configuración</span>
-            </a>
-            <a href="<?= BASE_URL ?>/logout.php" class="nav-link">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Salir</span>
-            </a>
-            <!-- Dashboard al final, centrado y con color diferente -->
-            <a href="<?= BASE_URL ?>/Vista/Admin/Index.php" class="nav-link logo" style="justify-content: center; color: var(--accent); font-weight: bold; margin-top: 30px;">
-                <i class="bi bi-house-door"></i>
-                <span>Dashboard</span>
-            </a>
-        </nav>
-    </aside>
+        </div>
 
-    <main class="content">
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <!-- ===== HEADER / TOPBAR ===== -->
-        <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: var(--header-bg);">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="ms-auto d-flex align-items-center gap-3">
 
-            <div>
-                <h1></h1>
-                <p>Bienvenido al panel administrativo</p>
+                <div class="dropdown">
+                    <button class="user-menu-dropdown dropdown-toggle"
+                            type="button"
+                            id="userMenu"
+                            aria-expanded="false">
+                        <i class="bi bi-person-circle"></i> Administrador
+                    </button>
 
-            </div>
-
-            <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
-                <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
-                    <?= strtoupper(substr($_SESSION['admin_nombre'] ?? 'A', 0, 1)) ?>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> Mi Perfil</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Configuración</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
+                    </ul>
                 </div>
-                <div>
-                    <p style="margin:0; font-weight:600; color:#1e293b;">Administrador</p>
-                    <small style="color:#64748b;"><?= $_SESSION['admin_nombre'] ?? 'Admin' ?></small>
-                </div>
+
             </div>
         </div>
+    </div>
+</nav>
+
+<aside class="sidebar" id="sidebar">
+    <ul class="sidebar-menu">
+        <li><a href="#/dashboard" class="#"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li><a href="Votos.php"><i class="bi bi-people"></i> Votantes</a></li>
+        <li><a href="Elecciones.php"><i class="bi bi-calendar-check"></i> Elecciones</a></li>
+        <li><a href="Resultados.php"><i class="bi bi-bar-chart"></i> Resultados</a></li>
+        <li><a href="Candidatos.php"><i class="bi bi-person-badge"></i> Candidatos</a></li>
+        <li><a href="#/security"><i class="bi bi-lock"></i> Seguridad</a></li>
+        <li><a href="Registros.php"><i class="bi bi-file-earmark-text"></i> Registros</a></li>
+        <li><a href="Reportes.php"><i class="bi bi-printer"></i> Reportes</a></li>
+    </ul>
+</aside>
