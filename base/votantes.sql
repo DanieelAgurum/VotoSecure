@@ -33,7 +33,7 @@ CREATE TABLE `votantes` (
   `apellido_paterno` varchar(100) NOT NULL,
   `apellido_materno` varchar(100) DEFAULT NULL,
   `fecha_nacimiento` date NOT NULL,
-  `genero` enum('M','F','O') NOT NULL,
+  `genero` enum('H','M','O') NOT NULL,
   `nacionalidad` varchar(50) DEFAULT 'Mexicana',
   `curp` varchar(18) NOT NULL,
   `rfc` varchar(13) NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE `votantes` (
   `uid_nfc` varchar(50) DEFAULT NULL,
   `token_nfc` varchar(100) DEFAULT NULL,
   `finger_id` int(11) DEFAULT NULL,
-  `foto` text DEFAULT NULL,
+  `foto` longtext DEFAULT NULL,
   `estado` enum('activo','inactivo','votado') DEFAULT 'activo',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()

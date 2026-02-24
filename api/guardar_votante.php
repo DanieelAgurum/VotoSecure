@@ -155,6 +155,15 @@ try {
     $foto_guardar = null;
     if (!empty($foto) && strpos($foto, 'data:image') === 0) {
         // La foto ya viene en base64 desde el cliente
+        // Validar tamaño máximo (500KB en base64 = ~666KB raw)
+        $fotoSize = strlen($foto);
+        if ($fotoSize > 666000) {
+            echo json_encode([
+                "status" => "ERROR",
+                "message" => "La imagen es muy grande. Máximo 500KB permitidos."
+            ]);
+            exit;
+        }
         $foto_guardar = $foto;
     }
     

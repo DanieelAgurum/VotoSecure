@@ -1,7 +1,7 @@
 <?php
 // Configuración de la base de datos
 $host = 'localhost';
-$dbname = 'VotoSecure';
+$dbname = 'votosecure';
 $username = 'root';
 $password = '';
 

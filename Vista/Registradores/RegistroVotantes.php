@@ -45,8 +45,6 @@ define('BASE_URL', '/VotoSecure');
                         <span id="esp32Status"><span class="badge bg-secondary">No conectado</span></span>
                     </div>
                 </div>
-                <!-- Log de debug visible -->
-                <div id="esp32Log" class="alert alert-dark small p-2 mb-3" style="display: none; max-height: 150px; overflow-y: auto; font-family: monospace;"></div>
 
                 <!-- Información de Foto -->
                 <div class="section-title">
@@ -132,21 +130,21 @@ define('BASE_URL', '/VotoSecure');
                         <label class="form-label required-field">Nombre(s)</label>
                         <div class="input-wrapper">
                             <i class="fas fa-user"></i>
-                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre completo" required>
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre completo">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label required-field">Apellido Paterno</label>
                         <div class="input-wrapper">
                             <i class="fas fa-user"></i>
-                            <input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno" placeholder="Apellido paterno" required>
+                            <input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno" placeholder="Apellido paterno">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label required-field">Apellido Materno</label>
                         <div class="input-wrapper">
                             <i class="fas fa-user"></i>
-                            <input type="text" class="form-control" id="apellido_materno" name="apellido_materno" placeholder="Apellido materno" required>
+                            <input type="text" class="form-control" id="apellido_materno" name="apellido_materno" placeholder="Apellido materno">
                         </div>
                     </div>
                 </div>
@@ -156,18 +154,17 @@ define('BASE_URL', '/VotoSecure');
                         <label class="form-label required-field">Fecha de Nacimiento</label>
                         <div class="input-wrapper">
                             <i class="fas fa-calendar"></i>
-                            <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                            <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label required-field">Género</label>
                         <div class="input-wrapper">
                             <i class="fas fa-venus-mars"></i>
-                            <select class="form-select" id="genero" name="genero" required>
+                            <select class="form-select" id="genero" name="genero">
                                 <option value="">Seleccionar...</option>
-                                <option value="M">Masculino</option>
-                                <option value="F">Femenino</option>
-                                <option value="O">Otro</option>
+                                <option value="H">Hombre</option>
+                                <option value="M">Mujer</option>
                             </select>
                         </div>
                     </div>
@@ -175,7 +172,7 @@ define('BASE_URL', '/VotoSecure');
                         <label class="form-label required-field">Nacionalidad</label>
                         <div class="input-wrapper">
                             <i class="fas fa-globe"></i>
-                            <input type="text" class="form-control" id="nacionalidad" name="nacionalidad" placeholder="Mexicana" value="Mexicana" required>
+                            <input type="text" class="form-control" id="nacionalidad" name="nacionalidad" placeholder="Mexicana" value="Mexicana">
                         </div>
                     </div>
                 </div>
@@ -189,7 +186,7 @@ define('BASE_URL', '/VotoSecure');
                         <label class="form-label required-field">CURP</label>
                         <div class="input-wrapper">
                             <i class="fas fa-fingerprint"></i>
-                            <input type="text" class="form-control" id="curp" name="curp" placeholder="AAAA000000HGRRRR01" maxlength="18" style="text-transform: uppercase;" required>
+                            <input type="text" class="form-control" id="curp" name="curp" placeholder="AAAA000000HGRRRR01" maxlength="18" style="text-transform: uppercase;">
                             <button type="button" class="btn btn-sm btn-outline-primary btn-generar" onclick="generarCURP()" title="Generar CURP">
                                 <i class="fas fa-magic"></i>
                             </button>
@@ -200,7 +197,7 @@ define('BASE_URL', '/VotoSecure');
                         <label class="form-label required-field">RFC</label>
                         <div class="input-wrapper">
                             <i class="fas fa-file-contract"></i>
-                            <input type="text" class="form-control" id="rfc" name="rfc" placeholder="AAAA000000XXX" maxlength="13" style="text-transform: uppercase;" required>
+                            <input type="text" class="form-control" id="rfc" name="rfc" placeholder="AAAA000000XXX" maxlength="13" style="text-transform: uppercase;">
                             <button type="button" class="btn btn-sm btn-outline-primary btn-generar" onclick="generarRFC()" title="Generar RFC">
                                 <i class="fas fa-magic"></i>
                             </button>
@@ -218,14 +215,14 @@ define('BASE_URL', '/VotoSecure');
                         <label class="form-label required-field">Calle</label>
                         <div class="input-wrapper">
                             <i class="fas fa-road"></i>
-                            <input type="text" class="form-control" id="calle" name="calle" placeholder="Nombre de la calle" required>
+                            <input type="text" class="form-control" id="calle" name="calle" placeholder="Nombre de la calle">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label required-field">Número Exterior</label>
                         <div class="input-wrapper">
                             <i class="fas fa-hashtag"></i>
-                            <input type="text" class="form-control" id="num_exterior" name="num_exterior" placeholder="123" required>
+                            <input type="text" class="form-control" id="num_exterior" name="num_exterior" placeholder="123">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -242,21 +239,21 @@ define('BASE_URL', '/VotoSecure');
                         <label class="form-label required-field">Colonia</label>
                         <div class="input-wrapper">
                             <i class="fas fa-map-marker-alt"></i>
-                            <input type="text" class="form-control" id="colonia" name="colonia" placeholder="Colonia" required>
+                            <input type="text" class="form-control" id="colonia" name="colonia" placeholder="Colonia">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label required-field">Código Postal</label>
                         <div class="input-wrapper">
                             <i class="fas fa-mail-bulk"></i>
-                            <input type="text" class="form-control" id="codigo_postal" name="codigo_postal" placeholder="00000" maxlength="5" required>
+                            <input type="text" class="form-control" id="codigo_postal" name="codigo_postal" placeholder="00000" maxlength="5">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label required-field">Municipio</label>
                         <div class="input-wrapper">
                             <i class="fas fa-city"></i>
-                            <input type="text" class="form-control" id="municipio" name="municipio" placeholder="Municipio" required>
+                            <input type="text" class="form-control" id="municipio" name="municipio" placeholder="Municipio">
                         </div>
                     </div>
                 </div>
@@ -266,7 +263,7 @@ define('BASE_URL', '/VotoSecure');
                         <label class="form-label required-field">Entidad Federativa</label>
                         <div class="input-wrapper">
                             <i class="fas fa-map"></i>
-                            <select class="form-select" id="entidad" name="entidad" required>
+                            <select class="form-select" id="entidad" name="entidad">
                                 <option value="">Seleccionar estado...</option>
                                 <option value="AGS">Aguascalientes</option>
                                 <option value="BC">Baja California</option>
@@ -282,7 +279,7 @@ define('BASE_URL', '/VotoSecure');
                                 <option value="GRO">Guerrero</option>
                                 <option value="HGO">Hidalgo</option>
                                 <option value="JAL">Jalisco</option>
-                                <option value="MEX">México</option>
+                                <option value="MEX">Estado de México</option>
                                 <option value="MICH">Michoacán</option>
                                 <option value="MOR">Morelos</option>
                                 <option value="NAY">Nayarit</option>
@@ -321,14 +318,14 @@ define('BASE_URL', '/VotoSecure');
                         <label class="form-label required-field">Correo Electrónico</label>
                         <div class="input-wrapper">
                             <i class="fas fa-envelope"></i>
-                            <input type="email" class="form-control" id="correo" name="correo" placeholder="correo@ejemplo.com" required>
+                            <input type="email" class="form-control" id="correo" name="correo" placeholder="correo@ejemplo.com">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label required-field">Teléfono Celular</label>
                         <div class="input-wrapper">
                             <i class="fas fa-mobile-alt"></i>
-                            <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="(999) 999-9999" required>
+                            <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="(999) 999-9999">
                         </div>
                     </div>
                 </div>
@@ -352,7 +349,7 @@ define('BASE_URL', '/VotoSecure');
                         <label class="form-label required-field">Sección Electoral</label>
                         <div class="input-wrapper">
                             <i class="fas fa-layer-group"></i>
-                            <input type="text" class="form-control" id="seccion" name="seccion" placeholder="0000" maxlength="4" required>
+                            <input type="text" class="form-control" id="seccion" name="seccion" placeholder="0000" maxlength="4">
                         </div>
                     </div>
                     <div class="col-md-6">

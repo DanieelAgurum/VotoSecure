@@ -1,11 +1,28 @@
-# =========================================================
-# 🔒 EVITAR ACCESO A CARPETAS
-# =========================================================
+# = ========================================================
+# 🔧 ACTIVAR REESCRITURA DE URLS
+# = ========================================================
+RewriteEngine On
+RewriteBase /votosecure/
+
+# = ========================================================
+# ✅ EXCEPCIONES PERMITIDAS (Rutas específicas)
+# = ========================================================
+RewriteRule ^vista/Registradores/?$ vista/Registradores/RegistroVotantes.php [L,QSA]
+
+# = ========================================================
+# 🔒 EVITAR LISTADO DE DIRECTORIOS
+# = ========================================================
 Options -Indexes
 
-# =========================================================
-# ⚠️ PÁGINAS DE ERROR PERSONALIZADAS
-# =========================================================
-ErrorDocument 403 /VotoSecure/vista/403.php
-ErrorDocument 404 /VotoSecure/vista/404.php
+# = ========================================================
+# ✅ PERMITIR ARCHIVOS Y DIRECTORIOS EXISTENTES
+# = ========================================================
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
 
+# = ========================================================
+# ⚠️ PÁGINAS DE ERROR PERSONALIZADAS
+# = ========================================================
+ErrorDocument 403 /votosecure/vista/403.php
+ErrorDocument 404 /votosecure/vista/404.php
