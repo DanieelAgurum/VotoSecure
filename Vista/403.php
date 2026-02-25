@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/VotoSecure/components/nav.php'; ?>
+    <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/VotoSecure/components/nav.php'; ?>
 
     <div class="error-container">
         <div class="vs-404-card">

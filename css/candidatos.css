@@ -731,7 +731,7 @@
         aspect-ratio: auto;
     }
     
-    .video-modal-close {
+.video-modal-close {
         top: 10px;
         right: 10px;
         font-size: 30px;
@@ -740,6 +740,370 @@
         height: 40px;
         text-align: center;
         border-radius: 50%;
+    }
+}
+
+/* ========================================
+   Dashboard Admin - VotoSecure
+   (Estilos migrados desde dash.css)
+   ======================================== */
+
+:root {
+    --primary-blue: #003d99;
+    --light-blue: #0052cc;
+    --white: #ffffff;
+    --light-gray: #f8f9fa;
+    --border-color: #e0e0e0;
+    --sidebar-width: 280px;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-gray);
+}
+
+/* ===== NAVBAR ===== */
+.navbar-admin {
+    background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
+    box-shadow: 0 2px 8px rgba(0, 61, 153, 0.1);
+    padding: 0.8rem 1.5rem;
+    z-index: 1100;
+}
+
+.navbar-admin .navbar-brand {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--white) !important;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -var(--sidebar-width);
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--white);
+    box-shadow: 2px 0 8px rgba(0, 61, 153, 0.08);
+    transition: left 0.3s ease;
+    padding-top: 70px;
+    z-index: 1050;
+    overflow-y: auto;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 1rem 0;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    border-left: 4px solid transparent;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+    background-color: var(--light-gray);
+    color: var(--primary-blue);
+    border-left-color: var(--primary-blue);
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    margin-top: 70px;
+    padding: 2rem;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content.shifted {
+    margin-left: var(--sidebar-width);
+}
+
+/* ===== BOTÓN TOGGLE ===== */
+.toggle-sidebar {
+    background: var(--white);
+    color: var(--primary-blue);
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.toggle-sidebar:hover {
+    color: var(--light-blue);
+}
+
+/* ===== USER MENU ===== */
+.user-menu-dropdown {
+    background: transparent;
+    border: none;
+    color: var(--white);
+}
+
+.dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 240px;
+    }
+
+    .main-content.shifted {
+        margin-left: 0;
+    }
+
+    .main-content {
+        padding: 1rem;
+    }
+}
+
+/* SIDEBAR BASE */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background:#f8f9fa;
+    transition: all 0.3s ease;
+}
+
+/* SIDEBAR CERRADO */
+.sidebar.active {
+    left: -250px;
+}
+
+/* CONTENIDO PRINCIPAL */
+.main-content {
+    margin-left: 250px;
+    transition: all 0.3s ease;
+}
+
+/* CUANDO SIDEBAR ESTÁ CERRADO */
+.main-content.active {
+    margin-left: 0;
+}
+
+/* ========================================
+   Resultados Electorales - VotoSecure
+   ======================================== */
+
+:root {
+    --primary: #0F172A;
+    --secondary: #1E293B;
+    --accent: #22D3EE;
+    --bg-light: #F1F5F9;
+    --bg-soft: #E2E8F0;
+    --text-dark: #334155;
+    --text-light: #F8FAFC;
+    --success: #22C55E;
+    --danger: #EF4444;
+    --warning: #F59E0B;
+}
+
+.resultados-section {
+    padding: 40px 20px 60px;
+    min-height: calc(100vh - 200px);
+}
+
+.resultados-title {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--accent);
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+/* Estadísticas Generales */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.stat-card-result {
+    background: var(--bg-light);
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(15, 23, 42, 0.12);
+    transition: all 0.3s ease;
+    border-left: 5px solid var(--accent);
+    text-align: center;
+}
+
+.stat-card-result:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.18);
+}
+
+.stat-card-result.success {
+    border-left-color: var(--success);
+}
+
+.stat-card-result.warning {
+    border-left-color: var(--warning);
+}
+
+.stat-card-result.danger {
+    border-left-color: var(--danger);
+}
+
+.stat-card-result .stat-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 10px 0;
+}
+
+.stat-card-result .stat-label {
+    color: var(--text-dark);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.stat-card-result .stat-icon {
+    font-size: 24px;
+    opacity: 0.3;
+    color: var(--primary);
+}
+
+/* Grids para gráficos */
+.resultados-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+}
+
+.chart-card {
+    background: var(--bg-light);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(15, 23, 42, 0.12);
+}
+
+.chart-title-result {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chart-title-result i {
+    color: var(--accent);
+}
+
+/* Resultado Ganador */
+.result-winner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 2px solid var(--success);
+}
+
+.winner-party {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.party-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.winner-votes {
+    text-align: right;
+}
+
+.winner-votes .votes-number {
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1;
+}
+
+.winner-votes .votes-label {
+    font-size: 12px;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Canvas del gráfico */
+.chart-canvas-container {
+    position: relative;
+    height: 250px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .resultados-title {
+        font-size: 1.8rem;
+    }
+
+    .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .stat-card-result {
+        padding: 15px;
+    }
+
+    .stat-card-result .stat-number {
+        font-size: 24px;
+    }
+
+    .resultados-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .result-winner {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .winner-votes {
+        text-align: center;
     }
 }
 

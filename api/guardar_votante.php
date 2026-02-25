@@ -49,6 +49,13 @@ $uid = trim($_POST['uid'] ?? '');
 $token = trim($_POST['token'] ?? '');
 $finger_id = trim($_POST['finger_id'] ?? '');
 
+// Debug: registrar lo que se recibe
+error_log("=== DEBUG guardar_votante.php ===");
+error_log("UID recibido: " . ($uid ? "SI [" . strlen($uid) . " chars]" : "VACIO"));
+error_log("Token recibido: " . ($token ? "SI [" . strlen($token) . " chars]" : "VACIO"));
+error_log("Finger ID recibido: " . ($finger_id ? "SI [" . strlen($finger_id) . " chars]" : "VACIO"));
+error_log("=====================================");
+
 // Foto (base64)
 $foto = $_POST['foto'] ?? '';
 
@@ -137,18 +144,21 @@ try {
     }
     
     // Preparar datos para guardar
-    // Si hay datos NFC, los ciframos
+    // Ciframos los datos sensibles: UID NFC, Token NFC y Finger ID
     $uid_nfc = null;
     $token_nfc = null;
-    $finger_id_int = null;
+    $finger_id_cifrado = null;
     
-    if (!empty($uid) && !empty($token)) {
-        $uid_nfc = $uid;  // Guardamos el UID original
+    if (!empty($uid)) {
+        $uid_nfc = encrypt_data($uid);  // Ciframos el UID
+    }
+    
+    if (!empty($token)) {
         $token_nfc = encrypt_data($token);  // Ciframos el token
     }
     
     if (!empty($finger_id)) {
-        $finger_id_int = (int)$finger_id;
+        $finger_id_cifrado = encrypt_data($finger_id);  // Ciframos el finger_id
     }
     
     // Procesar foto (guardar como texto/base64 o null)
@@ -210,7 +220,7 @@ try {
         ':clave_elector' => $clave_elector ?: null,
         ':uid_nfc' => $uid_nfc,
         ':token_nfc' => $token_nfc,
-        ':finger_id' => $finger_id_int,
+        ':finger_id' => $finger_id_cifrado,
         ':foto' => $foto_guardar
     ]);
     
@@ -222,9 +232,7 @@ try {
         "data" => [
             "id" => $voter_id,
             "nombre" => $nombre . " " . $apellido_paterno,
-            "curp" => $curp,
-            "uid_nfc" => $uid_nfc,
-            "finger_id" => $finger_id_int
+            "curp" => $curp
         ]
     ]);
     

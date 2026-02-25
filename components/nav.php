@@ -9,8 +9,9 @@
         <div class="collapse navbar-collapse" id="menu">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-3">
                 <li class="nav-item"><a class="nav-link" href="/votosecure/">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" href="/votosecure/vista/candidatos.php">Candidatos</a></li>
-                <li class="nav-item"><a class="nav-link" href="/votosecure/vista/propuestas.php">Propuestas</a></li>
+                <li class="nav-item"><a class="nav-link" href="/votosecure/vista/candidatos">Candidatos</a></li>
+                <li class="nav-item"><a class="nav-link" href="/votosecure/vista/propuestas">Propuestas</a></li>
+                <li class="nav-item"><a class="nav-link" href="/votosecure/vista/resultados">Resultados</a></li>
                 <li class="nav-item"><a class="nav-link" href="/votosecure/vista/ayuda.php">Ayuda</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Chat Bot</a></li>
             </ul>
