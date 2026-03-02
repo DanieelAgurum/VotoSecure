@@ -122,8 +122,6 @@
     </div>
 </div>
 
-
-
 <!-- Modal para activar/desactivar contenido-->
 <div class=" modal fade" id="estadoPartido_<?php echo $row['id_partido']; ?>" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
