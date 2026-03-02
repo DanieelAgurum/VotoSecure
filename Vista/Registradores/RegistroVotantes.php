@@ -37,7 +37,7 @@ define('BASE_URL', '/VotoSecure');
                 </div>
                 <div class="row g-3 mb-4 align-items-center">
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-warning w-100" onclick="connectESP32()">
+                        <button type="button" id="btnConnect" class="btn btn-warning w-100" onclick="toggleConnectESP32()">
                             <i class="fas fa-plug"></i> Conectar ESP32
                         </button>
                     </div>
