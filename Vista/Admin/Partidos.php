@@ -1,9 +1,9 @@
 <?php
-// session_start();
-// if (!isset($_SESSION['admin_id'])) {
-//     header('Location: login.php');
-//     exit();
-// }
+session_start();
+require_once '../../Modelo/config/conexion.php';
+require_once '../../Modelo/partidosMdl.php';
+$modelo = new PartidosMdl($conexion);
+$partidos = $modelo->obtenerTodos();
 ?>
 
 <!DOCTYPE html>
@@ -12,8 +12,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Administrativo Resultados - VotoSecure</title>
-
+    <title>Partidos Políticos - VotoSecure</title>
+    <link rel="icon" type="image/x-icon" href="../../img/vs.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -31,7 +31,6 @@
 
     <main class="main-content" id="mainContent">
         <div class="container-fluid mt-4">
-
             <div class="card shadow-sm">
                 <div class="card-header text-dark bg-info">
                     <h5 class="mb-0">
@@ -46,61 +45,108 @@
                         data-bs-target="#agregarContenido">
                         Agregar <i class="fa-solid fa-circle-plus"></i>
                     </button>
+                    <?php
+                    if (!empty($_SESSION["errores"])) {
+                        foreach ($_SESSION["errores"] as $error) {
+                            echo "<div class='alert alert-danger alert-dismissible fade show'>$error
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                            </div>";
+                        }
+                        unset($_SESSION["errores"]);
+                    }
+
+                    if (!empty($_SESSION["success"])) {
+                        echo "<div class='alert alert-success alert-dismissible fade show'>" . $_SESSION["success"] . "
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                            </div>";
+                        unset($_SESSION["success"]);
+                    }
+                    ?>
                     <!-- TABLA -->
                     <div class="table-responsive">
                         <table id="tablaContenido" class="table table-hover table-borderless align-middle">
                             <thead class="table-info">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Elección</th>
-                                    <th>Candidato</th>
-                                    <th>Partido</th>
-                                    <th>Votos</th>
-                                    <th>Acciones</th>
+                                    <th class="text-center">No. Partido</th>
+                                    <th class="text-center">Logo</th>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">Siglas</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Elección 2026</td>
-                                    <td>Juan Pérez</td>
-                                    <td>Partido Azul</td>
-                                    <td>1520</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-warning">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                                <?php if (!empty($partidos)) : ?>
+                                    <?php foreach ($partidos as $row) : ?>
+                                        <tr>
+                                            <td class="text-center"><?= htmlspecialchars($row['id_partido']); ?></td>
 
-                                <tr>
-                                    <td>2</td>
-                                    <td>Elección 2026</td>
-                                    <td>María López</td>
-                                    <td>Partido Verde</td>
-                                    <td>980</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-warning">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                                            <td class="text-center">
+                                                <?php if (!empty($row['logo_partido'])) : ?>
+                                                    <img src="../../<?= htmlspecialchars($row['logo_partido']); ?>"
+                                                        width="50" height="50"
+                                                        style="object-fit:cover;">
+                                                <?php else : ?>
+                                                    <img src="../../img/partidos/sl.jpg"
+                                                        width="50" height="50"
+                                                        style="object-fit:cover;">
+                                                <?php endif; ?>
+                                            </td>
 
+                                            <td class="text-center"><?= htmlspecialchars($row['nombre_partido']); ?></td>
+                                            <td class="text-center"><?= htmlspecialchars($row['siglas']); ?></td>
+                                            <td class="text-center">
+                                                <?php if ($row['estatus'] == 1): ?>
+                                                    <span class="badge bg-success">Activo</span>
+                                                <?php else: ?>
+                                                    <span class="badge bg-danger">Desactivado</span>
+                                                <?php endif; ?>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal" title="Editar Partido"
+                                                    data-bs-target="#editarPartido_<?= $row['id_partido']; ?>">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+
+                                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" title="Eliminar Partido"
+                                                    data-bs-target="#eliminarPartido_<?= $row['id_partido']; ?>">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+
+                                                <button class="btn btn-sm btn-info" data-bs-toggle="modal" title="Cambiar Estado"
+                                                    data-bs-target="#estadoPartido_<?= $row['id_partido']; ?>">
+                                                    <i class="bi bi-arrow-counterclockwise"></i>
+                                                </button>
+                                            </td>
+                                            <?php include 'modales/partidos.php' ?>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else : ?>
+                                    <tr>
+                                        <td colspan="6" class="text-center">No hay partidos registrados</td>
+                                    </tr>
+                                <?php endif; ?>
                             </tbody>
+
                         </table>
                     </div>
                     <!-- FIN TABLA -->
                 </div>
-                <?php ?>
+                <?php include 'modales/partidos.php' ?>
             </div>
         </div>
     </main>
+    <script>
+        function previewImage(event, previewId) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById(previewId);
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
     <script>
         $(document).ready(function() {
 

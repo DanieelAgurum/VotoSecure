@@ -92,15 +92,10 @@ body {
 /* ===== BOTÓN TOGGLE ===== */
 .toggle-sidebar {
     background: var(--white);
-    color: var(--primary-blue);
     border: none;
     font-size: 1.4rem;
     cursor: pointer;
     transition: 0.2s ease;
-}
-
-.toggle-sidebar:hover {
-    color: var(--light-blue);
 }
 
 /* ===== USER MENU ===== */
