@@ -24,15 +24,8 @@
 <?php include __DIR__ . '/../../components/Admin/Navbar.php'; ?>
 <div class="container-fluid">
     <div class="row">
-
-  
-      
-
         <div class="col-md-10 col-lg-10 main-content">
-
-         
             <div class="row">
-
                 <div class="col-md-6 col-lg-3">
                     <div class="stat-card">
                         <div style="display:flex;justify-content:space-between;">
@@ -95,7 +88,7 @@
 
             </div>
 
-            <!-- 🔥 GRÁFICAS -->
+            <!-- GRÁFICAS -->
             <div class="row mt-4">
 
                 <div class="col-lg-6">
@@ -139,8 +132,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../../js/dash.js"></script>
 <script>
-// ===== GRÁFICAS =====
-
 // Votos por día
 new Chart(document.getElementById('votosChart'), {
     type: 'line',
