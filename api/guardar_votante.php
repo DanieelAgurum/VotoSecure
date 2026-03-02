@@ -1,4 +1,5 @@
 <?php
+
 /**
  * API para guardar votante
  * Método: POST
@@ -131,10 +132,31 @@ if (!empty($errores)) {
 // ================== GUARDAR EN BASE DE DATOS ==================
 
 try {
-    // Verificar si el CURP ya existe
-    $stmt = $pdo->prepare("SELECT id FROM votantes WHERE curp = ?");
-    $stmt->execute([$curp]);
-    
+    // ================== VALIDACIÓN DE DUPLICADOS ==================
+    // Verificar si CURP, correo o RFC ya existen
+    $stmt = $pdo->prepare("SELECT id, curp, rfc, correo FROM votantes WHERE curp = ? OR rfc = ? OR correo = ?");
+    $stmt->execute([$curp, $rfc, $correo]);
+    $duplicado = $stmt->fetch();
+
+    if ($duplicado) {
+        if (!empty($finger_id)) {
+            // Esto depende de tu conexión: ejemplo si lo mandas vía frontend:
+            // echo json_encode(["command" => "DELETE_FINGER:" . $finger_id]);
+            // O tu sistema debe mandar DELETE_FINGER:{finger_id} al ESP32
+        }
+
+        echo json_encode([
+            "status" => "ERROR",
+            "message" => "Ya existe un votante registrado con esta información",
+            "duplicado" => [
+                "curp" => $duplicado['curp'],
+                "rfc" => $duplicado['rfc'],
+                "correo" => $duplicado['correo']
+            ]
+        ]);
+        exit;
+    }
+
     if ($stmt->fetch()) {
         echo json_encode([
             "status" => "ERROR",
@@ -142,25 +164,25 @@ try {
         ]);
         exit;
     }
-    
+
     // Preparar datos para guardar
     // Ciframos los datos sensibles: UID NFC, Token NFC y Finger ID
     $uid_nfc = null;
     $token_nfc = null;
     $finger_id_cifrado = null;
-    
+
     if (!empty($uid)) {
         $uid_nfc = encrypt_data($uid);  // Ciframos el UID
     }
-    
+
     if (!empty($token)) {
         $token_nfc = encrypt_data($token);  // Ciframos el token
     }
-    
+
     if (!empty($finger_id)) {
         $finger_id_cifrado = encrypt_data($finger_id);  // Ciframos el finger_id
     }
-    
+
     // Procesar foto (guardar como texto/base64 o null)
     $foto_guardar = null;
     if (!empty($foto) && strpos($foto, 'data:image') === 0) {
@@ -176,7 +198,7 @@ try {
         }
         $foto_guardar = $foto;
     }
-    
+
     // Insertar voter
     $sql = "
     INSERT INTO votantes (
@@ -193,9 +215,9 @@ try {
         :uid_nfc, :token_nfc, :finger_id, :foto, 'activo'
     )
     ";
-    
+
     $stmt = $pdo->prepare($sql);
-    
+
     $stmt->execute([
         ':nombre' => $nombre,
         ':apellido_paterno' => $apellido_paterno,
@@ -223,9 +245,9 @@ try {
         ':finger_id' => $finger_id_cifrado,
         ':foto' => $foto_guardar
     ]);
-    
+
     $voter_id = $pdo->lastInsertId();
-    
+
     echo json_encode([
         "status" => "OK",
         "message" => "Votante registrado correctamente",
@@ -235,7 +257,6 @@ try {
             "curp" => $curp
         ]
     ]);
-    
 } catch (PDOException $e) {
     echo json_encode([
         "status" => "ERROR",
@@ -243,4 +264,3 @@ try {
         "error" => $e->getMessage()
     ]);
 }
-

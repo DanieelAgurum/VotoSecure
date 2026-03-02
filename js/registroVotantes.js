@@ -924,9 +924,8 @@ document
 
             break;
           } else {
-            if (currentFingerId) {
-              await safeWrite("DELETE_FINGER:" + currentFingerId + "\n");
-              log("Huella eliminada por fallo backend");
+            if (fingerToDelete) {
+              await safeWrite("DELETE_FINGER:" + fingerToDelete + "\n");
             }
             throw new Error(data.message || "Error guardando en servidor");
           }

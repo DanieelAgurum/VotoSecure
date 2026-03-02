@@ -1,10 +1,9 @@
 <?php
 session_start();
-// // Verificar que el usuario sea un registrador
-// if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'registrador') {
-//     header('Location: ../login.php');
-//     exit;
-// }
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'registrador') {
+    header('Location: ../login.php');
+    exit;
+}
 define('BASE_URL', '/VotoSecure');
 ?>
 
