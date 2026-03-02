@@ -74,9 +74,9 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
         if (data.success) {
 
             if (data.rol == 2) {
-                window.location.href = "../Vista/admin/dashboard.php";
+                window.location.href = "../Vista/Admin/index.php";
             } else {
-                window.location.href = "../Vista/usuario/home.php";
+                window.location.href = "#";
             }
 
         } else {
