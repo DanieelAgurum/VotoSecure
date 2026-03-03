@@ -1,5 +1,11 @@
 <?php
+
 session_start();
+
+if (!isset($_SESSION['id']) || $_SESSION['rol'] != 2) {
+    header('Location: /VotoSecure/Vista/login.php');
+    exit();
+}
 require_once '../../Modelo/config/conexion.php';
 require_once '../../Modelo/eleccionesMdl.php';
 $modelo = new EleccionesMdl($conexion);

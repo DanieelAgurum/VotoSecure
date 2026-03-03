@@ -68,17 +68,18 @@ class Login {
         echo json_encode($respuesta);
         exit;
     }
+public function cerrarSesion(){
 
-    public function cerrarSesion(){
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        session_unset();
-        session_destroy();
-        header("Location: index.php");
-        exit;
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
     }
+
+    session_unset();
+    session_destroy();
+
+    header("Location: /VotoSecure/Vista/login.php");
+    exit;
+}
 }
 ?>
 

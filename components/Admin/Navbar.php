@@ -1,3 +1,17 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Validar que sea admin
+if (!isset($_SESSION['id']) || $_SESSION['rol'] != 2) {
+    header('Location: /VotoSecure/Vista/login.php');
+    exit();
+}
+
+$correoAdmin = $_SESSION['correo'];
+?>
+
 <nav class="navbar-admin navbar navbar-expand-lg sticky-top">
     <div class="container-fluid">
         <div class="d-flex align-items-center gap-3">
@@ -24,7 +38,7 @@
                         type="button"
                         id="userMenu"
                         aria-expanded="false">
-                        <i class="bi bi-person-circle"></i> Administrador
+                       <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($correoAdmin); ?>
                     </button>
 
                     <ul class="dropdown-menu dropdown-menu-end">
@@ -33,7 +47,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
+                        <li><a class="dropdown-item text-danger" href="/VotoSecure/Controlador/LoginCtrl.php?action=logout"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
                     </ul>
                 </div>
 
