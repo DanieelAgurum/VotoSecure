@@ -1,0 +1,95 @@
+/* ============================= */
+/* SIDEBAR */
+/* ============================= */
+.sidebar {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 260px;
+    height: calc(100vh - 70px);
+    background-color: white;
+}
+
+/* ============================= */
+/* NAVBAR */
+/* ============================= */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 2000;
+}
+
+/* ============================= */
+/* CONTENIDO PRINCIPAL */
+/* ============================= */
+.main-content {
+    margin-left: 260px;
+    margin-top: 70px;
+    padding: 30px;
+    min-height: calc(100vh - 70px);
+}
+
+/* ============================= */
+/* CARD */
+/* ============================= */
+.card {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #F1F5F9;
+    font-weight: 600;
+}
+
+/* ============================= */
+/* BOTONES */
+/* ============================= */
+.btn-primary {
+    background-color: #22D3EE;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #06B6D4;
+}
+
+/* ============================= */
+/* TABLA */
+/* ============================= */
+.table thead {
+    background-color: white;
+    color: white;
+}
+
+.table td,
+.table th {
+    vertical-align: middle;
+}
+
+/* ============================= */
+/* MODAL */
+/* ============================= */
+.modal {
+    z-index: 3000 !important;
+}
+
+.modal-backdrop {
+    z-index: 2999 !important;
+}
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+@media (max-width: 768px) {
+
+    .sidebar {
+        width: 70px;
+    }
+
+    .main-content {
+        margin-left: 70px;
+    }
+}

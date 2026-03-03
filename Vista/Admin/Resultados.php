@@ -18,6 +18,8 @@ if (!isset($_SESSION['id']) || $_SESSION['rol'] != 2) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="../../css/admin.css">
     <link rel="stylesheet" href="../../css/dash.css">
+    <link rel="stylesheet" href="../../css/candidatosAd.css">
+    <link rel="stylesheet" href="../../css/candidatosAd.css">
 </head>
 
 <body>

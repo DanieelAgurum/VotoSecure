@@ -20,8 +20,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $resultado = $candidato->guardar($datos);
 
     if ($resultado) {
-        echo "Candidato guardado correctamente";
+       header("Location: ../Vista/Admin/candidatos.php?success=1");
+     exit();
     } else {
         echo "Error al guardar";
+    }
+}
+
+if (isset($_GET['eliminar'])) {
+
+    $candidato = new Candidato();
+    $resultado = $candidato->eliminar($_GET['eliminar']);
+
+    if ($resultado) {
+     header("Location: ../Vista/Admin/candidatos.php?deleted=1");
+      exit();
+        exit();
+    } else {
+        echo "Error al eliminar";
     }
 }

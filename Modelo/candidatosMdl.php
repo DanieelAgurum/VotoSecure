@@ -37,19 +37,33 @@ class Candidato{
                 ':estatus' => 1
             ]);
     }
-    public function obtenerCandidatos(){
-      $conexion = (new Conexion())->conectar();
-      $sql = "SELECT c.*,p.nombre AS partido_nombre, t.nombre AS tipo_nombre 
-              FROM candidatos c
-              JOIN partidos p ON c.id_partido = p.id
-              JOIN tipos_eleccion t ON c.id_tipo = t.id";
-        $stmt = $conexion->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+   public function obtenerCandidatos(){
 
+    $conexion = (new Conexion())->conectar();
 
-    }
- 
+    $sql = "SELECT c.*, 
+                   p.nombre_partido AS partido_nombre, 
+                   t.nombre_tipo AS tipo_nombre
+            FROM candidatos c
+            INNER JOIN partidos p ON c.id_partido = p.id_partido
+            INNER JOIN tipos_eleccion t ON c.id_tipo = t.id_tipo";
+
+    $stmt = $conexion->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+public function eliminar($id){
+
+    $conexion = (new Conexion())->conectar();
+
+    $sql = "DELETE FROM candidatos WHERE id = :id";
+
+    $stmt = $conexion->prepare($sql);
+
+    return $stmt->execute([
+        ':id' => $id
+    ]);
+}
 }
 
 
