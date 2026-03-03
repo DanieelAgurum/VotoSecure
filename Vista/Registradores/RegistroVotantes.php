@@ -1,9 +1,27 @@
 <?php
-// session_start();
-// if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'registrador') {
-//     header('Location: ../login.php');
-//     exit;
-// }
+session_start();
+
+$timeout = 300; 
+
+
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 1) {
+    header('Location: ../login.php');
+    exit;
+}
+
+if (isset($_SESSION['last_activity'])) {
+    $inactivity = time() - $_SESSION['last_activity'];
+
+    if ($inactivity >= $timeout) {
+        session_unset();
+        session_destroy();
+        header('Location: ../login');
+        exit;
+    }
+}
+
+$_SESSION['last_activity'] = time();
+
 define('BASE_URL', '/VotoSecure');
 ?>
 
@@ -30,7 +48,7 @@ define('BASE_URL', '/VotoSecure');
 
         <div class="form-body">
             <form action="" method="POST" enctype="multipart/form-data" id="registroForm">
-<!-- Conexión ESP32 -->
+                <!-- Conexión ESP32 -->
                 <div class="section-title">
                     <i class="fas fa-microchip"></i> Dispositivo ESP32
                 </div>
@@ -53,7 +71,7 @@ define('BASE_URL', '/VotoSecure');
                     <div class="col-lg-4 col-md-12 mb-3 text-center">
                         <!-- Vista previa de la foto -->
                         <div class="photo-preview-container mb-3">
-                            <img id="imagePreview" class="photo-preview" alt="Vista previa">
+                            <img id="imagePreview" class="photo-preview">
                             <div id="placeholderPreview" class="photo-placeholder">
                                 <i class="fas fa-user"></i>
                             </div>
