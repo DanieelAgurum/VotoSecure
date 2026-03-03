@@ -1,9 +1,27 @@
 <?php
 session_start();
-if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'registrador') {
+
+$timeout = 300; 
+
+
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 1) {
     header('Location: ../login.php');
     exit;
 }
+
+if (isset($_SESSION['last_activity'])) {
+    $inactivity = time() - $_SESSION['last_activity'];
+
+    if ($inactivity >= $timeout) {
+        session_unset();
+        session_destroy();
+        header('Location: ../login');
+        exit;
+    }
+}
+
+$_SESSION['last_activity'] = time();
+
 define('BASE_URL', '/VotoSecure');
 ?>
 
@@ -17,7 +35,7 @@ define('BASE_URL', '/VotoSecure');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="../../css/RegistroVotantes.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/RegistroVotantes.css">
 </head>
 
 <body class="body">
@@ -53,7 +71,7 @@ define('BASE_URL', '/VotoSecure');
                     <div class="col-lg-4 col-md-12 mb-3 text-center">
                         <!-- Vista previa de la foto -->
                         <div class="photo-preview-container mb-3">
-                            <img id="imagePreview" class="photo-preview" alt="Vista previa">
+                            <img id="imagePreview" class="photo-preview">
                             <div id="placeholderPreview" class="photo-placeholder">
                                 <i class="fas fa-user"></i>
                             </div>

@@ -25,73 +25,75 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <body>
 
-<div class="login-container">
-    <div class="login-card">
+    <div class="login-container">
+        <div class="login-card">
 
-        <div class="login-header text-center">
-            <h1>VotoSecure</h1>
-            <p>Sistema de Votación Electrónica Segura</p>
-        </div>
+            <div class="login-header text-center">
+                <h1>VotoSecure</h1>
+                <p>Sistema de Votación Electrónica Segura</p>
+            </div>
 
-        <div class="login-body">
-            <form id="loginForm">
+            <div class="login-body">
+                <form id="loginForm">
 
-                <div class="mb-3">
-                    <label class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" name="email" required>
-                </div>
+                    <div class="mb-3">
+                        <label class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-control" name="email" required>
+                    </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" name="password" required>
-                </div>
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" name="password" required>
+                    </div>
 
-                <button type="submit" class="btn btn-primary w-100">
-                    Iniciar Sesión
-                </button>
+                    <button type="submit" class="btn btn-primary w-100">
+                        Iniciar Sesión
+                    </button>
 
-            </form>
+                </form>
 
-            <div id="mensaje" class="mt-3 text-center"></div>
+                <div id="mensaje" class="mt-3 text-center"></div>
 
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-document.getElementById("loginForm").addEventListener("submit", function(e) {
-    e.preventDefault();
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(e) {
+            e.preventDefault();
 
-    let formData = new FormData(this);
+            let formData = new FormData(this);
 
-    fetch("", {
-        method: "POST",
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
+            fetch("", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
 
-        if (data.success) {
+                    if (data.success) {
+                        if (data.rol == 1) {
+                            window.location.href = "../vista/registradores/";
+                        } else if (data.rol == 2) {
+                            window.location.href = "../vista/admin/";
+                        } else {
+                            window.location.href = "#";
+                        }
 
-            if (data.rol == 2) {
-                window.location.href = "../Vista/Admin/index.php";
-            } else {
-                window.location.href = "#";
-            }
+                    } else {
+                        document.getElementById("mensaje").innerHTML =
+                            '<div class="alert alert-danger">' + data.message + '</div>';
+                    }
 
-        } else {
-            document.getElementById("mensaje").innerHTML =
-                '<div class="alert alert-danger">' + data.message + '</div>';
-        }
-
-    })
-    .catch(error => {
-        document.getElementById("mensaje").innerHTML =
-            '<div class="alert alert-danger">Error en el servidor</div>';
-        console.error(error);
-    });
-});
-</script>
+                })
+                .catch(error => {
+                    document.getElementById("mensaje").innerHTML =
+                        '<div class="alert alert-danger">Error en el servidor</div>';
+                    console.error(error);
+                });
+        });
+    </script>
 
 </body>
+
 </html>

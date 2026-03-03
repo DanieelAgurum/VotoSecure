@@ -111,12 +111,12 @@ if (empty($seccion_electoral)) {
 }
 
 // Validar CURP formato
-if (!preg_match('/^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]{2}$/', $curp)) {
+if (!preg_match('/^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]{2}$/i', $curp)) {
     $errores[] = "El formato de CURP no es válido";
 }
 
 // Validar RFC formato
-if (!preg_match('/^[A-Z]{4}\d{6}[A-Z0-9]{3}$/', $rfc)) {
+if (!preg_match('/^[A-ZÑ&]{3,4}\d{6}[A-Z0-9]{0,3}$/i', $rfc)) {
     $errores[] = "El formato de RFC no es válido";
 }
 
@@ -139,28 +139,15 @@ try {
     $duplicado = $stmt->fetch();
 
     if ($duplicado) {
-        if (!empty($finger_id)) {
-            // Esto depende de tu conexión: ejemplo si lo mandas vía frontend:
-            // echo json_encode(["command" => "DELETE_FINGER:" . $finger_id]);
-            // O tu sistema debe mandar DELETE_FINGER:{finger_id} al ESP32
-        }
-
         echo json_encode([
             "status" => "ERROR",
             "message" => "Ya existe un votante registrado con esta información",
+            "delete_finger_id" => $finger_id,
             "duplicado" => [
                 "curp" => $duplicado['curp'],
                 "rfc" => $duplicado['rfc'],
                 "correo" => $duplicado['correo']
             ]
-        ]);
-        exit;
-    }
-
-    if ($stmt->fetch()) {
-        echo json_encode([
-            "status" => "ERROR",
-            "message" => "Ya existe un votante registrado con esta CURP"
         ]);
         exit;
     }
@@ -249,7 +236,7 @@ try {
     $voter_id = $pdo->lastInsertId();
 
     echo json_encode([
-        "status" => "OK",
+        "status" => "FINISH",
         "message" => "Votante registrado correctamente",
         "data" => [
             "id" => $voter_id,
