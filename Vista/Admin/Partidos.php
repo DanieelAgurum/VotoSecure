@@ -32,9 +32,9 @@ $partidos = $modelo->obtenerTodos();
     <main class="main-content" id="mainContent">
         <div class="container-fluid mt-4">
             <div class="card shadow-sm">
-                <div class="card-header text-dark bg-info">
+                <div class="card-header text-center text-dark">
                     <h5 class="mb-0">
-                        <i class="bi bi-building-fill-check"></i> Partidos Políticos
+                        Partidos Políticos
                     </h5>
                 </div>
 
@@ -124,11 +124,15 @@ $partidos = $modelo->obtenerTodos();
                                     <?php endforeach; ?>
                                 <?php else : ?>
                                     <tr>
-                                        <td colspan="6" class="text-center">No hay partidos registrados</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>
-
                         </table>
                     </div>
                     <!-- FIN TABLA -->
