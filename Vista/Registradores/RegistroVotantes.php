@@ -1,9 +1,9 @@
 <?php
-session_start();
-if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'registrador') {
-    header('Location: ../login.php');
-    exit;
-}
+// session_start();
+// if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'registrador') {
+//     header('Location: ../login.php');
+//     exit;
+// }
 define('BASE_URL', '/VotoSecure');
 ?>
 
@@ -17,7 +17,7 @@ define('BASE_URL', '/VotoSecure');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="../../css/RegistroVotantes.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/RegistroVotantes.css">
 </head>
 
 <body class="body">
@@ -30,7 +30,7 @@ define('BASE_URL', '/VotoSecure');
 
         <div class="form-body">
             <form action="" method="POST" enctype="multipart/form-data" id="registroForm">
-                <!-- Conexión ESP32 -->
+<!-- Conexión ESP32 -->
                 <div class="section-title">
                     <i class="fas fa-microchip"></i> Dispositivo ESP32
                 </div>
