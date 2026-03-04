@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `candidatos`
 --
 
+
 CREATE TABLE `candidatos` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
