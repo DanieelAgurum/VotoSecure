@@ -76,22 +76,11 @@ class Candidato {
             throw new Exception("La foto no puede superar los 5MB");
         }
 
-        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $nombreArchivo = 'candidato_' . uniqid() . '.' . $extension;
-
-        $directorio = __DIR__ . '/../../img/candidatos/';
+        // Convertir imagen a Base64
+        $imagenBase64 = base64_encode(file_get_contents($file['tmp_name']));
         
-        if (!is_dir($directorio)) {
-            mkdir($directorio, 0755, true);
-        }
-
-        $rutaDestino = $directorio . $nombreArchivo;
-
-        if (!move_uploaded_file($file['tmp_name'], $rutaDestino)) {
-            throw new Exception("Error al guardar la foto");
-        }
-
-        return $nombreArchivo;
+        // Devolver en formato data URL para mostrar directamente
+        return "data:" . $mimeType . ";base64," . $imagenBase64;
     }
 
     public function guardar($datos, $file = null) {
@@ -111,7 +100,14 @@ class Candidato {
 
             $conexion = (new Conexion())->conectar();
             
-            $sql = "INSERT INTO candidatos 
+            if ($conexion === null) {
+                return [
+                    'success' => false,
+                    'error' => 'Error de conexión a la base de datos'
+                ];
+            }
+            
+            $sql = "INSERT INTO candidatos
                     (nombre, apellido, id_partido, id_tipo, cargo, distrito, correo, telefono, foto, estatus)
                     VALUES 
                     (:nombre, :apellido, :id_partido, :id_tipo, :cargo, :distrito, :correo, :telefono, :foto, :estatus)";
@@ -231,18 +227,14 @@ class Candidato {
 
             $conexion = (new Conexion())->conectar();
 
-            $sql = "SELECT foto FROM candidatos WHERE id = :id";
-            $stmt = $conexion->prepare($sql);
-            $stmt->execute([':id' => $id]);
-            $candidato = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($candidato && !empty($candidato['foto'])) {
-                $rutaFoto = __DIR__ . '/../../img/candidatos/' . $candidato['foto'];
-                if (file_exists($rutaFoto)) {
-                    unlink($rutaFoto);
-                }
+            if ($conexion === null) {
+                return [
+                    'success' => false,
+                    'error' => 'Error de conexión a la base de datos'
+                ];
             }
 
+            // Las fotos ahora son Base64, no hay archivos que eliminar
             $sql = "DELETE FROM candidatos WHERE id = :id";
             $stmt = $conexion->prepare($sql);
 
