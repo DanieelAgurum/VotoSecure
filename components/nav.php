@@ -12,8 +12,6 @@
                 <li class="nav-item"><a class="nav-link" href="/votosecure/vista/candidatos">Candidatos</a></li>
                 <li class="nav-item"><a class="nav-link" href="/votosecure/vista/propuestas">Propuestas</a></li>
                 <li class="nav-item"><a class="nav-link" href="/votosecure/vista/resultados">Resultados</a></li>
-                <li class="nav-item"><a class="nav-link" href="/votosecure/vista/ayuda.php">Ayuda</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Chat Bot</a></li>
             </ul>
         </div>
     </div>

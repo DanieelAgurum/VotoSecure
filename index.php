@@ -1,3 +1,11 @@
+<?php
+$intents = include __DIR__ . '/Modelo/config/chatbot.php';
+require_once __DIR__ . '/Modelo/config/conexion.php';
+require_once __DIR__ . '/Modelo/eleccionesMdl.php';
+$eleccionesMdl = new EleccionesMdl($conexion);
+$resultado = $eleccionesMdl->obtenerEleccionesActivas();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -42,137 +50,176 @@
     </section>
 
     <!-- Candidatos -->
-    <section id="candidatos">
+    <section id="candidatos" class="py-5">
         <div class="container">
-            <h2>Candidatos</h2>
-            <div class="grid">
-                <div class="card">
-                    <div class="card-header">👨‍💼</div>
-                    <div class="card-body">
-                        <div class="card-title">Candidato A</div>
-                        <div class="card-subtitle">Partido Azul</div>
-                        <div class="card-description">Enfocado en educación y desarrollo sostenible para el país.</div>
-                        <button class="btn">Ver Perfil</button>
+
+            <div class="text-center mb-5">
+                <h2 class="fw-bold section-title">Candidatos Oficiales</h2>
+                <p class="section-subtitle">Conoce sus propuestas antes de votar</p>
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <div class="card candidato-card h-100 text-center">
+                        <div class="card-body">
+                            <div class="avatar">👨‍💼</div>
+
+                            <h5 class="fw-bold mt-3">Candidato A</h5>
+                            <span class="partido-badge">Partido Azul</span>
+
+                            <p class="mt-3">
+                                Educación digital, innovación tecnológica y desarrollo sostenible.
+                            </p>
+
+                            <a href="#" class="btn btn-accent mt-3 w-100">
+                                Ver Perfil
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">👩‍💼</div>
-                    <div class="card-body">
-                        <div class="card-title">Candidata B</div>
-                        <div class="card-subtitle">Partido Rojo</div>
-                        <div class="card-description">Trabajando por la economía, empleo y bienestar social.</div>
-                        <button class="btn">Ver Perfil</button>
+
+                <div class="col-md-4">
+                    <div class="card candidato-card h-100 text-center">
+                        <div class="card-body">
+                            <div class="avatar">👩‍💼</div>
+
+                            <h5 class="fw-bold mt-3">Candidata B</h5>
+                            <span class="partido-badge">Partido Rojo</span>
+
+                            <p class="mt-3">
+                                Crecimiento económico, empleo formal y bienestar social.
+                            </p>
+
+                            <a href="#" class="btn btn-accent mt-3 w-100">
+                                Ver Perfil
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">👨‍💼</div>
-                    <div class="card-body">
-                        <div class="card-title">Candidato C</div>
-                        <div class="card-subtitle">Partido Verde</div>
-                        <div class="card-description">Comprometido con el medio ambiente y políticas verdes.</div>
-                        <button class="btn">Ver Perfil</button>
+
+                <div class="col-md-4">
+                    <div class="card candidato-card h-100 text-center">
+                        <div class="card-body">
+                            <div class="avatar">👨‍💼</div>
+
+                            <h5 class="fw-bold mt-3">Candidato C</h5>
+                            <span class="partido-badge">Partido Verde</span>
+
+                            <p class="mt-3">
+                                Transición energética y políticas ambientales sostenibles.
+                            </p>
+
+                            <a href="#" class="btn btn-accent mt-3 w-100">
+                                Ver Perfil
+                            </a>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Elecciones y Votaciones -->
-    <section id="elecciones" style="background: #f8f9fa;">
+    <!-- Elecciones -->
+    <section id="elecciones" class="py-5" style="background: #f8f9fa;">
         <div class="container">
-            <h2>Elecciones y Votaciones</h2>
-            <div class="grid">
-                <div class="card">
-                    <div class="card-header">🗳️</div>
-                    <div class="card-body">
-                        <div class="card-title">Elección Presidencial 2024</div>
-                        <div class="card-description">Selecciona tu candidato preferido para la presidencia del país. Vota con seguridad y confianza.</div>
-                        <button class="btn">Votar Ahora</button>
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Procesos Activos</h2>
+                <p class="text-muted">Votación segura y cifrada</p>
+            </div>
+            <div class="elecciones-scroll">
+                <?php if ($resultado && mysqli_num_rows($resultado) > 0): ?>
+
+                    <?php while ($row = mysqli_fetch_assoc($resultado)) : ?>
+
+                        <?php
+                        $ahora = new DateTime();
+                        $inicio = new DateTime($row['fecha_inicio']);
+                        $fin = new DateTime($row['fecha_fin']);
+
+                        if ($ahora < $inicio) {
+                            $estadoVisual = "proxima";
+                        } elseif ($ahora > $fin) {
+                            $estadoVisual = "finalizada";
+                        } else {
+                            $estadoVisual = "activa";
+                        }
+
+                        $fecha_fin = $row['fecha_fin'];
+                        $id = $row['id_eleccion'];
+                        ?>
+                        <div class="proceso-wrapper">
+                            <div class="card proceso-card text-center">
+                                <div class="card-body d-flex flex-column">
+                                    <div class="flex-grow-1">
+                                        <div class="icon-box">
+                                            <i class="bi bi-box-seam"></i>
+                                        </div>
+                                        <h5 class="fw-bold mt-3 titulo-eleccion">
+                                            <?= htmlspecialchars($row['nombre_eleccion']) ?>
+                                        </h5>
+                                        <p class="descripcion-eleccion">
+                                            <?= htmlspecialchars($row['descripcion_eleccion']) ?>
+                                        </p>
+                                    </div>
+                                    <?php if ($estadoVisual == "activa"): ?>
+                                        <div class="countdown mt-2 mb-3"
+                                            data-fecha="<?= $row['fecha_fin'] ?>"
+                                            id="countdown-<?= $row['id_eleccion'] ?>">
+                                        </div>
+                                        <button class="btn btn-accent w-100">
+                                            Votos en vivo
+                                        </button>
+                                    <?php elseif ($estadoVisual == "proxima"): ?>
+                                        <div class="countdown mt-2 mb-3"
+                                            data-fecha="<?= $row['fecha_inicio'] ?>"
+                                            id="countdown-<?= $row['id_eleccion'] ?>">
+                                        </div>
+                                        <button class="btn btn-warning w-100" disabled>
+                                            Próximamente
+                                        </button>
+                                    <?php else: ?>
+                                        <div class="badge bg-danger w-100 mb-3 py-2">
+                                            Finalizada
+                                        </div>
+                                        <button class="btn btn-secondary w-100">
+                                            Ver Resultados
+                                        </button>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <div class="col-12 text-center">
+                        <div class="alert alert-info">
+                            No hay procesos activos en este momento.
+                        </div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">📋</div>
-                    <div class="card-body">
-                        <div class="card-title">Referéndum 2024</div>
-                        <div class="card-description">Participa en decisiones importantes sobre políticas públicas que afectarán el futuro.</div>
-                        <button class="btn">Participa</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">🏛️</div>
-                    <div class="card-body">
-                        <div class="card-title">Elecciones Legislativas</div>
-                        <div class="card-description">Elige a los representantes que te acompañarán en el congreso y trabjarán por ti.</div>
-                        <button class="btn">Elegir</button>
-                    </div>
-                </div>
+                <?php endif; ?>
             </div>
         </div>
     </section>
 
     <!-- FAQ -->
-    <section class="container py-5">
-        <h2 class="section-title text-center mb-4">Preguntas Frecuentes</h2>
+    <div class="faq-section m-3">
+        <h2 class="faq-title">Preguntas Frecuentes</h2>
 
-        <div class="accordion accordion-custom" id="faqAccordion">
+        <div class="faq-carousel mt-2">
+            <?php foreach ($intents as $intentKey => $intentData): ?>
+                <?php if (!isset($intentData['faq'])) continue; ?>
 
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                        ¿Quiénes pueden votar?
-                    </button>
-                </h2>
-                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        Todas las personas registradas en el padrón electoral pueden emitir su voto
-                        dentro del periodo establecido.
+                <div class="faq-card">
+                    <div class="faq-card-inner">
+                        <h4><?= $intentData['faq']['question']; ?></h4>
+                        <p><?= $intentData['faq']['answer']; ?></p>
                     </div>
                 </div>
-            </div>
 
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                        ¿Cómo se emite el voto?
-                    </button>
-                </h2>
-                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        El voto se realiza seleccionando al candidato o partido de tu preferencia
-                        y confirmando la elección en la plataforma.
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                        ¿Mi voto es confidencial?
-                    </button>
-                </h2>
-                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        Sí. El sistema garantiza la privacidad y confidencialidad del voto mediante
-                        mecanismos de seguridad y cifrado.
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
-                        ¿Puedo cambiar mi voto después de enviarlo?
-                    </button>
-                </h2>
-                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        No. Una vez confirmado, el voto queda registrado de forma definitiva.
-                    </div>
-                </div>
-            </div>
-
+            <?php endforeach; ?>
         </div>
-    </section>
+    </div>
 
     <!-- Footer -->
     <?php include 'components/footer.php'; ?>
@@ -180,65 +227,10 @@
     <!-- Chatbot -->
     <?php include 'components/chatbot.php'; ?>
 
-    <script>
-        // Carrusel
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.carousel-slide');
-        const totalSlides = slides.length;
-
-        function showSlide(n) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            const btns = document.querySelectorAll('.carousel-btn');
-            btns.forEach(btn => btn.classList.remove('active'));
-
-            slides[n].classList.add('active');
-            btns[n].classList.add('active');
-        }
-
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            showSlide(currentSlide);
-        }
-
-        function prevSlide() {
-            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-            showSlide(currentSlide);
-        }
-
-        function goToSlide(n) {
-            currentSlide = n;
-            showSlide(currentSlide);
-        }
-
-        // FAQ
-        function toggleFAQ(element) {
-            const answer = element.nextElementSibling;
-            const allAnswers = document.querySelectorAll('.faq-answer');
-            const allQuestions = document.querySelectorAll('.faq-question');
-
-            allAnswers.forEach(a => a.classList.remove('show'));
-            allQuestions.forEach(q => q.lastElementChild.textContent = '+');
-
-            answer.classList.add('show');
-            element.lastElementChild.textContent = '−';
-        }
-
-        // Hamburger
-        document.getElementById('hamburger').addEventListener('click', function() {
-            const navLinks = document.querySelector('.nav-links');
-            navLinks.classList.toggle('active');
-        });
-
-        // Cerrar menú al hacer clic en un enlace
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', function() {
-                document.querySelector('.nav-links').classList.remove('active');
-            });
-        });
-    </script>
-
+    <script src="js/carrusel.js"></script>
     <script src="js/nav.js"></script>
     <script src="js/abrirChatbot.js"></script>
+    <script src="js/contador.js"></script>
 </body>
 
 </html>
