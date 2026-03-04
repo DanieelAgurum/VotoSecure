@@ -1,3 +1,7 @@
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/VotoSecure/obtenerLink/obtenerLink.php';
+$urlBase = getBaseUrl();
+?>
 <!-- BOTÓN FLOTANTE CHAT -->
 <button id="chatToggle" class="chat-float-btn"
     data-bs-toggle="tooltip" data-bs-placement="top"
@@ -33,5 +37,5 @@
     </div>
 </div>
 
-<script src="js/chatbot.js"></script>
-<script src="js/abrirChatbot.js"></script>
+<script src="<?= $urlBase ?>js/chatbot.js"></script>
+<script src="<?= $urlBase ?>js/abrirChatbot.js"></script>

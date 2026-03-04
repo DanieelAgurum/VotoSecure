@@ -50,73 +50,75 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
     </section>
 
 
+    <!-- Candidatos -->
+    <section id="candidatos" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold section-title">Candidatos Oficiales</h2>
+                <p class="section-subtitle">Conoce sus propuestas antes de votar</p>
+            </div>
 
-    <div class="text-center mb-5">
-        <h2 class="fw-bold section-title">Candidatos Oficiales</h2>
-        <p class="section-subtitle">Conoce sus propuestas antes de votar</p>
-    </div>
+            <div class="row g-4">
 
-    <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card candidato-card h-100 text-center">
+                        <div class="card-body">
+                            <div class="avatar">👨‍💼</div>
 
-        <div class="col-md-4">
-            <div class="card candidato-card h-100 text-center">
-                <div class="card-body">
-                    <div class="avatar">👨‍💼</div>
+                            <h5 class="fw-bold mt-3">Candidato A</h5>
+                            <span class="partido-badge">Partido Azul</span>
 
-                    <h5 class="fw-bold mt-3">Candidato A</h5>
-                    <span class="partido-badge">Partido Azul</span>
+                            <p class="mt-3">
+                                Educación digital, innovación tecnológica y desarrollo sostenible.
+                            </p>
 
-                    <p class="mt-3">
-                        Educación digital, innovación tecnológica y desarrollo sostenible.
-                    </p>
-
-                    <a href="#" class="btn btn-accent mt-3 w-100">
-                        Ver Perfil
-                    </a>
+                            <a href="#" class="btn btn-accent mt-3 w-100">
+                                Ver Perfil
+                            </a>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="col-md-4">
+                    <div class="card candidato-card h-100 text-center">
+                        <div class="card-body">
+                            <div class="avatar">👩‍💼</div>
+
+                            <h5 class="fw-bold mt-3">Candidata B</h5>
+                            <span class="partido-badge">Partido Rojo</span>
+
+                            <p class="mt-3">
+                                Crecimiento económico, empleo formal y bienestar social.
+                            </p>
+
+                            <a href="#" class="btn btn-accent mt-3 w-100">
+                                Ver Perfil
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card candidato-card h-100 text-center">
+                        <div class="card-body">
+                            <div class="avatar">👨‍💼</div>
+
+                            <h5 class="fw-bold mt-3">Candidato C</h5>
+                            <span class="partido-badge">Partido Verde</span>
+
+                            <p class="mt-3">
+                                Transición energética y políticas ambientales sostenibles.
+                            </p>
+
+                            <a href="#" class="btn btn-accent mt-3 w-100">
+                                Ver Perfil
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-
-        <div class="col-md-4">
-            <div class="card candidato-card h-100 text-center">
-                <div class="card-body">
-                    <div class="avatar">👩‍💼</div>
-
-                    <h5 class="fw-bold mt-3">Candidata B</h5>
-                    <span class="partido-badge">Partido Rojo</span>
-
-                    <p class="mt-3">
-                        Crecimiento económico, empleo formal y bienestar social.
-                    </p>
-
-                    <a href="#" class="btn btn-accent mt-3 w-100">
-                        Ver Perfil
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card candidato-card h-100 text-center">
-                <div class="card-body">
-                    <div class="avatar">👨‍💼</div>
-
-                    <h5 class="fw-bold mt-3">Candidato C</h5>
-                    <span class="partido-badge">Partido Verde</span>
-
-                    <p class="mt-3">
-                        Transición energética y políticas ambientales sostenibles.
-                    </p>
-
-                    <a href="#" class="btn btn-accent mt-3 w-100">
-                        Ver Perfil
-                    </a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    </div>
     </section>
 
     <!-- Elecciones -->
@@ -227,7 +229,6 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
 
     <script src="js/carrusel.js"></script>
     <script src="js/nav.js"></script>
-    <script src="js/abrirChatbot.js"></script>
     <script src="js/contador.js"></script>
 </body>
 
