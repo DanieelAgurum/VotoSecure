@@ -25,112 +25,172 @@
             <span class="search-icon">🔍</span>
         </div>
 
-        <div class="candidates-grid" id="candidatesGrid">
-            <!-- Candidato 1 -->
-            <div class="candidate-card" data-name="carlos martinez" data-party="partido azul" data-position="presidente">
-                <img src="/votosecure/img/image.png"
-                    alt="Carlos Martínez"
-                    class="candidate-photo">
+        <!-- Sección: Presidente -->
+        <div class="election-section" data-position="presidente">
+            <div class="election-category">
+                <span class="category-dot"></span>
+                <h2 class="category-title">Presidencia</h2>
+            </div>
+            <div class="candidates-grid" id="candidatesGridPresidente">
+                <!-- Candidato 1 -->
+                <div class="candidate-card h-100" data-name="carlos martinez" data-party="partido azul" data-position="presidente">
+                    <div class="card-body text-center">
+                        <div class="avatar">👨‍💼</div>
+                        <h5 class="fw-bold mt-3">Carlos Martínez</h5>
+                        <span class="partido-badge">Partido Azul</span>
+                        <p class="mt-3">Educación digital, innovación tecnológica y desarrollo sostenible.</p>
+                        <a href="propuesta.php?id=1" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                    </div>
+                </div>
 
-                <div class="candidate-info">
-                    <h3 class="candidate-name">Carlos Martínez</h3>
-                    <p class="candidate-party">Partido Azul</p>
-                    <p class="candidate-position">
-                        <span>Cargo:</span> Presidente
-                    </p>
-                    <a href="propuestas.php?id=1" class="btn-proposal">
-                        📋 Ver Propuesta
-                    </a>
+                <!-- Candidato 2 -->
+                <div class="candidate-card h-100" data-name="maría gonzález" data-party="partido rojo" data-position="presidente">
+                    <div class="card-body text-center">
+                        <div class="avatar">👩‍💼</div>
+                        <h5 class="fw-bold mt-3">María González</h5>
+                        <span class="partido-badge">Partido Rojo</span>
+                        <p class="mt-3">Crecimiento económico, empleo formal y bienestar social.</p>
+                        <a href="propuesta.php?id=2" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                    </div>
+                </div>
+
+                <!-- Candidato 3 -->
+                <div class="candidate-card h-100" data-name="roberto sánchez" data-party="partido verde" data-position="presidente">
+                    <div class="card-body text-center">
+                        <div class="avatar">👨‍💼</div>
+                        <h5 class="fw-bold mt-3">Roberto Sánchez</h5>
+                        <span class="partido-badge">Partido Verde</span>
+                        <p class="mt-3">Transición energética y políticas ambientales sostenibles.</p>
+                        <a href="propuesta.php?id=3" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                    </div>
+                </div>
+
+                <!-- Candidato 4 -->
+                <div class="candidate-card h-100" data-name="patricia rivera" data-party="partido gris" data-position="presidente">
+                    <div class="card-body text-center">
+                        <div class="avatar">👩‍💼</div>
+                        <h5 class="fw-bold mt-3">Patricia Rivera</h5>
+                        <span class="partido-badge">Partido Gris</span>
+                        <p class="mt-3">Justicia social, salud pública y educación gratuita.</p>
+                        <a href="propuesta.php?id=4" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                    </div>
+                </div>
+
+                <!-- Candidato 5 -->
+                <div class="candidate-card h-100" data-name="jorge ramírez" data-party="partido naranja" data-position="presidente">
+                    <div class="card-body text-center">
+                        <div class="avatar">👨‍💼</div>
+                        <h5 class="fw-bold mt-3">Jorge Ramírez</h5>
+                        <span class="partido-badge">Partido Naranja</span>
+                        <p class="mt-3">Libertad económica, reducción de impuestos y emprendedores.</p>
+                        <a href="propuesta.php?id=5" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                    </div>
+                </div>
+
+                <!-- Candidato 6 -->
+                <div class="candidate-card h-100" data-name="ana castro" data-party="partido dorado" data-position="presidente">
+                    <div class="card-body text-center">
+                        <div class="avatar">👩‍💼</div>
+                        <h5 class="fw-bold mt-3">Ana Castro</h5>
+                        <span class="partido-badge">Partido Dorado</span>
+                        <p class="mt-3">Seguridad nacional, orden y respeto a las leyes.</p>
+                        <a href="propuesta.php?id=6" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Candidato 2 -->
-            <div class="candidate-card" data-name="maría gonzález" data-party="partido rojo" data-position="presidente">
-                <img src="/votosecure/img/image.png"
-                    alt="María González"
-                    class="candidate-photo">
+        <!-- Sección: Gobernador -->
+        <div class="election-section" data-position="gobernador">
+            <div class="election-category">
+                <span class="category-dot"></span>
+                <h2 class="category-title">Gobernación</h2>
+            </div>
+            <div class="candidates-grid" id="candidatesGridGobernador">
+                <!-- Candidato 7 -->
+                <div class="candidate-card h-100" data-name="laura hernández" data-party="partido nacional" data-position="gobernador">
+                    <div class="card-body text-center">
+                        <div class="avatar">👩‍💼</div>
+                        <h5 class="fw-bold mt-3">Laura Hernández</h5>
+                        <span class="partido-badge">Partido Nacional</span>
+                        <p class="mt-3">Desarrollo regional, infraestructura y obras públicas.</p>
+                        <a href="propuesta.php?id=7" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                    </div>
+                </div>
 
-                <div class="candidate-info">
-                    <h3 class="candidate-name">María González</h3>
-                    <p class="candidate-party">Partido Rojo</p>
-                    <p class="candidate-position">
-                        <span>Cargo:</span> Presidente
-                    </p>
-                    <a href="propuestas.php?id=2" class="btn-proposal">
-                        📋 Ver Propuesta
-                    </a>
+                <!-- Candidato 8 -->
+                <div class="candidate-card h-100" data-name="miguel torres" data-party="partido azul" data-position="gobernador">
+                    <div class="card-body text-center">
+                        <div class="avatar">👨‍💼</div>
+                        <h5 class="fw-bold mt-3">Miguel Torres</h5>
+                        <span class="partido-badge">Partido Azul</span>
+                        <p class="mt-3">Agricultura, pesca y desarrollo costero sostenible.</p>
+                        <a href="propuesta.php?id=8" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                    </div>
+                </div>
+
+                <!-- Candidato 9 -->
+                <div class="candidate-card h-100" data-name="silvia meadows" data-party="partido verde" data-position="gobernador">
+                    <div class="card-body text-center">
+                        <div class="avatar">👩‍💼</div>
+                        <h5 class="fw-bold mt-3">Silvia Meadows</h5>
+                        <span class="partido-badge">Partido Verde</span>
+                        <p class="mt-3">Conservación de recursos naturales y ecoturismo.</p>
+                        <a href="propuesta.php?id=9" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Candidato 3 -->
-            <div class="candidate-card" data-name="roberto sánchez" data-party="partido verde" data-position="presidente">
-                <img src="/votosecure/img/image.png"
-                    alt="Roberto Sánchez"
-                    class="candidate-photo">
-
-                <div class="candidate-info">
-                    <h3 class="candidate-name">Roberto Sánchez</h3>
-                    <p class="candidate-party">Partido Verde</p>
-                    <p class="candidate-position">
-                        <span>Cargo:</span> Presidente
-                    </p>
-                    <a href="propuestas.php?id=3" class="btn-proposal">
-                        📋 Ver Propuesta
-                    </a>
-                </div>
+        <!-- Sección: Alcalde -->
+        <div class="election-section" data-position="alcalde">
+            <div class="election-category">
+                <span class="category-dot"></span>
+                <h2 class="category-title">Alcaldía</h2>
             </div>
-
-            <!-- Candidato 4 -->
-            <div class="candidate-card" data-name="laura hernández" data-party="partido nacional" data-position="gobernador">
-                <img src="/votosecure/img/image.png"
-                    alt="Laura Hernández"
-                    class="candidate-photo">
-
-                <div class="candidate-info">
-                    <h3 class="candidate-name">Laura Hernández</h3>
-                    <p class="candidate-party">Partido Nacional</p>
-                    <p class="candidate-position">
-                        <span>Cargo:</span> Gobernador
-                    </p>
-                    <a href="propuestas.php?id=4" class="btn-proposal">
-                        📋 Ver Propuesta
-                    </a>
+            <div class="candidates-grid" id="candidatesGridAlcalde">
+                <!-- Candidato 10 -->
+                <div class="candidate-card h-100" data-name="antonio lópez" data-party="partido morado" data-position="alcalde">
+                    <div class="card-body text-center">
+                        <div class="avatar">👨‍💼</div>
+                        <h5 class="fw-bold mt-3">Antonio López</h5>
+                        <span class="partido-badge">Partido Morado</span>
+                        <p class="mt-3">Seguridad ciudadana, transporte y servicios municipales.</p>
+                        <a href="propuesta.php?id=10" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Candidato 5 -->
-            <div class="candidate-card" data-name="antonio lópez" data-party="partido morado" data-position="alcalde">
-                <img src="/votosecure/img/image.png"
-                    alt="Antonio López"
-                    class="candidate-photo">
-
-                <div class="candidate-info">
-                    <h3 class="candidate-name">Antonio López</h3>
-                    <p class="candidate-party">Partido Morado</p>
-                    <p class="candidate-position">
-                        <span>Cargo:</span> Alcalde
-                    </p>
-                    <a href="propuestas.php?id=5" class="btn-proposal">
-                        📋 Ver Propuesta
-                    </a>
+                <!-- Candidato 11 -->
+                <div class="candidate-card h-100" data-name="carmen ruiz" data-party="partido rojo" data-position="alcalde">
+                    <div class="card-body text-center">
+                        <div class="avatar">👩‍💼</div>
+                        <h5 class="fw-bold mt-3">Carmen Ruiz</h5>
+                        <span class="partido-badge">Partido Rojo</span>
+                        <p class="mt-3">Espacios públicos, parques y áreas recreativas.</p>
+                        <a href="propuesta.php?id=11" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Candidato 6 -->
-            <div class="candidate-card" data-name="patricia rivera" data-party="partido gris" data-position="presidente">
-                <img src="/votosecure/img/image.png"
-                    alt="Patricia Rivera"
-                    class="candidate-photo">
+                <!-- Candidato 12 -->
+                <div class="candidate-card h-100" data-name="daniel ortega" data-party="partido naranja" data-position="alcalde">
+                    <div class="card-body text-center">
+                        <div class="avatar">👨‍💼</div>
+                        <h5 class="fw-bold mt-3">Daniel Ortega</h5>
+                        <span class="partido-badge">Partido Naranja</span>
+                        <p class="mt-3">Gestión de residuos, reciclaje y ciudad limpia.</p>
+                        <a href="propuesta.php?id=12" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                    </div>
+                </div>
 
-                <div class="candidate-info">
-                    <h3 class="candidate-name">Patricia Rivera</h3>
-                    <p class="candidate-party">Partido Gris</p>
-                    <p class="candidate-position">
-                        <span>Cargo:</span> Presidente
-                    </p>
-                    <a href="propuestas.php?id=6" class="btn-proposal">
-                        📋 Ver Propuesta
-                    </a>
+                <!-- Candidato 13 -->
+                <div class="candidate-card h-100" data-name="elena navarro" data-party="partido dorado" data-position="alcalde">
+                    <div class="card-body text-center">
+                        <div class="avatar">👩‍💼</div>
+                        <h5 class="fw-bold mt-3">Elena Navarro</h5>
+                        <span class="partido-badge">Partido Dorado</span>
+                        <p class="mt-3">Cultura, turismo y patrimonio histórico municipal.</p>
+                        <a href="propuesta.php?id=13" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -151,6 +211,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('searchInput');
             const candidateCards = document.querySelectorAll('.candidate-card');
+            const sections = document.querySelectorAll('.election-section');
             
             searchInput.addEventListener('input', function(e) {
                 const searchTerm = e.target.value.toLowerCase().trim();
@@ -166,6 +227,20 @@
                     } else {
                         card.style.display = 'none';
                     }
+                });
+                
+                // Ocultar secciones vacías
+                sections.forEach(section => {
+                    const cards = section.querySelectorAll('.candidate-card');
+                    let hasVisibleCards = false;
+                    
+                    cards.forEach(card => {
+                        if (card.style.display !== 'none') {
+                            hasVisibleCards = true;
+                        }
+                    });
+                    
+                    section.style.display = hasVisibleCards ? '' : 'none';
                 });
             });
         });
