@@ -59,7 +59,7 @@ $correoAdmin = $_SESSION['correo'];
 <aside class="sidebar" id="sidebar">
     <ul class="sidebar-menu">
         <li><a href="index.php" class="#"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-        <li><a href="Votos.php"><i class="bi bi-people"></i> Votantes</a></li>
+        <li><a href="votantes"><i class="bi bi-people"></i> Votantes</a></li>
         <li><a href="Elecciones.php"><i class="bi bi-calendar-check"></i> Elecciones</a></li>
         <li><a href="Resultados.php"><i class="bi bi-bar-chart"></i> Resultados</a></li>
         <li><a href="Partidos.php"><i class="bi bi-building-fill-check"></i> Partidos</a></li>
