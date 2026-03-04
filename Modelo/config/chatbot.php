@@ -49,7 +49,7 @@ return [
             "ver elecciones"
         ],
         "responses" => [
-            "Puedes consultar las elecciones activas en el módulo 'Elecciones' del menú principal."
+            "Puedes consultar las elecciones activas en el módulo <strong>Elecciones</strong> del menú principal.<br>Ahí encontrarás la lista de votaciones disponibles y sus detalles.<br>Recuerda que solo puedes votar en la elección correspondiente a tu sección electoral.<br>Consulta las elecciones activas <a href='#elecciones'>aquí</a>."
         ],
         "faq" => [
             "question" => "¿Cómo veo las elecciones disponibles?",
@@ -66,7 +66,8 @@ return [
             "quien esta en la eleccion"
         ],
         "responses" => [
-            "Dentro de cada elección puedes consultar la lista completa de candidatos."
+            "Podras consultar la lista de candidatos dentro del módulo <strong>Candidatos</strong> seleccionando la votación correspondiente.<br>Ahí encontrarás información detallada de cada participante, incluyendo su perfil y propuestas.<br>Consulta los candidatos <a href='#candidatos'>aquí</a>.",
+            "Ve al apartado de <a href='http://localhost/VotoSecure/Vista/candidatos.php'>Candidatos</a> para conocer a los participantes de cada elección y sus perfiles."
         ],
         "faq" => [
             "question" => "¿Dónde puedo ver los candidatos?",
@@ -83,7 +84,9 @@ return [
             "ver propuesta"
         ],
         "responses" => [
-            "Selecciona un candidato y haz clic en 'Ver Propuesta' para conocer su plan de trabajo."
+            "Selecciona un candidato y haz clic en <strong>Ver Propuesta</strong> para conocer su plan de trabajo.",
+            "Selecciona el apartado <a href='http://localhost/VotoSecure/Vista/candidatos.php'>Candidatos</a> del menú de navegación, elige un participante y haz clic en 'Ver Propuesta' para conocer sus planes de trabajo."
+
         ],
         "faq" => [
             "question" => "¿Cómo veo las propuestas?",
@@ -100,7 +103,8 @@ return [
             "como funciona el voto"
         ],
         "responses" => [
-            "El día de la elección debes acudir al centro asignado con tu tarjeta de registro, seleccionar tu candidato y confirmar con tu huella digital."
+            "El día de la elección debes acudir al centro asignado con tu tarjeta de registro, seleccionar tu candidato y confirmar con tu huella digital.<br> Da clic al siguiente enlace para conocer el proceso completo de votación: <a href='http://localhost/VotoSecure/Vista/como_votar.php'>Cómo votar</a>.",
+            "Consulta el proceso completo de votación en el módulo <strong>Cómo votar</strong> del menú principal para conocer los pasos detallados y requisitos necesarios."
         ],
         "faq" => [
             "question" => "¿Cuál es el proceso para votar?",
@@ -116,7 +120,8 @@ return [
             "en que seccion voto"
         ],
         "responses" => [
-            "Debes acudir al centro de votación asignado según tu sección electoral."
+            "Debes acudir al centro de votación asignado según tu sección electoral.",
+            "Si no recuerdas tu sección, puedes consultarla en el módulo <strong>Consulta mi sección</strong> dentro de la plataforma.<br>Consulta tu sección electoral <a href='http://localhost/VotoSecure/Vista/consulta_seccion.php'>aquí</a>."
         ],
         "faq" => [
             "question" => "¿Dónde debo votar?",
@@ -133,7 +138,8 @@ return [
             "ver resultados"
         ],
         "responses" => [
-            "Los resultados se publican en tiempo real dentro de la plataforma."
+            "Los resultados se publican en tiempo real dentro de la plataforma.<br>Consulta los resultados en el módulo <strong>Resultados</strong> para ver el conteo por sección y candidato. Clic aquí <a href='http://localhost/VotoSecure/Vista/resultados.php'>aquí</a>.",
+            "Puedes seguir el conteo de votos en tiempo real accediendo al apartado <strong>Elecciones</strong> del menú principal.<br> Da clic al botón <strong>Votos en vivo</strong> de la elección a consultar. Da clic <a href='#elecciones'>aquí</a>."
         ],
         "faq" => [
             "question" => "¿Cómo consulto los resultados?",

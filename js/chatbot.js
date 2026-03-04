@@ -148,7 +148,7 @@ function sendMessage() {
 function addMessage(text, type) {
     const div = document.createElement("div");
     div.classList.add("chat-message", type);
-    div.textContent = text;
+    div.innerHTML = text;
     document.querySelector(".chat-body").appendChild(div);
     scrollChat();
 }
