@@ -34,3 +34,4 @@
 </div>
 
 <script src="js/chatbot.js"></script>
+<script src="js/abrirChatbot.js"></script>
