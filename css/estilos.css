@@ -188,139 +188,255 @@ section {
     margin: 0 auto;
 }
 
+.carousel-slide h2 {
+    color: var(--accent) !important;
+}
+
 h1,
 h2 {
     text-align: center;
     margin-bottom: 40px;
-    color: var(--accent);
+    color: var(--primary);
     font-size: 2.5rem;
 }
 
 /* FAQ */
-.accordion-custom {
-    max-width: 900px;
-    margin: auto;
+.faq-section {
+    padding: 50px 40px;
+    background: linear-gradient(135deg, #f5f7fa, #eef2f7);
 }
 
-.accordion-custom .accordion-item {
-    border: none;
-    margin-bottom: 1rem;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-}
-
-.accordion-custom .accordion-button {
-    background-color: #ffffff;
+.faq-title {
+    text-align: center;
+    font-size: 24px;
     font-weight: 600;
-    padding: 1.2rem 1.5rem;
-    color: var(--text-dark);
-    border: none;
-}
-
-.accordion-custom .accordion-button:focus {
-    box-shadow: none;
-}
-
-.accordion-custom .accordion-button:not(.collapsed) {
-    background-color: var(--bg-soft);
-    color: var(--text-dark);
-}
-
-.accordion-custom .accordion-body {
-    background-color: var(--bg-light);
-    color: var(--text-dark);
-    padding: 1.5rem;
-    line-height: 1.6;
-}
-
-/* Ícono personalizado */
-.accordion-custom .accordion-button::after {
-    background-size: 1.2rem;
-    transform: scale(1.2);
-}
-
-/* Responsive */
-@media (max-width: 576px) {
-    .accordion-custom .accordion-button {
-        padding: 1rem;
-        font-size: 0.95rem;
-    }
-
-    .accordion-custom .accordion-body {
-        padding: 1.2rem;
-    }
-}
-
-/* Candidatos */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    margin-bottom: 40px;
-}
-
-.card {
-    background: var(--bg-light);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-    color: var(--bg-light);
-}
-
-.card-header {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-light);
-    font-size: 3rem;
-}
-
-.card-body {
-    padding: 25px;
-}
-
-.card-title {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     color: var(--primary);
 }
 
-.card-subtitle {
-    color: var(--accent);
-    font-weight: bold;
-    margin-bottom: 15px;
+/* Carrusel */
+.faq-carousel {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 10px;
 }
 
-.card-description {
+.faq-carousel::-webkit-scrollbar {
+    height: 6px;
+}
+
+.faq-carousel::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+/* Tarjetas */
+.faq-card {
+    flex: 0 0 auto;
+    min-width: 240px;
+    /* MÁS PEQUEÑAS */
+    max-width: 240px;
+    scroll-snap-align: start;
+}
+
+.faq-card-inner {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.25s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Texto */
+.faq-card-inner h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #111827;
+}
+
+.faq-card-inner p {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+.faq-card-inner {
+    border: 1px solid transparent;
+}
+
+.faq-card-inner:hover {
+    border: 1px solid #6366f1;
+}
+
+/* Candidatos */
+#candidatos {
+    background-color: var(--bg-light);
+}
+
+/* Títulos */
+.section-title {
+    color: var(--primary);
+}
+
+.section-subtitle {
     color: var(--text-dark);
-    margin-bottom: 20px;
 }
 
-.btn {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    color: var(--text-light);
-    padding: 10px 25px;
-    border-radius: 5px;
-    text-decoration: none;
+/* Card personalizada */
+.candidato-card {
     border: none;
-    cursor: pointer;
-    transition: 0.3s;
-    font-size: 1rem;
+    border-radius: 16px;
+    background-color: white;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+    transition: all 0.3s ease;
 }
 
-.btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+.candidato-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(34, 211, 238, 0.25);
+    border-top: 4px solid var(--accent);
+}
+
+/* Avatar */
+.avatar {
+    width: 80px;
+    height: 80px;
+    background-color: var(--bg-soft);
+    border-radius: 50%;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+/* Badge partido */
+.partido-badge {
+    display: inline-block;
+    background-color: var(--secondary);
+    color: var(--text-light);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+/* Botón Accent */
+.btn-accent {
+    background-color: var(--accent);
+    color: var(--primary);
+    font-weight: 600;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.btn-accent:hover {
+    background-color: var(--primary);
+    color: var(--text-light);
+}
+
+/* Elecciones */
+#elecciones {
+    background-color: var(--primary);
+    color: var(--text-light);
+}
+
+/* Cards oscuras */
+.proceso-card {
+    background-color: var(--secondary);
+    border: none;
+    border-radius: 16px;
+    transition: 0.3s;
+}
+
+.proceso-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(34, 211, 238, 0.3);
+}
+
+.proceso-card h5 {
+    color: var(--text-light);
+}
+
+.proceso-card p {
+    color: var(--bg-soft);
+}
+
+.icon-box {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto;
+    background-color: var(--accent);
+    color: var(--bg-light);
+    font-size: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.countdown {
+    background: rgba(34, 211, 238, 0.1);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+.titulo-eleccion {
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.descripcion-eleccion {
+    min-height: 50px;
+}
+
+.proceso-card .card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Contenedor scroll horizontal */
+.elecciones-scroll {
+    display: flex;
+    gap: 25px;
+    overflow-x: auto;
+    padding: 10px 5px 20px 5px;
+    scroll-behavior: smooth;
+}
+
+/* Ocultar scrollbar (Chrome) */
+.elecciones-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.elecciones-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Firefox */
+.elecciones-scroll {
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.elecciones-scroll::-webkit-scrollbar-thumb  {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+/* Cada card */
+.proceso-wrapper {
+    min-width: 320px;
+    max-width: 320px;
+    flex-shrink: 0;
 }
 
 /* Footer */

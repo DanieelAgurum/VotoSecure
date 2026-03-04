@@ -80,6 +80,22 @@ class EleccionesMdl
         return $this->conexion->query($sql);
     }
 
+    public function obtenerEleccionesActivas()
+    {
+        $sql = "SELECT * FROM elecciones 
+          WHERE estado = 0 OR estado = 1
+          AND fecha_inicio <= NOW() 
+          AND fecha_fin >= NOW()
+          ORDER BY 
+    CASE 
+        WHEN NOW() BETWEEN fecha_inicio AND fecha_fin THEN 1
+        WHEN NOW() < fecha_inicio THEN 2
+        ELSE 3
+    END";
+
+        return $this->conexion->query($sql);
+    }
+
     public function existeTraslape($id_tipo, $fecha_inicio, $fecha_fin, $id_excluir = null)
     {
         $sql = "SELECT 1 
