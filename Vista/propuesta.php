@@ -23,77 +23,144 @@
             // Obtener el ID del candidato
             $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-            // Datos de ejemplo para los candidatos
+            // Datos de los candidatos
             $candidatos = [
+                // PRESIDENCIA
                 1 => [
                     'nombre' => 'Carlos Martínez',
                     'partido' => 'Partido Azul',
                     'puesto' => 'Presidente',
                     'foto' => '/votosecure/img/image.png',
-                    'logo_partido' => '/votosecure/img/image.png',
                     'eslogan' => 'Juntos transformaremos nuestro país',
                     'video' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                    'biografia' => 'Carlos Martínez es un economista con más de 20 años de experiencia en el sector público y privado. Ha sido Secretario de Economía y actualmente es senador. Ha promovido reformas importantes para el desarrollo económico del país.',
-                    'propuesta' => "MISIÓN:\n\nTransformar nuestro país en una nación próspera, justa y equitativa para todas y todos los ciudadanos.\n\nPROPUESTAS PRINCIPALES:\n\n🎓 EDUCACIÓN\n- Universalizar el acceso a educación de calidad desde preescolar hasta universidad\n- Incrementar el presupuesto educativo al 8% del PIB\n- Crear 500,000 becas anuales para estudiantes de bajos recursos\n\n💼 ECONOMÍA\n- Generar 2 millones de empleos formales en los próximos 3 años\n- Reducir impuestos a pequeñas y medianas empresas\n- Implementar programas de capacitación profesional gratuita\n\n🏥 SALUD\n- Construir 100 hospitales en zonas marginadas\n- Garantizar medicamentos gratuitos para personas de la tercera edad\n- Mejorar la infraestructura del sistema de salud público\n\n🌿 MEDIO AMBIENTE\n- Invertir en energías renovables\n- Crear programas de reforestación con 10 millones de árboles\n- Promover el transporte público sostenible"
+                    'biografia' => 'Carlos Martínez es un economista con más de 20 años de experiencia en el sector público y privado.',
+                    'propuesta' => "MISIÓN:\n\nTransformar nuestro país en una nación próspera, justa y equitativa.\n\nPROPUESTAS PRINCIPALES:\n\n🎓 EDUCACIÓN\n- Universalizar el acceso a educación de calidad\n- Incrementar el presupuesto educativo al 8% del PIB\n- Crear 500,000 becas anuales\n\n💼 ECONOMÍA\n- Generar 2 millones de empleos formales\n- Reducir impuestos a pequeñas empresas\n- Programas de capacitación gratuitos\n\n🏥 SALUD\n- Construir 100 hospitales en zonas marginadas\n- Garantizar medicamentos gratuitos para adultos mayores\n- Mejorar infraestructura del sistema de salud"
                 ],
                 2 => [
                     'nombre' => 'María González',
                     'partido' => 'Partido Rojo',
                     'puesto' => 'Presidente',
                     'foto' => '/votosecure/img/image.png',
-                    'logo_partido' => '/votosecure/img/image.png',
                     'eslogan' => 'Por un México con dignidad y oportunidades',
                     'video' => 'https://www.youtube.com/watch?v=jNQXAC9IVRw',
-                    'biografia' => 'María González es una abogado y defensora de derechos humanos con más de 15 años de experiencia. Ha liderado importantes iniciativas sociales y trabajado directamente con comunidades vulnerables.',
-                    'propuesta' => "MISIÓN:\n\nLuchar por un México donde cada familia tenga oportunidades reales de prosperar y vivir con dignidad.\n\nPROPUESTAS PRINCIPALES:\n\n🏠 VIVIENDA\n- Construir 1 millón de viviendas sociales\n- Otorgar créditos preferenciales para jóvenes que buscan su primera casa\n- Regularizar asentamientos humanos en zonas urbanas\n\n👵 SEGURIDAD SOCIAL\n- Aumentar pensiones para adultos mayores\n- Implementar seguro de desempleo temporal\n- Crear centros de atención para personas con discapacidad\n\n📈 DESARROLLO ECONÓMICO\n- Apoyar a emprendedores locales con financiamientos\n- Modernizar infraestructura vial y de comunicaciones\n- Promover el turismo nacional con programas de incentivo\n\n✋ LUCHA CONTRA LA CORRUPCIÓN\n- Crear Fiscalía Especial Anticorrupción\n- Transparentar todos los contratos gubernamentales\n- Sanciones severas a servidores públicos que cometan corrupción"
+                    'biografia' => 'María González es una abogado y defensora de derechos humanos con más de 15 años de experiencia.',
+                    'propuesta' => "MISIÓN:\n\nLuchar por un México donde cada familia tenga oportunidades reales de prosperar.\n\nPROPUESTAS PRINCIPALES:\n\n🏠 VIVIENDA\n- Construir 1 millón de viviendas sociales\n- Créditos preferenciales para jóvenes\n- Regularizar asentamientos humanos\n\n👵 SEGURIDAD SOCIAL\n- Aumentar pensiones para adultos mayores\n- Seguro de desempleo temporal\n- Centros de atención para discapacidad\n\n📈 DESARROLLO ECONÓMICO\n- Apoyar emprendedores locales\n- Modernizar infraestructura vial\n- Promover turismo nacional"
                 ],
                 3 => [
                     'nombre' => 'Roberto Sánchez',
                     'partido' => 'Partido Verde',
                     'puesto' => 'Presidente',
                     'foto' => '/votosecure/img/image.png',
-                    'logo_partido' => '/votosecure/img/image.png',
                     'eslogan' => 'Desarrollo sostenible para las futuras generaciones',
                     'video' => 'https://www.youtube.com/watch?v=9bZkp7q19f0',
-                    'biografia' => 'Roberto Sánchez es un ingeniero ambiental con amplia experiencia en políticas de sostenibilidad. Ha coordinado programas de reforestación y energía renovable a nivel nacional.',
-                    'propuesta' => "MISIÓN:\n\nConstruir un futuro sostenible donde el desarrollo económico conviva en armonía con la naturaleza.\n\nPROPUESTAS PRINCIPALES:\n\n🌳 MEDIO AMBIENTE\n- Alcanzar cero emisiones de carbono para 2050\n- Proteger áreas naturales y crear nuevos parques nacionales\n- Promover agricultura sostenible y orgánica\n\n🚗 MOVILIDAD SOSTENIBLE\n- Expandir redes de transporte público eléctrico\n- Crear ciclovías en todas las ciudades principales\n- Incentivar vehículos eléctricos con impuestos reducidos\n\n💧 RECURSOS HÍDRICOS\n- Modernizar sistemas de riego en el campo\n- Tratar y reutilizar aguas residuales\n- Combatir el desperdicio de agua en ciudades\n\n🏭 INDUSTRIA VERDE\n- Apoyar empresas que implementen tecnologías limpias\n- Crear empleos en el sector de energías renovables\n- Establecer economía circular en procesos industriales"
+                    'biografia' => 'Roberto Sánchez es un ingeniero ambiental con experiencia en políticas de sostenibilidad.',
+                    'propuesta' => "MISIÓN:\n\nConstruir un futuro sostenible donde el desarrollo económico conviva con la naturaleza.\n\nPROPUESTAS PRINCIPALES:\n\n🌳 MEDIO AMBIENTE\n- Alcanzar cero emisiones de carbono para 2050\n- Proteger áreas naturales\n- Promover agricultura sostenible\n\n🚗 MOVILIDAD SOSTENIBLE\n- Expandir transporte público eléctrico\n- Crear ciclovías en todas las ciudades\n- Incentivar vehículos eléctricos"
                 ],
                 4 => [
-                    'nombre' => 'Laura Hernández',
-                    'partido' => 'Partido Nacional',
-                    'puesto' => 'Gobernador',
-                    'foto' => '/votosecure/img/image.png',
-                    'logo_partido' => '/votosecure/img/image.png',
-                    'eslogan' => 'Seguridad y desarrollo para nuestro estado',
-                    'video' => 'https://www.youtube.com/watch?v=kJQP7kiw5Fk',
-                    'biografia' => 'Laura Hernández es una política con experiencia en gestión pública. Ha ocupado cargos de dirección en seguridad y desarrollo social, con resultados comprobables en sus anteriores responsabilidades.',
-                    'propuesta' => "MISIÓN:\n\nTransformar nuestro estado en un referente de desarrollo, seguridad y calidad de vida para sus habitantes.\n\nPROPUESTAS PRINCIPALES:\n\n🛡️ SEGURIDAD\n- Fortalecer la policía y vigilancia en zonas conflictivas\n- Implementar botones de pánico en transporte público\n- Crear centros de atención a víctimas del delito\n\n🏗️ INFRAESTRUCTURA\n- Construir 500 kilómetros de nuevas autopistas\n- Modernizar aeropuertos regionales\n- Ampliar red de agua potable y drenaje\n\n🎓 EDUCACIÓN\n- Becas para 100,000 estudiantes destacados\n- Centros de investigación tecnológica\n- Vinculación universidades-empresas\n\n🏥 SALUD\n- Hospitales rurales en comunidades marginadas\n- Unidades móviles de atención médica\n- Programas de prevención de adicciones"
-                ],
-                5 => [
-                    'nombre' => 'Antonio López',
-                    'partido' => 'Partido Morado',
-                    'puesto' => 'Alcalde',
-                    'foto' => '/votosecure/img/image.png',
-                    'logo_partido' => '/votosecure/img/image.png',
-                    'eslogan' => 'Un municipio para todos',
-                    'video' => 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
-                    'biografia' => 'Antonio López es un empresario local que ha demostrado compromiso con el desarrollo comunitario. Conoce las necesidades de los habitantes por haber crecido en el municipio.',
-                    'propuesta' => "MISIÓN:\n\nHacer de nuestro municipio un lugar seguro, próspero y con alta calidad de vida para todas las familias.\n\nPROPUESTAS PRINCIPALES:\n\n🏘️ URBANISMO\n- Regeneración de espacios públicos\n- Parques y áreas verdes en cada colonia\n- Alumbrado público eficiente y seguro\n\n🚌 TRANSPORTE\n- Mejorar rutas de transporte público\n- Semáforos inteligentes para reducir tráfico\n- Estacionamientos públicos en zonas comerciales\n\n👨‍👩‍👧‍👦 BIENESTAR SOCIAL\n- Centros comunitarios en todas las colonias\n- Programas de apoyo alimentario para familias vulnerables\n- Actividades recreativas y culturales gratuitas\n\n🏪 ECONOMÍA LOCAL\n- Mercados municipales para productores locales\n- Capacitación para pequeños comerciantes\n- Fomentar turismo en atractivos municipales"
-                ],
-                6 => [
                     'nombre' => 'Patricia Rivera',
                     'partido' => 'Partido Gris',
                     'puesto' => 'Presidente',
                     'foto' => '/votosecure/img/image.png',
-                    'logo_partido' => '/votosecure/img/image.png',
                     'eslogan' => 'Unidad y progreso para México',
                     'video' => 'https://www.youtube.com/watch?v=L_jWHffIx5E',
-                    'biografia' => 'Patricia Rivera es una diplomática y política con amplia experiencia internacional. Ha representado a México en foros internacionales y trabajado en la construcción de acuerdos nacionales.',
-                    'propuesta' => "MISIÓN:\n\nUnir a todos los sectores de la sociedad para construir un país más justo, competitivo y con oportunidades para todos.\n\nPROPUESTAS PRINCIPALES:\n\n🤝 UNIDAD NACIONAL\n- Diálogo con todos los sectores políticos\n- Construir consensos para reformas necesarias\n- Gobernar para todos los mexicanos\n\n📊 MODERNIZACIÓN\n- Digitalización de servicios gubernamentales\n- Conectividad internet en todo el país\n- Trámites gubernamentales en línea\n\n⚖️ JUSTICIA\n- Reformas al sistema de justicia penal\n- Protección a periodistas y defensores de derechos humanos\n- Acceso a la justicia para víctimas\n\n🌟 EXCELENCIA\n- Mérito y capacidad como criterios de ingreso al servicio público\n- Evaluación constante de servidores públicos\n- Combate a la impunidad"
+                    'biografia' => 'Patricia Rivera es una diplomática con amplia experiencia internacional.',
+                    'propuesta' => "MISIÓN:\n\nUnir a todos los sectores para construir un país más justo y competitivo.\n\nPROPUESTAS PRINCIPALES:\n\n🤝 UNIDAD NACIONAL\n- Diálogo con todos los sectores políticos\n- Construir consensos para reformas\n- Gobernar para todos los mexicanos\n\n📊 MODERNIZACIÓN\n- Digitalización de servicios gubernamentales\n- Conectividad internet en todo el país\n- Trámites en línea"
+                ],
+                5 => [
+                    'nombre' => 'Jorge Ramírez',
+                    'partido' => 'Partido Naranja',
+                    'puesto' => 'Presidente',
+                    'foto' => '/votosecure/img/image.png',
+                    'eslogan' => 'Libertad y prosperidad para todos',
+                    'video' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                    'biografia' => 'Jorge Ramírez es un empresario exitoso que ha fundado múltiples empresas.',
+                    'propuesta' => "MISIÓN:\n\nConstruir un México donde la libertad económica sea el motor del desarrollo.\n\nPROPUESTAS PRINCIPALES:\n\n💰 ECONOMÍA\n- Reducción de impuestos a PYMES\n- Eliminación de trabas burocráticas\n- Zonas francas para inversiones\n\n📈 EMPLEO\n- 2 millones de empleos formales\n- Capacitación vocacional\n- Apoyo a jóvenes emprendedores"
+                ],
+                6 => [
+                    'nombre' => 'Ana Castro',
+                    'partido' => 'Partido Dorado',
+                    'puesto' => 'Presidente',
+                    'foto' => '/votosecure/img/image.png',
+                    'eslogan' => 'Orden, seguridad y prosperidad',
+                    'video' => 'https://www.youtube.com/watch?v=jNQXAC9IVRw',
+                    'biografia' => 'Ana Castro es una exmilitar con carrera en seguridad nacional.',
+                    'propuesta' => "MISIÓN:\n\nRestaurar el orden y la seguridad para que las familias vivan en paz.\n\nPROPUESTAS PRINCIPALES:\n\n🛡️ SEGURIDAD\n- Fortalecer fuerzas armadas\n- Contra el crimen organizado\n- Aumentar penas para delitos graves\n\n⚖️ JUSTICIA\n- Sistema de justicia más ágil\n- Cárceles de alta seguridad\n- Protección a víctimas"
+                ],
+                // GOBERNACIÓN
+                7 => [
+                    'nombre' => 'Laura Hernández',
+                    'partido' => 'Partido Nacional',
+                    'puesto' => 'Gobernador',
+                    'foto' => '/votosecure/img/image.png',
+                    'eslogan' => 'Seguridad y desarrollo para nuestro estado',
+                    'video' => 'https://www.youtube.com/watch?v=kJQP7kiw5Fk',
+                    'biografia' => 'Laura Hernández es una política con experiencia en gestión pública y seguridad.',
+                    'propuesta' => "MISIÓN:\n\nTransformar nuestro estado en referente de desarrollo y seguridad.\n\nPROPUESTAS PRINCIPALES:\n\n🛡️ SEGURIDAD\n- Fortalecer policía estatal\n- Sistemas de vigilancia inteligente\n- Coordinación con federación\n\n🏗️ INFRAESTRUCTURA\n- 500 km de nuevas autopistas\n- Modernizar aeropuertos\n- Ampliar red de agua potable"
+                ],
+                8 => [
+                    'nombre' => 'Miguel Torres',
+                    'partido' => 'Partido Azul',
+                    'puesto' => 'Gobernador',
+                    'foto' => '/votosecure/img/image.png',
+                    'eslogan' => 'Trabajo y desarrollo regional',
+                    'video' => 'https://www.youtube.com/watch?v=kJQP7kiw5Fk',
+                    'biografia' => 'Miguel Torres es un ingeniero agrónomo especializado en desarrollo rural.',
+                    'propuesta' => "MISIÓN:\n\nPromover el desarrollo integral mediante el fortalecimiento del sector agropecuario.\n\nPROPUESTAS PRINCIPALES:\n\n🌾 AGRICULTURA\n- Programas de apoyo al campesino\n- Tecnificación del riego\n- Capacitación agrícola\n\n🐟 PESCA\n- Modernización de flota pesquera\n- Centros de acopio\n- Certificación para exportación"
+                ],
+                9 => [
+                    'nombre' => 'Silvia Meadows',
+                    'partido' => 'Partido Verde',
+                    'puesto' => 'Gobernador',
+                    'foto' => '/votosecure/img/image.png',
+                    'eslogan' => 'Medio ambiente y desarrollo sostenible',
+                    'video' => 'https://www.youtube.com/watch?v=9bZkp7q19f0',
+                    'biografia' => 'Silvia Meadows es una bióloga comprometida con la conservación.',
+                    'propuesta' => "MISIÓN:\n\nConstruir un estado verde donde el desarrollo sea sostenible.\n\nPROPUESTAS PRINCIPALES:\n\n🌳 MEDIO AMBIENTE\n- Proteger áreas naturales\n- Programas de reforestación\n- Economía circular\n\n♻️ SOSTENIBILIDAD\n- Energías renovables\n- Tratamiento de aguas\n- Reciclaje obligatorio"
+                ],
+                // ALCALDÍA
+                10 => [
+                    'nombre' => 'Antonio López',
+                    'partido' => 'Partido Morado',
+                    'puesto' => 'Alcalde',
+                    'foto' => '/votosecure/img/image.png',
+                    'eslogan' => 'Un municipio moderno y seguro',
+                    'video' => 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
+                    'biografia' => 'Antonio López es un empresario local comprometido con el desarrollo comunitario.',
+                    'propuesta' => "MISIÓN:\n\nHacer de nuestro municipio un lugar seguro y próspero.\n\nPROPUESTAS PRINCIPALES:\n\n🏘️ URBANISMO\n- Regeneración de espacios públicos\n- Parques en cada colonia\n- Alumbrado eficiente\n\n🚌 TRANSPORTE\n- Rutas optimizadas\n- Semáforos inteligentes\n- Estacionamientos"
+                ],
+                11 => [
+                    'nombre' => 'Carmen Ruiz',
+                    'partido' => 'Partido Rojo',
+                    'puesto' => 'Alcalde',
+                    'foto' => '/votosecure/img/image.png',
+                    'eslogan' => 'Tu voz en el ayuntamiento',
+                    'video' => 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
+                    'biografia' => 'Carmen Ruiz es una líder comunitaria que trabaja directamente con vecinos.',
+                    'propuesta' => "MISIÓN:\n\nSer la voz de los ciudadanos en el ayuntamiento.\n\nPROPUESTAS PRINCIPALES:\n\n🌳 ESPACIOS PÚBLICOS\n- Nuevos parques y jardines\n- Áreas recreativas\n- Jardines comunitarios\n\n🏀 DEPORTE\n- Canchas deportivas\n- Torneos locales\n- Programas juveniles"
+                ],
+                12 => [
+                    'nombre' => 'Daniel Ortega',
+                    'partido' => 'Partido Naranja',
+                    'puesto' => 'Alcalde',
+                    'foto' => '/votosecure/img/image.png',
+                    'eslogan' => 'Limpieza y orden municipal',
+                    'video' => 'https://www.youtube.com/watch?v=L_jWHffIx5E',
+                    'biografia' => 'Daniel Ortega es un especialista en gestión ambiental.',
+                    'propuesta' => "MISIÓN:\n\nConvertir nuestro municipio en una ciudad limpia y ordenada.\n\nPROPUESTAS PRINCIPALES:\n\n🗑️ RESIDUOS\n- Sistema de reciclaje\n- Recolección separada\n- Plantas de tratamiento\n\n🚛 MOVILIDAD\n- Ciclovías seguras\n- Estaciones de bicicleta\n- Peatonalización"
+                ],
+                13 => [
+                    'nombre' => 'Elena Navarro',
+                    'partido' => 'Partido Dorado',
+                    'puesto' => 'Alcalde',
+                    'foto' => '/votosecure/img/image.png',
+                    'eslogan' => 'Cultura y turismo para todos',
+                    'video' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                    'biografia' => 'Elena Navarro es una historiadora y promotora cultural.',
+                    'propuesta' => "MISIÓN:\n\nPosicionar nuestro municipio como destino turístico y centro cultural.\n\nPROPUESTAS PRINCIPALES:\n\n🏛️ PATRIMONIO\n- Restauración de históricos\n- Rutas turísticas\n- Museos locales\n\n🎭 EVENTOS\n- Festivales culturales\n- Ferias y exposiciones\n- Teatro al aire libre"
                 ]
             ];
 
-            // Obtener datos del candidato o usar el primero por defecto
+            // Obtener datos del candidato
             $candidato = isset($candidatos[$id]) ? $candidatos[$id] : null;
             ?>
 
@@ -121,36 +188,12 @@
                                     <p class="proposal-preview-slogan">"<?= htmlspecialchars($cand['eslogan']) ?>"</p>
                                 <?php endif; ?>
                                 
-                                <!-- Video preview -->
-                                <?php if (!empty($cand['video'])): ?>
-                                    <div class="proposal-preview-video">
-                                        <?php 
-                                        $videoId = '';
-                                        if (strpos($cand['video'], 'youtube') !== false || strpos($cand['video'], 'youtu.be') !== false) {
-                                            if (strpos($cand['video'], 'youtu.be') !== false) {
-                                                $videoId = str_replace('https://youtu.be/', '', $cand['video']);
-                                            } else {
-                                                parse_str(parse_url($cand['video'], PHP_URL_QUERY), $params);
-                                                $videoId = isset($params['v']) ? $params['v'] : '';
-                                            }
-                                        }
-                                        ?>
-                                        <img src="https://img.youtube.com/vi/<?= $videoId ?>/mqdefault.jpg" 
-                                             alt="Video de <?= $cand['nombre'] ?>"
-                                             class="proposal-preview-video-thumb"
-                                             onclick="window.location.href='propuestas.php?id=<?= $key ?>'">
-                                        <div class="proposal-preview-video-overlay">
-                                            <span>▶</span>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                                
                                 <div class="proposal-preview-content">
                                     <h4>Propuesta Principal:</h4>
                                     <p><?= substr($cand['propuesta'], 0, 200) ?>...</p>
                                 </div>
                                 
-                                <a href="propuestas.php?id=<?= $key ?>" class="btn-view-proposal">
+                                <a href="propuesta.php?id=<?= $key ?>" class="btn-view-proposal">
                                     Ver Propuesta Completa →
                                 </a>
                             </div>
@@ -168,31 +211,32 @@
                         <p class="proposal-party"><?= $candidato['partido'] ?></p>
                         <p class="proposal-position">Candidato a: <?= $candidato['puesto'] ?></p>
                         
-                        <!-- Eslogan -->
                         <?php if (!empty($candidato['eslogan'])): ?>
                             <p class="proposal-slogan">"<?= htmlspecialchars($candidato['eslogan']) ?>"</p>
                         <?php endif; ?>
                     </div>
 
                     <div class="proposal-body">
-                        <!-- Video de campaña -->
                         <?php if (!empty($candidato['video'])): ?>
                             <div class="proposal-video">
                                 <?php if (strpos($candidato['video'], 'youtube') !== false || strpos($candidato['video'], 'youtu.be') !== false): ?>
-                                    <iframe src="<?= str_replace('watch?v=', 'embed/', $candidato['video']) ?>" 
+                                    <?php 
+                                    $videoId = '';
+                                    if (strpos($candidato['video'], 'youtu.be') !== false) {
+                                        $videoId = str_replace('https://youtu.be/', '', $candidato['video']);
+                                    } else {
+                                        parse_str(parse_url($candidato['video'], PHP_URL_QUERY), $params);
+                                        $videoId = isset($params['v']) ? $params['v'] : '';
+                                    }
+                                    ?>
+                                    <iframe src="https://www.youtube.com/embed/<?= $videoId ?>" 
                                             frameborder="0" 
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                                             allowfullscreen></iframe>
-                                <?php else: ?>
-                                    <video controls>
-                                        <source src="<?= $candidato['video'] ?>" type="video/mp4">
-                                        Tu navegador no soporta el video.
-                                    </video>
                                 <?php endif; ?>
                             </div>
                         <?php endif; ?>
 
-                        <!-- Biografía -->
                         <?php if (!empty($candidato['biografia'])): ?>
                             <div class="proposal-biography">
                                 <h3>📝 Biografía</h3>
@@ -200,7 +244,6 @@
                             </div>
                         <?php endif; ?>
 
-                        <!-- Propuestas -->
                         <div class="proposal-title-section">
                             <span class="proposal-icon">📋</span>
                             <h2>Propuesta de Campaña</h2>
@@ -231,4 +274,3 @@
 </body>
 
 </html>
-

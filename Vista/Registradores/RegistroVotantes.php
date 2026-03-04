@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$timeout = 300; 
+$timeout = 300;
 
 
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 1) {
@@ -36,6 +36,7 @@ define('BASE_URL', '/VotoSecure');
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/RegistroVotantes.css">
+    <link rel="icon" type="image/x-icon" href="<?= BASE_URL ?>/img/vs.ico">
 </head>
 
 <body class="body">

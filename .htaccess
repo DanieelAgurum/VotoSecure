@@ -6,12 +6,15 @@ RewriteBase /votosecure/
 # = ========================================================
 # ✅ EXCEPCIONES PERMITIDAS (Rutas específicas)
 # = ========================================================
-RewriteRule ^vista/Registradores/?$ vista/Registradores/RegistroVotantes.php [L,QSA,NC]
+RewriteRule ^vista/registradores/?$ vista/Registradores/RegistroVotantes.php [L,QSA,NC]
 RewriteRule ^vista/resultados/?$ vista/resultados.php [L,QSA,NC]
 RewriteRule ^vista/candidatos/?$ vista/candidatos.php [L,QSA,NC]
 RewriteRule ^vista/propuestas/?$ vista/propuestas.php [L,QSA,NC]
 RewriteRule ^vista/resultados/?$ vista/resultados.php [L,QSA,NC]
 RewriteRule ^vista/login/?$ vista/login.php [L,QSA,NC]
+RewriteRule ^vista/admin/votantes/?$ vista/admin/Votantes.php [L,QSA,NC]
+
+
 # = ========================================================
 # 🔒 EVITAR LISTADO DE DIRECTORIOS
 # = ========================================================

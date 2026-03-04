@@ -55,17 +55,17 @@ $correoAdmin = $_SESSION['correo'];
         </div>
     </div>
 </nav>
-
 <aside class="sidebar" id="sidebar">
     <ul class="sidebar-menu">
+
         <li><a href="/VotoSecure/Vista/Admin/index.php"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
         <li><a href="/VotoSecure/Vista/Admin/Votos.php"><i class="bi bi-people"></i> Votantes</a></li>
         <li><a href="/VotoSecure/Vista/Admin/Elecciones.php"><i class="bi bi-calendar-check"></i> Elecciones</a></li>
         <li><a href="/VotoSecure/Vista/Admin/Resultados.php"><i class="bi bi-bar-chart"></i> Resultados</a></li>
         <li><a href="/VotoSecure/Vista/Admin/Partidos.php"><i class="bi bi-building-fill-check"></i> Partidos</a></li>
         <li><a href="/VotoSecure/Vista/Admin/candidatos.php"><i class="bi bi-person-badge"></i> Candidatos</a></li>
-        <li><a href="#/security"><i class="bi bi-lock"></i> Seguridad</a></li>
         <li><a href="/VotoSecure/Vista/Admin/Registros.php"><i class="bi bi-file-earmark-text"></i> Registros</a></li>
         <li><a href="/VotoSecure/Vista/Admin/Reportes.php"><i class="bi bi-printer"></i> Reportes</a></li>
+
     </ul>
 </aside>
