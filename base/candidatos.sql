@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-03-2026 a las 19:48:29
+-- Tiempo de generación: 04-03-2026 a las 07:41:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -38,6 +38,7 @@ CREATE TABLE `candidatos` (
   `distrito` varchar(100) NOT NULL,
   `correo` varchar(150) NOT NULL,
   `telefono` varchar(20) DEFAULT NULL,
+  `foto` varchar(255) DEFAULT NULL,
   `fechaRegistro` timestamp NOT NULL DEFAULT current_timestamp(),
   `estatus` enum('activo','inactivo') DEFAULT 'activo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -46,10 +47,11 @@ CREATE TABLE `candidatos` (
 -- Volcado de datos para la tabla `candidatos`
 --
 
-INSERT INTO `candidatos` (`id`, `nombre`, `apellido`, `id_partido`, `id_tipo`, `cargo`, `distrito`, `correo`, `telefono`, `fechaRegistro`, `estatus`) VALUES
-(32, 'hola', 'qqqq', 9, 4, 'qqqqaa', 'qqq', 'example@example.com', '5555555555', '2026-03-03 07:09:20', 'activo'),
-(33, 'diego', 'sanchez', 9, 4, 'jhajaja', 'nsnsnsn', 'dagb0843@gmail.com', '5555555555', '2026-03-03 17:49:52', 'activo'),
-(35, 'prueba 1', 'lopez', 9, 4, 'qqqqaa', 'qqq', 'sanchezlopezbrian14@gmail.com', '5555555555', '2026-03-03 18:48:13', 'activo');
+INSERT INTO `candidatos` (`id`, `nombre`, `apellido`, `id_partido`, `id_tipo`, `cargo`, `distrito`, `correo`, `telefono`, `foto`, `fechaRegistro`, `estatus`) VALUES
+(40, 'brian', 'qqqq', 9, 4, 'qqqqaa', 'hola', 'diego@example.com', '555555555555', 'candidato_69a7d25401ff7.png', '2026-03-04 06:33:56', 'activo'),
+(41, 'ndoiuduoiw', 'udq', 9, 4, 'inubbcauca', 'qqd', 'brianeesca28@gmail.com', '555555555555', 'candidato_69a7d2fd6a988.jpeg', '2026-03-04 06:36:45', 'activo'),
+(42, 'uqbiucuiuiwbui', 'nibuic', 9, 4, 'wuuidwduwquid', 'niniuo', 'example@example.com', '555555555555', 'candidato_69a7d3884bb5d.png', '2026-03-04 06:39:04', 'activo'),
+(43, 'brian', 'daniel', 9, 4, 'inubbcauca', 'nsnsnsn', 'brianeesca28@gmail.com', '555555555555', 'candidato_69a7d4243ea4e.webp', '2026-03-04 06:41:40', 'activo');
 
 --
 -- Índices para tablas volcadas
@@ -71,7 +73,7 @@ ALTER TABLE `candidatos`
 -- AUTO_INCREMENT de la tabla `candidatos`
 --
 ALTER TABLE `candidatos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- Restricciones para tablas volcadas
