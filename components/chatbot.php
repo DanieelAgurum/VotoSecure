@@ -1,6 +1,8 @@
 <!-- BOTÓN FLOTANTE CHAT -->
-<button id="chatToggle" class="chat-float-btn" data-bs-toggle="tooltip"
-    data-bs-placement="top" title="Asitente virtual">
+<button id="chatToggle" class="chat-float-btn"
+    data-bs-toggle="tooltip" data-bs-placement="top"
+    data-bs-custom-class="custom-tooltip"
+    data-bs-title="Asistente virtual">
     <i class="bi bi-chat-text-fill"></i>
 </button>
 

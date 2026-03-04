@@ -12,9 +12,13 @@ return [
             "buen día"
         ],
         "responses" => [
-            "Hola 👋 Soy el asistente virtual de VotoSecure, ¿En que puedo ayudarte?",
+            "Hola 👋 Soy el asistente virtual de VotoSecure, ¿En qué puedo ayudarte?",
             "¡Hola! Estoy aquí para ayudarte con el proceso de votación.",
             "Bienvenido a VotoSecure 🗳️ ¿En qué puedo ayudarte hoy?"
+        ],
+        "faq" => [
+            "question" => "¿Cómo puedo usar el chatbot?",
+            "answer" => "Simplemente escribe tu pregunta relacionada con la plataforma y te responderé lo antes posible."
         ]
     ],
 
@@ -27,8 +31,12 @@ return [
             "de que trata el sistema"
         ],
         "responses" => [
-            "VotoSecure es una plataforma digital diseñada para gestionar procesos electorales de forma segura, transparente y organizada.",
-            "La plataforma centraliza la información relacionada con los procesos electorales, incluyendo candidatos y sus propuestas."
+            "VotoSecure es una plataforma digital diseñada para gestionar procesos electorales de forma segura y transparente.",
+            "La plataforma centraliza información de elecciones, candidatos y resultados."
+        ],
+        "faq" => [
+            "question" => "¿Qué es VotoSecure?",
+            "answer" => "Es un sistema digital para gestionar elecciones de manera segura, organizada y con verificación biométrica."
         ]
     ],
 
@@ -41,8 +49,11 @@ return [
             "ver elecciones"
         ],
         "responses" => [
-            "Puedes consultar las elecciones activas en el módulo 'Elecciones' del menú principal.",
-            "Dirígete a la sección 'Elecciones' para ver las votaciones disponibles."
+            "Puedes consultar las elecciones activas en el módulo 'Elecciones' del menú principal."
+        ],
+        "faq" => [
+            "question" => "¿Cómo veo las elecciones disponibles?",
+            "answer" => "Ingresa al menú principal y selecciona el módulo 'Elecciones' para consultar las votaciones activas."
         ]
     ],
 
@@ -55,13 +66,16 @@ return [
             "quien esta en la eleccion"
         ],
         "responses" => [
-            "Dentro de cada elección puedes consultar la lista completa de candidatos.",
-            "En el apartado 'Candidatos' podrás ver la información de cada participante."
+            "Dentro de cada elección puedes consultar la lista completa de candidatos."
+        ],
+        "faq" => [
+            "question" => "¿Dónde puedo ver los candidatos?",
+            "answer" => "Selecciona una elección y entra al apartado 'Candidatos' para ver la información de cada participante."
         ]
     ],
 
     "propuestas" => [
-        "description" => "Consultar propuestas de los candidatos",
+        "description" => "Consultar propuestas de candidatos",
         "examples" => [
             "propuestas",
             "que propone el candidato",
@@ -69,28 +83,16 @@ return [
             "ver propuesta"
         ],
         "responses" => [
-            "Selecciona un candidato y haz clic en 'Ver Propuesta' para conocer su plan de trabajo.",
-            "Las propuestas están disponibles en el perfil de cada partido o candidato."
-        ]
-    ],
-
-    "proceso_tarjeta" => [
-        "description" => "Proceso para obtener la tarjeta de registro",
-        "examples" => [
-            "como obtengo mi tarjeta",
-            "tramitar tarjeta",
-            "donde saco mi tarjeta",
-            "como consigo mi tarjeta de registro",
-            "proceso para obtener tarjeta"
+            "Selecciona un candidato y haz clic en 'Ver Propuesta' para conocer su plan de trabajo."
         ],
-        "responses" => [
-            "Para obtener tu tarjeta de registro, debes acudir al módulo de registro autorizado, proporcionar tus datos personales y realizar el registro biométrico correspondiente.",
-            "La tarjeta de registro se tramita previamente a la jornada electoral. Deberás completar tu registro, validar tu identidad y realizar la captura de tu huella digital."
+        "faq" => [
+            "question" => "¿Cómo veo las propuestas?",
+            "answer" => "En el perfil del candidato encontrarás su plan de trabajo y propuestas detalladas."
         ]
     ],
 
     "como_votar" => [
-        "description" => "Explicación del proceso de votación",
+        "description" => "Proceso para emitir voto",
         "examples" => [
             "como votar",
             "proceso de votacion",
@@ -98,26 +100,32 @@ return [
             "como funciona el voto"
         ],
         "responses" => [
-            "El día oficial de la elección deberás acudir al centro de votación con tu tarjeta de registro, la cual te dará acceso a la casilla correspondiente. Posteriormente, selecciona al candidato de tu preferencia y confirma tu voto mediante la verificación de tu huella digital.",
-            "Para votar, el día de la elección preséntate en el centro de votación con tu tarjeta de registro. Una vez dentro de la casilla, elige al candidato y autentícate con tu huella digital para emitir tu voto."
+            "El día de la elección debes acudir al centro asignado con tu tarjeta de registro, seleccionar tu candidato y confirmar con tu huella digital."
+        ],
+        "faq" => [
+            "question" => "¿Cuál es el proceso para votar?",
+            "answer" => "Presenta tu tarjeta de registro, accede a la casilla asignada, elige tu candidato y valida tu voto con tu huella digital."
         ]
     ],
 
     "donde_votar" => [
-        "description" => "Información sobre dónde votar",
+        "description" => "Información sobre centro de votación",
         "examples" => [
             "donde votar",
             "donde emito mi voto",
             "en que seccion voto"
         ],
         "responses" => [
-            "Debes acudir al centro de votación que te fue asignado según tu sección electoral. Tu tarjeta de registro indicará la sección correspondiente y te permitirá acceder a la casilla.",
-            "La votación se realiza de manera presencial en el centro asignado a tu sección. Presenta tu tarjeta de registro para ingresar a la casilla correspondiente."
+            "Debes acudir al centro de votación asignado según tu sección electoral."
+        ],
+        "faq" => [
+            "question" => "¿Dónde debo votar?",
+            "answer" => "En el centro correspondiente a tu sección electoral, indicado en tu tarjeta de registro."
         ]
     ],
 
     "resultados" => [
-        "description" => "Consultar resultados de elecciones",
+        "description" => "Consultar resultados",
         "examples" => [
             "resultados",
             "quien gano",
@@ -125,13 +133,16 @@ return [
             "ver resultados"
         ],
         "responses" => [
-            "Los resultados se publican en tiempo real dentro de VotoSecure, mostrando el conteo por sección y por candidato.",
-            "Puedes consultar los resultados en la plataforma durante la jornada electoral, donde se actualizan en tiempo real por sección y candidato."
+            "Los resultados se publican en tiempo real dentro de la plataforma."
+        ],
+        "faq" => [
+            "question" => "¿Cómo consulto los resultados?",
+            "answer" => "En el módulo 'Resultados' podrás ver el conteo en tiempo real por sección y candidato."
         ]
     ],
 
     "seguridad" => [
-        "description" => "Información sobre la seguridad del sistema",
+        "description" => "Seguridad del sistema",
         "examples" => [
             "es seguro votar aqui",
             "mi voto es anonimo",
@@ -139,22 +150,11 @@ return [
             "mi informacion esta protegida"
         ],
         "responses" => [
-            "VotoSecure garantiza la confidencialidad del voto mediante autenticación biométrica con huella digital y validación mediante tarjeta de registro.",
-            "El sistema protege la identidad del votante y asegura la integridad del proceso electoral mediante mecanismos de verificación y control por sección."
-        ]
-    ],
-
-    "ayuda_faq" => [
-        "description" => "Preguntas frecuentes y ayuda",
-        "examples" => [
-            "preguntas frecuentes",
-            "ayuda",
-            "tengo dudas",
-            "faq"
+            "VotoSecure protege la identidad del votante mediante autenticación biométrica y validación por tarjeta."
         ],
-        "responses" => [
-            "Puedes consultar la sección 'Ayuda' donde encontrarás preguntas frecuentes.",
-            "En el módulo 'Ayuda' están disponibles respuestas a las dudas más comunes."
+        "faq" => [
+            "question" => "¿Mi voto es seguro y anónimo?",
+            "answer" => "Sí, el sistema utiliza autenticación biométrica y mecanismos de seguridad que garantizan confidencialidad e integridad."
         ]
     ],
 
@@ -164,12 +164,10 @@ return [
             "error en la pagina",
             "no carga",
             "tengo un problema",
-            "fallo del sistema",
-            "no puedo votar"
+            "fallo del sistema"
         ],
         "responses" => [
-            "Si presentas un inconveniente con la verificación de huella digital o la validación de tu tarjeta de registro, informa al personal autorizado en el centro de votación.",
-            "Ante cualquier falla técnica en el sistema o en la visualización de resultados, notifica al administrador o responsable del proceso electoral."
+            "Si presentas un inconveniente técnico, informa al personal autorizado o administrador del sistema."
         ]
     ],
 
@@ -183,16 +181,20 @@ return [
         ],
         "responses" => [
             "¡Con gusto! 😊 Estoy aquí para ayudarte cuando lo necesites.",
-            "Gracias por utilizar VotoSecure. Estamos para apoyarte en lo que necesites."
+            "Gracias por utilizar VotoSecure."
         ]
     ],
 
     "fuera_de_contexto" => [
         "description" => "Preguntas fuera del sistema",
+        "examples" => [],
         "responses" => [
-            "Solo puedo ayudarte con información relacionada con la plataforma VotoSecure y el proceso electoral.",
-            "Puedo asistirte con dudas sobre elecciones, candidatos, resultados y funcionamiento del sistema VotoSecure."
+            "Solo puedo ayudarte con información relacionada con la plataforma VotoSecure.",
+            "Puedo asistirte con dudas sobre elecciones, candidatos y resultados."
+        ],
+        "faq" => [
+            "question" => "¿Sobre qué temas puede ayudar el chatbot?",
+            "answer" => "El asistente solo responde preguntas relacionadas con VotoSecure y el proceso electoral."
         ]
     ]
-
 ];
