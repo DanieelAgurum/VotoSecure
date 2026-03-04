@@ -1,4 +1,4 @@
-/* ============================= */
+ /* ============================= */
 /* SIDEBAR */
 /* ============================= */
 .sidebar {
@@ -70,14 +70,38 @@
 }
 
 /* ============================= */
-/* MODAL */
+/* MODAL CANDIDATOS */
 /* ============================= */
-.modal {
+.modal-candidato {
     z-index: 3000 !important;
 }
 
-.modal-backdrop {
+.modal-candidato .modal-backdrop {
     z-index: 2999 !important;
+}
+
+.modal-candidato .modal-body {
+    padding: 25px;
+}
+
+.modal-candidato .mb-3 {
+    margin-bottom: 20px !important;
+}
+
+.modal-candidato .preview-foto {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 3px solid #dee2e6;
+    border-radius: 50%;
+}
+
+.modal-candidato .foto-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
 
 /* ============================= */
