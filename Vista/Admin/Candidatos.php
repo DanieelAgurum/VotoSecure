@@ -2,12 +2,19 @@
 session_start();
 
 require_once("../../Modelo/candidatosMdl.php");
-require_once(__DIR__ . "/../../Controlador/candidatosCtrl.php");
 
 // Verificar sesión
 if (!isset($_SESSION['id']) || $_SESSION['rol'] != 2) {
     header('Location: /VotoSecure/Vista/login.php');
     exit();
+}
+
+// Función para generar token CSRF
+function generarTokenCSRF() {
+    if (!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
 }
 
 // Generar token CSRF
@@ -79,9 +86,15 @@ $tiposEleccion = $candidato->obtenerTiposEleccion();
                             <tr>
                                 <td>
                                     <?php if(!empty($row['foto'])): ?>
-                                        <img src="../../img/candidatos/<?= htmlspecialchars($row['foto']) ?>" 
-                                             alt="Foto" class="rounded-circle" 
-                                             style="width: 50px; height: 50px; object-fit: cover;">
+                                        <?php if(strpos($row['foto'], 'data:') === 0): ?>
+                                            <img src="<?= htmlspecialchars($row['foto']) ?>" 
+                                                 alt="Foto" class="rounded-circle" 
+                                                 style="width: 50px; height: 50px; object-fit: cover;">
+                                        <?php else: ?>
+                                            <img src="../../img/candidatos/<?= htmlspecialchars($row['foto']) ?>" 
+                                                 alt="Foto" class="rounded-circle" 
+                                                 style="width: 50px; height: 50px; object-fit: cover;">
+                                        <?php endif; ?>
                                     <?php else: ?>
                                         <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center" 
                                              style="width: 50px; height: 50px;">
@@ -269,6 +282,16 @@ $tiposEleccion = $candidato->obtenerTiposEleccion();
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../../js/dash.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- CSS para que SweetAlert aparezca sobre el modal -->
+<style>
+.swal2-container {
+    z-index: 9999 !important;
+}
+.swal2-backdrop-show {
+    z-index: 9998 !important;
+}
+</style>
 
 <!-- Guardar candidato con AJAX -->
 <script>

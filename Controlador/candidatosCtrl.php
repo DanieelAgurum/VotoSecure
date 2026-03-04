@@ -5,6 +5,13 @@ error_reporting(E_ALL);
 
 require_once(__DIR__ . "/../Modelo/candidatosMdl.php");
 
+// Función para responder con JSON
+function respuestaJSON($data) {
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($data);
+    exit;
+}
+
 // Generar token CSRF
 function generarTokenCSRF() {
     if (session_status() === PHP_SESSION_NONE) {
@@ -29,22 +36,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Verificar token CSRF
     if (!isset($_POST['csrf_token']) || !validarTokenCSRF($_POST['csrf_token'])) {
-        echo json_encode(['success' => false, 'error' => 'Token inválido']);
-        exit;
+        respuestaJSON(['success' => false, 'error' => 'Token inválido']);
     }
 
     // Verificar acción
     if (!isset($_POST['accion']) || $_POST['accion'] !== 'guardar') {
-        echo json_encode(['success' => false, 'error' => 'Acción inválida']);
-        exit;
+        respuestaJSON(['success' => false, 'error' => 'Acción inválida']);
     }
 
     // Validar campos requeridos
     $camposRequeridos = ['nombre', 'apellido', 'id_partido', 'id_tipo', 'cargo', 'distrito', 'correo'];
     foreach ($camposRequeridos as $campo) {
         if (!isset($_POST[$campo]) || empty(trim($_POST[$campo]))) {
-            echo json_encode(['success' => false, 'error' => "El campo $campo es requerido"]);
-            exit;
+            respuestaJSON(['success' => false, 'error' => "El campo $campo es requerido"]);
         }
     }
 
@@ -63,13 +67,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validar id_partido e id_tipo
     if ($datos['id_partido'] <= 0 || $datos['id_tipo'] <= 0) {
-        echo json_encode(['success' => false, 'error' => 'Partido o tipo inválido']);
-        exit;
+        respuestaJSON(['success' => false, 'error' => 'Partido o tipo inválido']);
     }
 
-    // Procesar foto
+    // Procesar foto - verificar que sea un array válido
     $file = null;
-    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+    if (isset($_FILES['foto']) && is_array($_FILES['foto']) && !empty($_FILES['foto']['name']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
         $file = $_FILES['foto'];
     }
 
@@ -77,8 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $candidato = new Candidato();
     $resultado = $candidato->guardar($datos, $file);
 
-    echo json_encode($resultado);
-    exit;
+    respuestaJSON($resultado);
 }
 
 // Manejar solicitud GET - Eliminar candidato
@@ -87,13 +89,15 @@ if (isset($_GET['eliminar'])) {
     $id = (int)$_GET['eliminar'];
     
     if ($id <= 0) {
-        echo json_encode(['success' => false, 'error' => 'ID inválido']);
-        exit;
+        respuestaJSON(['success' => false, 'error' => 'ID inválido']);
     }
 
     $candidato = new Candidato();
     $resultado = $candidato->eliminar($id);
 
-    echo json_encode($resultado);
-    exit;
+    respuestaJSON($resultado);
 }
+
+// Si no es POST ni GET con eliminar, no hacer nada
+exit;
+

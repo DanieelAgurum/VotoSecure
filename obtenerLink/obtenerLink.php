@@ -1,24 +1,18 @@
-<?php
-function getBaseUrl($folder = 'VotoSecure')
-{
+<?php 
+function getBaseUrl($folder = 'votosecure') {
+
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
     $host = $_SERVER['HTTP_HOST'];
-    $uri = $_SERVER['REQUEST_URI'];
+    $scriptName = $_SERVER['SCRIPT_NAME'];
 
-    // Buscar insensible a mayúsculas
-    $pos = stripos($uri, '/' . $folder);
+    // Buscar la carpeta del proyecto sin importar mayúsculas
+    $pos = stripos($scriptName, '/' . $folder);
+
     if ($pos !== false) {
-        // Extraer la ruta hasta la carpeta, sin importar mayúsculas
-        $basePath = substr($uri, 0, $pos + strlen($folder) + 1);
-
-        // Asegurar que termine con '/'
-        if (substr($basePath, -1) !== '/') {
-            $basePath .= '/';
-        }
-
+        $basePath = substr($scriptName, 0, $pos + strlen($folder) + 1);
         return $protocol . '://' . $host . $basePath;
-    } else {
-        return $protocol . '://' . $host . '/';
     }
+
+    return $protocol . '://' . $host . '/';
 }
 ?>
