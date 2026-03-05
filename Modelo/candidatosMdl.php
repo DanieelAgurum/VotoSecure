@@ -266,4 +266,166 @@ class Candidato {
             ];
         }
     }
+
+    public function obtenerPorId($id) {
+        try {
+            if (empty($id) || !is_numeric($id)) {
+                return [
+                    'success' => false,
+                    'error' => 'ID de candidato inválido'
+                ];
+            }
+
+            $conexion = (new Conexion())->conectar();
+
+            if ($conexion === null) {
+                return [
+                    'success' => false,
+                    'error' => 'Error de conexión a la base de datos'
+                ];
+            }
+
+            $sql = "SELECT c.*, 
+                           p.nombre_partido AS partido_nombre, 
+                           t.nombre_tipo AS tipo_nombre
+                    FROM candidatos c
+                    INNER JOIN partidos p ON c.id_partido = p.id_partido
+                    INNER JOIN tipos_eleccion t ON c.id_tipo = t.id_tipo
+                    WHERE c.id = :id";
+
+            $stmt = $conexion->prepare($sql);
+            $stmt->execute([':id' => $id]);
+            
+            $candidato = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($candidato) {
+                return [
+                    'success' => true,
+                    'candidato' => $candidato
+                ];
+            }
+
+            return [
+                'success' => false,
+                'error' => 'Candidato no encontrado'
+            ];
+
+        } catch (PDOException $e) {
+            error_log("Error en obtenerPorId: " . $e->getMessage());
+            return [
+                'success' => false,
+                'error' => 'Error de base de datos'
+            ];
+        } catch (Exception $e) {
+            error_log("Error en obtenerPorId: " . $e->getMessage());
+            return [
+                'success' => false,
+                'error' => 'Error al obtener el candidato'
+            ];
+        }
+    }
+
+    public function modificar($datos, $file = null) {
+        try {
+            $errores = $this->validarDatos($datos);
+            if (!empty($errores)) {
+                return [
+                    'success' => false,
+                    'error' => implode(", ", $errores)
+                ];
+            }
+
+            // Si hay una nueva foto, procesarla; si no, mantener la existente
+            $foto = null;
+            if ($file !== null) {
+                $foto = $this->procesarFoto($file);
+            }
+
+            $conexion = (new Conexion())->conectar();
+            
+            if ($conexion === null) {
+                return [
+                    'success' => false,
+                    'error' => 'Error de conexión a la base de datos'
+                ];
+            }
+            
+            // Si hay nueva foto, actualizar foto; si no, mantener la actual
+            if ($foto !== null) {
+                $sql = "UPDATE candidatos
+                        SET nombre = :nombre, 
+                            apellido = :apellido, 
+                            id_partido = :id_partido, 
+                            id_tipo = :id_tipo, 
+                            cargo = :cargo, 
+                            distrito = :distrito, 
+                            correo = :correo, 
+                            telefono = :telefono, 
+                            foto = :foto, 
+                            estatus = :estatus
+                        WHERE id = :id";
+            } else {
+                $sql = "UPDATE candidatos
+                        SET nombre = :nombre, 
+                            apellido = :apellido, 
+                            id_partido = :id_partido, 
+                            id_tipo = :id_tipo, 
+                            cargo = :cargo, 
+                            distrito = :distrito, 
+                            correo = :correo, 
+                            telefono = :telefono, 
+                            estatus = :estatus
+                        WHERE id = :id";
+            }
+
+            $stmt = $conexion->prepare($sql);
+            
+            $params = [
+                ':id' => $datos['id'],
+                ':nombre' => trim($datos['nombre']),
+                ':apellido' => trim($datos['apellido']),
+                ':id_partido' => (int)$datos['id_partido'],
+                ':id_tipo' => (int)$datos['id_tipo'],
+                ':cargo' => trim($datos['cargo']),
+                ':distrito' => trim($datos['distrito']),
+                ':correo' => trim($datos['correo']),
+                ':telefono' => trim($datos['telefono']),
+                ':estatus' => $datos['estatus'] === 'inactivo' ? 'inactivo' : 'activo'
+            ];
+
+            if ($foto !== null) {
+                $params[':foto'] = $foto;
+            }
+
+            $resultado = $stmt->execute($params);
+
+            if ($resultado) {
+                // Obtener el candidato actualizado
+                $candidatoActualizado = $this->obtenerPorId($datos['id']);
+                return [
+                    'success' => true,
+                    'message' => 'Candidato actualizado correctamente',
+                    'candidato' => $candidatoActualizado['candidato']
+                ];
+            }
+
+            return [
+                'success' => false,
+                'error' => 'Error al actualizar el candidato'
+            ];
+
+        } catch (PDOException $e) {
+            error_log("Error en modificar candidato: " . $e->getMessage());
+            return [
+                'success' => false,
+                'error' => 'Error de base de datos'
+            ];
+        } catch (Exception $e) {
+            error_log("Error en modificar candidato: " . $e->getMessage());
+            return [
+                'success' => false,
+                'error' => $e->getMessage()
+            ];
+        }
+    }
 }
