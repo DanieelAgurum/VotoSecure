@@ -3,7 +3,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Solo iniciar sesión si no hay una sesión activa
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -15,7 +14,6 @@ if (!isset($_SESSION['id']) || $_SESSION['rol'] != 2) {
 
 define('BASE_URL', '/VotoSecure');
 
-// Cargar los votantes
 require_once __DIR__ . '/../../Controlador/votentesCtrl.php';
 $votantesCtrl = new VotantesCtrl();
 $votantes = $votantesCtrl->obtenerTodos();
