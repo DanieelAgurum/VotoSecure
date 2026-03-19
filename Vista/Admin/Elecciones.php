@@ -32,6 +32,7 @@ $municipios = $modelo->obtenerMunicipiosPorEstado(isset($_GET['id_estado']) ? $_
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="../../css/dash.css">
+    <link rel="stylesheet" href="../../css/admin.css">
 </head>
 
 <body>
@@ -53,7 +54,7 @@ $municipios = $modelo->obtenerMunicipiosPorEstado(isset($_GET['id_estado']) ? $_
                         data-bs-target="#modalAgregarEleccion">
                         Agregar <i class="fa-solid fa-circle-plus"></i>
                     </button>
-                    <div class="container mt-3" style="max-width: 600px;">
+                    <div class="container mt-3">
                         <?php
                         if (!empty($_SESSION["errores"])) {
                             foreach ($_SESSION["errores"] as $error) {
