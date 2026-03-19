@@ -5,7 +5,7 @@ $timeout = 300;
 
 
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 1) {
-    header('Location: ../login.php');
+    header('Location: ../login');
     exit;
 }
 

@@ -41,7 +41,7 @@ $tiposEleccion = $candidato->obtenerTiposEleccion();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../../css/admin.css">
     <link rel="stylesheet" href="../../css/dash.css">
-    <link rel="stylesheet" href="../../css/CandidatosAd.css">
+    <link rel="stylesheet" href="/votosecure/css/CandidatosAd.css">
 </head>
 
 <body>

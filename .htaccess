@@ -23,6 +23,9 @@ RewriteRule ^vista/admin/candidatos/?$ vista/admin/Candidatos.php [L,QSA,NC]
 RewriteRule ^vista/admin/registros/?$ vista/admin/Registros.php [L,QSA,NC]
 RewriteRule ^vista/admin/reportes/?$ vista/admin/Reportes.php [L,QSA,NC]
 
+#Votantes
+RewriteRule ^vista/votantes/?$ vista/votantes/Plantilla.php [L,QSA,NC]
+
 # = ========================================================
 # 🔒 EVITAR LISTADO DE DIRECTORIOS
 # = ========================================================

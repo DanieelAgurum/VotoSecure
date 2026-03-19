@@ -36,6 +36,7 @@ $votantes = $votantesCtrl->obtenerTodos();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/admin.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/dash.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/CandidatosAd.css">
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -55,7 +56,7 @@ $votantes = $votantesCtrl->obtenerTodos();
                         </div>
                         <button class="btn btn-primary" id="btnConectarESP32">
                             <i class="bi bi-wifi"></i> Conectar ESP32
-                       x </button>
+                            x </button>
                     </div>
                 </div>
             </div>
@@ -160,7 +161,7 @@ $votantes = $votantesCtrl->obtenerTodos();
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
-<?php else: ?>
+                                <?php else: ?>
                                     <!-- DataTables mostrará automáticamente el mensaje de tabla vacía -->
                                 <?php endif; ?>
                             </tbody>

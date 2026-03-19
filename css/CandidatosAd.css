@@ -162,3 +162,395 @@
          height: 120px;
      }
  }
+
+
+
+/* STAT CARDS */
+.stat-card {
+    background: rgba(248, 250, 252, 0.95);
+    border-radius: 14px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(15, 23, 42, 0.12);
+    transition: all 0.3s ease;
+    border-left: 5px solid var(--accent);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.18);
+}
+
+.stat-card.success {
+    border-left-color: var(--success);
+}
+
+.stat-card.danger {
+    border-left-color: var(--danger);
+}
+
+.stat-card.warning {
+    border-left-color: var(--warning);
+}
+
+.stat-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 10px 0;
+}
+
+.stat-label {
+    color: var(--text-dark);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.stat-icon {
+    font-size: 24px;
+    opacity: 0.3;
+    color: var(--primary);
+}
+
+/* CHARTS */
+.chart-container {
+    background: rgba(248, 250, 252, 0.95);
+    border-radius: 14px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(15, 23, 42, 0.12);
+}
+
+.chart-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+ .sidebar {
+    height: calc(100vh - 70px);
+    top: 70px;
+}
+
+    .sidebar .logo span {
+        display: none;
+    }
+
+    .nav-link span {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 70px;
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .user-profile {
+        font-size: 12px;
+    }
+
+    .dashboard-title {
+        margin-top: 40px;
+        padding-left: 10px;
+    }
+}
+
+
+/* ===== VOTANTES.PHP ===== */
+/* Estado de conexión ESP32 */
+.esp32-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.esp32-status.connected {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.esp32-status.disconnected {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.esp32-status.connecting {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.esp32-status .pulse {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+.esp32-status.connected .pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 currentColor;
+    }
+    70% {
+        box-shadow: 0 0 0 6px transparent;
+    }
+    100% {
+        box-shadow: 0 0 0 0 transparent;
+    }
+}
+
+.btn-action {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.badge-huella {
+    background-color: #6366f1;
+}
+
+.badge-nfc {
+    background-color: #ec4899;
+}
+
+/* ===== MODALES VOTANTES.PHP ===== */
+/* Estilos mejorados para los modales de votantes */
+
+/* Modal Header */
+.modal-header.bg-warning {
+    background: linear-gradient(135deg, #f59e0b, #fbbf24) !important;
+    color: #1f2937;
+}
+
+.modal-header.bg-primary {
+    background: linear-gradient(135deg, #0d6efd, #3d8bfd) !important;
+}
+
+.modal-header.bg-danger {
+    background: linear-gradient(135deg, #dc3545, #e4606d) !important;
+}
+
+/* Modal Body */
+.modalEditarVotante .modal-body {
+    padding: 1.5rem;
+    background-color: #f8fafc;
+}
+
+.modalEditarVotante .modal-body h6 {
+    font-weight: 600;
+    color: #475569;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.modalEditarVotante .form-label {
+    font-weight: 500;
+    color: #374151;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+.modalEditarVotante .form-control,
+.modalEditarVotante .form-select {
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.modalEditarVotante .form-control:focus,
+.modalEditarVotante .form-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Modal Footer */
+.modalEditarVotante .modal-footer {
+    background-color: #f1f5f9;
+    border-top: 1px solid #e2e8f0;
+    padding: 1rem 1.5rem;
+}
+
+/* Botones del modal */
+.modal-footer .btn {
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.modal-footer .btn-warning:hover {
+    background-color: #d97706;
+    border-color: #d97706;
+}
+
+.modal-footer .btn-secondary:hover {
+    background-color: #6b7280;
+    border-color: #6b7280;
+}
+
+/* Spinner en modales */
+.modal-body .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.25rem;
+}
+
+/* Campos requeridos */
+.modalEditarVotante .form-label::after {
+    content: " *";
+    color: #dc2626;
+}
+
+/* Campos deshabilitados con estilo */
+.modalEditarVotante .form-control:disabled {
+    background-color: #e5e7eb;
+    color: #6b7280;
+}
+
+/* ===== MODALES GENERALES ===== */
+/* Fix para modales que aparezcan sobre el navbar sticky */
+.modal-dialog {
+    z-index: 2001 !important;
+}
+
+/* Asegurar que el modal se muestre sobre el navbar sticky-top */
+.navbar.sticky-top,
+.navbar-admin.sticky-top {
+    z-index: 1100 !important;
+}
+
+/* Sobrescribir Bootstrap modal para que funcione con navbar sticky */
+body.modal-open {
+    overflow: auto !important;
+}
+
+.modal.show {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Fix específico para Bootstrap 5 modales con sticky-top navbar */
+.modal.fade.show {
+    z-index: 2050 !important;
+}
+
+.modal-backdrop.fade.show {
+    z-index: 2049 !important;
+}
+
+/* Estilos generales del modal */
+.modal-content {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.modal-header {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 1rem 1.5rem;
+}
+
+.modal-header .modal-title {
+    font-weight: 600;
+    font-size: 1.125rem;
+}
+
+.modal-header .btn-close {
+    padding: 0.5rem;
+    margin: -0.5rem -0.5rem -0.5rem auto;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    border-top: 1px solid #e5e7eb;
+    padding: 1rem 1.5rem;
+}
+
+/* Loading Modal */
+#modalLoading .modal-content {
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+#modalLoading .modal-body {
+    background-color: transparent;
+    padding: 2rem;
+}
+
+/* Toast notifications */
+.toast-container {
+    z-index: 99999 !important;
+}
+
+/* ===== ALERTAS BOOTSTRAP ===== */
+.alert {
+    position: relative;
+    z-index: 9999 !important;
+    border-radius: 0.5rem;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    animation: slideInAlert 0.3s ease-out;
+}
+
+@keyframes slideInAlert {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #10b981, #34d399);
+    color: #064e3b;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #ef4444, #f87171);
+    color: #7f1d1d;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    color: #78350f;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    color: #1e3a8a;
+}
+
+.alert .btn-close {
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.alert .btn-close:hover {
+    opacity: 1;
+}
