@@ -1,0 +1,410 @@
+/* BoletaPlantilla.css - Estilos para boleta de votación */
+/* Basado en paleta de estilos.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #0F172A;
+    --secondary: #1E293B;
+    --accent: #22D3EE;
+    --bg-light: #F1F5F9;
+    --bg-soft: #E2E8F0;
+    --text-dark: #334155;
+    --text-light: #F8FAFC;
+    --success: #22C55E;
+    --danger: #EF4444;
+    --warning: #F59E0B;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-light);
+    min-height: 100vh;
+    color: var(--text-dark);
+    padding-top: 0 !important;
+}
+
+/* Sin contenedor blanco - limpio como candidatos.php */
+.boleta-container {
+    padding: 40px 20px 60px;
+    min-height: calc(100vh - 200px);
+}
+
+.candidates-section {
+    padding: 40px 20px 60px;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.header-boleta {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: var(--text-light);
+    padding: 2rem;
+    text-align: center;
+}
+
+.header-boleta h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    color: white !important;
+}
+
+.header-boleta p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.instrucciones {
+    background: var(--bg-soft);
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.instrucciones ul {
+    list-style: none;
+    padding: 0;
+}
+
+.instrucciones li {
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 1rem;
+}
+
+.instrucciones li::before {
+    content: "✓";
+    color: var(--success);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.puesto-section {
+    padding: 2rem;
+    border-bottom: 1px solid var(--bg-soft);
+}
+
+.puesto-section:last-child {
+    border-bottom: none;
+}
+
+.puesto-titulo {
+    background: linear-gradient(135deg, var(--accent) 0%, #06B6D4 100%);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.puesto-titulo::before {
+    content: "📋";
+    font-size: 1.3rem;
+}
+
+.candidatos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.candidato-option {
+    border: none;
+    border-radius: 16px;
+    background-color: white;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.candidato-option .card-body {
+    padding: 24px 20px;
+}
+
+.candidato-option:hover {
+    border-color: var(--accent);
+    box-shadow: 0 8px 25px rgba(34, 211, 238, 0.15);
+    transform: translateY(-2px);
+}
+
+.candidato-option.selected {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%);
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.2);
+}
+
+.radio-input {
+    width: 22px;
+    height: 22px;
+    accent-color: var(--accent);
+    cursor: pointer;
+    transform: scale(1.2);
+    margin: 0;
+}
+
+.foto-candidato {
+    width: 65px;
+    height: 65px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 3px solid var(--bg-soft);
+    transition: border-color 0.3s ease;
+}
+
+.candidato-option:hover .foto-candidato,
+.candidato-option.selected .foto-candidato {
+    border-color: var(--accent);
+}
+
+.info-candidato {
+    flex: 1;
+    min-width: 0;
+}
+
+.nombre-candidato {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 0.3rem;
+    line-height: 1.3;
+}
+
+.cargo-partido {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.4rem;
+}
+
+.partido-badge {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: var(--text-light);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.btn-votar {
+    background: linear-gradient(135deg, var(--accent) 0%, #06B6D4 100%);
+    color: white !important;
+    border: none;
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 10px;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 2rem auto 1rem;
+    display: block;
+    max-width: 300px;
+    box-shadow: 0 6px 20px rgba(34, 211, 238, 0.3);
+}
+
+.btn-votar:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(34, 211, 238, 0.4);
+}
+
+.btn-votar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.footer-boleta {
+    background: var(--bg-soft);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    border-top: 1px solid #E2E8F0;
+}
+
+.alert-warning {
+    background: #FEF3C7;
+    border: 1px solid var(--warning);
+    color: #92400E;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.no-candidatos {
+    width: 100%;
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 5rem 3rem;
+    color: var(--text-dark);
+    background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-soft) 100%);
+    border-radius: 16px;
+    border: 2px dashed var(--accent);
+    margin: 1rem 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.no-candidatos i {
+    font-size: 5rem;
+    color: var(--accent);
+    opacity: 0.4;
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+/* Modal Huella */
+.huella-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.huella-modal.active {
+    display: flex;
+}
+
+.huella-content {
+    background: white;
+    padding: 3rem;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    animation: modalSlide 0.3s ease;
+}
+
+@keyframes modalSlide {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.huella-icon {
+    font-size: 5rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.huella-titulo {
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.huella-texto {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.btn-cerrar {
+    background: var(--danger);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .boleta-container {
+        margin: 0;
+        border-radius: 12px;
+    }
+    
+    .header-boleta h1 {
+        font-size: 1.8rem;
+    }
+    
+    .candidatos-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .candidato-option {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.8rem;
+    }
+    
+    .foto-candidato {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .puesto-section {
+        padding: 1.5rem;
+    }
+    
+    .btn-votar {
+        margin: 1.5rem 1rem;
+        padding: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-boleta,
+    .instrucciones,
+    .puesto-section {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    
+    .huella-content {
+        padding: 2rem;
+        margin: 1rem;
+    }
+}
