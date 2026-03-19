@@ -21,6 +21,9 @@ class EleccionesCtrl
         $fecha_inicio = $_POST["fecha_inicio"];
         $fecha_fin = $_POST["fecha_fin"];
 
+        $id_estado = $_POST["id_estado"] ?? null;
+        $id_municipio = $_POST["id_municipio"] ?? null;
+
         $errores = [];
         $ahora = date("Y-m-d H:i:s");
 
@@ -48,13 +51,34 @@ class EleccionesCtrl
             $errores[] = "Ya existe una elección de este tipo en ese rango de fechas.";
         }
 
+        if ($id_tipo == 2 && empty($id_estado)) {
+            $errores[] = "Debe seleccionar un estado para elección estatal.";
+        }
+
+        if ($id_tipo == 3) {
+            if (empty($id_estado)) {
+                $errores[] = "Debe seleccionar un estado.";
+            }
+            if (empty($id_municipio)) {
+                $errores[] = "Debe seleccionar un municipio.";
+            }
+        }
+
         if (!empty($errores)) {
             $_SESSION["errores"] = $errores;
             header("Location: ../Vista/admin/elecciones.php");
             exit;
         }
 
-        if ($this->modelo->crear($nombre, $descripcion, $id_tipo, $fecha_inicio, $fecha_fin)) {
+        if ($this->modelo->crear(
+            $nombre,
+            $descripcion,
+            $id_tipo,
+            $fecha_inicio,
+            $fecha_fin,
+            $id_estado,
+            $id_municipio
+        )) {
             $_SESSION["success"] = "Elección registrada correctamente.";
         } else {
             $_SESSION["errores"] = ["Error al registrar la elección."];
@@ -72,6 +96,9 @@ class EleccionesCtrl
         $id_tipo = $_POST["id_tipo"];
         $fecha_inicio = $_POST["fecha_inicio"];
         $fecha_fin = $_POST["fecha_fin"];
+
+        $id_estado = $_POST["id_estado"] ?? null;
+        $id_municipio = $_POST["id_municipio"] ?? null;
 
         $errores = [];
         $ahora = date("Y-m-d H:i:s");
@@ -98,13 +125,35 @@ class EleccionesCtrl
             $errores[] = "No se puede actualizar: las fechas se traslapan con otra elección.";
         }
 
+        if ($id_tipo == 2 && empty($id_estado)) {
+            $errores[] = "Debe seleccionar un estado.";
+        }
+
+        if ($id_tipo == 3) {
+            if (empty($id_estado)) {
+                $errores[] = "Debe seleccionar un estado.";
+            }
+            if (empty($id_municipio)) {
+                $errores[] = "Debe seleccionar un municipio.";
+            }
+        }
+
         if (!empty($errores)) {
             $_SESSION["errores"] = $errores;
             header("Location: ../Vista/admin/elecciones.php");
             exit;
         }
 
-        if ($this->modelo->actualizar($id, $nombre, $descripcion, $id_tipo, $fecha_inicio, $fecha_fin)) {
+        if ($this->modelo->actualizar(
+            $id,
+            $nombre,
+            $descripcion,
+            $id_tipo,
+            $fecha_inicio,
+            $fecha_fin,
+            $id_estado,
+            $id_municipio
+        )) {
             $_SESSION["success"] = "Elección actualizada correctamente.";
         } else {
             $_SESSION["errores"] = ["Error al actualizar la elección."];
@@ -184,6 +233,24 @@ class EleccionesCtrl
         exit;
     }
 }
+
+
+if (isset($_GET['accion']) && $_GET['accion'] == 'obtener_municipios') {
+
+    $id_estado = $_GET['id_estado'];
+
+    $stmt = $conexion->prepare("SELECT id_municipio, nombre FROM municipios WHERE id_estado = ?");
+    $stmt->bind_param("i", $id_estado);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $municipios = $result->fetch_all(MYSQLI_ASSOC);
+
+    header('Content-Type: application/json');
+    echo json_encode($municipios);
+    exit;
+}
+
 
 $controlador = new EleccionesCtrl($conexion);
 

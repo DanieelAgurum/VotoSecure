@@ -9,28 +9,75 @@ class EleccionesMdl
         $this->conexion = $conexion;
     }
 
-    public function crear($nombre, $descripcion, $id_tipo, $fecha_inicio, $fecha_fin)
+    public function crear($nombre, $descripcion, $id_tipo, $fecha_inicio, $fecha_fin, $id_estado = null, $id_municipio = null)
     {
+
+        if ($id_tipo == 1) {
+            $id_estado = null;
+            $id_municipio = null;
+        }
+
+        if ($id_tipo == 2) {
+            $id_municipio = null;
+        }
+
         $sql = "INSERT INTO elecciones 
-                (nombre_eleccion, descripcion_eleccion, id_tipo, fecha_inicio, fecha_fin)
-                VALUES (?, ?, ?, ?, ?)";
+            (nombre_eleccion, descripcion_eleccion, id_tipo, fecha_inicio, fecha_fin, id_estado, id_municipio)
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->conexion->prepare($sql);
-        return $stmt->execute([$nombre, $descripcion, $id_tipo, $fecha_inicio, $fecha_fin]);
+
+        $stmt->bind_param(
+            "ssissii",
+            $nombre,
+            $descripcion,
+            $id_tipo,
+            $fecha_inicio,
+            $fecha_fin,
+            $id_estado,
+            $id_municipio
+        );
+
+        return $stmt->execute();
     }
 
-    public function actualizar($id, $nombre, $descripcion, $id_tipo, $fecha_inicio, $fecha_fin)
+
+    public function actualizar($id, $nombre, $descripcion, $id_tipo, $fecha_inicio, $fecha_fin, $id_estado = null, $id_municipio = null)
     {
+        if ($id_tipo == 1) {
+            $id_estado = null;
+            $id_municipio = null;
+        }
+
+        if ($id_tipo == 2) {
+            $id_municipio = null;
+        }
+
         $sql = "UPDATE elecciones 
-                SET nombre_eleccion = ?, 
-                    descripcion_eleccion = ?, 
-                    id_tipo = ?, 
-                    fecha_inicio = ?, 
-                    fecha_fin = ?
-                WHERE id_eleccion = ?";
+            SET nombre_eleccion = ?, 
+                descripcion_eleccion = ?, 
+                id_tipo = ?, 
+                fecha_inicio = ?, 
+                fecha_fin = ?,
+                id_estado = ?,
+                id_municipio = ?
+            WHERE id_eleccion = ?";
 
         $stmt = $this->conexion->prepare($sql);
-        return $stmt->execute([$nombre, $descripcion, $id_tipo, $fecha_inicio, $fecha_fin, $id]);
+
+        $stmt->bind_param(
+            "ssissiii",
+            $nombre,
+            $descripcion,
+            $id_tipo,
+            $fecha_inicio,
+            $fecha_fin,
+            $id_estado,
+            $id_municipio,
+            $id
+        );
+
+        return $stmt->execute();
     }
 
     public function eliminar($id)
@@ -64,18 +111,36 @@ class EleccionesMdl
         return $this->conexion->query($sql);
     }
 
+    public function obtenerEstados()
+    {
+        $sql = "SELECT * FROM estados";
+        return $this->conexion->query($sql);
+    }
+
+    public function obtenerMunicipiosPorEstado($id_estado)
+    {
+        $stmt = $this->conexion->prepare("SELECT * FROM municipios WHERE id_estado = ?");
+        $stmt->bind_param("i", $id_estado);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function listar()
     {
-        $sql = "SELECT e.*, t.nombre_tipo,
-        CASE
-            WHEN e.estado = 3 THEN 'Cancelada'
-            WHEN NOW() < e.fecha_inicio THEN 'Programada'
-            WHEN NOW() BETWEEN e.fecha_inicio AND e.fecha_fin THEN 'Activa'
-            WHEN NOW() > e.fecha_fin THEN 'Finalizada'
-        END AS estado_calculado
-        FROM elecciones e
-        INNER JOIN tipos_eleccion t ON e.id_tipo = t.id_tipo
-        ORDER BY e.fecha_inicio DESC";
+        $sql = "SELECT e.*, t.nombre_tipo, es.nombre AS estado_nombre, m.nombre AS municipio_nombre,
+    CASE
+        WHEN e.estado = 3 THEN 'Cancelada'
+        WHEN NOW() < e.fecha_inicio THEN 'Programada'
+        WHEN NOW() BETWEEN e.fecha_inicio AND e.fecha_fin THEN 'Activa'
+        WHEN NOW() > e.fecha_fin THEN 'Finalizada'
+    END AS estado_calculado
+    FROM elecciones e
+    INNER JOIN tipos_eleccion t ON e.id_tipo = t.id_tipo
+    LEFT JOIN estados es ON e.id_estado = es.id_estado
+    LEFT JOIN municipios m ON e.id_municipio = m.id_municipio
+    ORDER BY e.fecha_inicio DESC";
 
         return $this->conexion->query($sql);
     }

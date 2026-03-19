@@ -11,6 +11,8 @@ require_once '../../Modelo/eleccionesMdl.php';
 $modelo = new EleccionesMdl($conexion);
 $elecciones = $modelo->listar();
 $tipos = $modelo->obtenerTipos();
+$estados = $modelo->obtenerEstados();
+$municipios = $modelo->obtenerMunicipiosPorEstado(isset($_GET['id_estado']) ? $_GET['id_estado'] : 0);
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +31,6 @@ $tipos = $modelo->obtenerTipos();
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="../../css/admin.css">
     <link rel="stylesheet" href="../../css/dash.css">
 </head>
 
@@ -52,23 +53,24 @@ $tipos = $modelo->obtenerTipos();
                         data-bs-target="#modalAgregarEleccion">
                         Agregar <i class="fa-solid fa-circle-plus"></i>
                     </button>
-                    <?php
-                    if (!empty($_SESSION["errores"])) {
-                        foreach ($_SESSION["errores"] as $error) {
-                            echo "<div class='alert alert-danger alert-dismissible fade show'>$error
-                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                            </div>";
+                    <div class="container mt-3" style="max-width: 600px;">
+                        <?php
+                        if (!empty($_SESSION["errores"])) {
+                            foreach ($_SESSION["errores"] as $error) {
+                                echo "<div class='alert alert-danger alert-dismissible fade show'>
+                                $error
+                                <button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
+                            }
+                            unset($_SESSION["errores"]);
                         }
-                        unset($_SESSION["errores"]);
-                    }
-
-                    if (!empty($_SESSION["success"])) {
-                        echo "<div class='alert alert-success alert-dismissible fade show'>" . $_SESSION["success"] . "
-                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                            </div>";
-                        unset($_SESSION["success"]);
-                    }
-                    ?>
+                        if (!empty($_SESSION["success"])) {
+                            echo "<div class='alert alert-success alert-dismissible fade show'>
+                            " . $_SESSION["success"] . "
+                            <button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
+                            unset($_SESSION["success"]);
+                        }
+                        ?>
+                    </div>
                     <!-- TABLA -->
                     <div class="table-responsive">
                         <table id="tablaContenido" class="table table-hover table-borderless align-middle">
