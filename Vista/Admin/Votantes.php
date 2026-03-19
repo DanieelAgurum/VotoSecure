@@ -36,7 +36,6 @@ $votantes = $votantesCtrl->obtenerTodos();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/admin.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/dash.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/css/CandidatosAd.css">
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
