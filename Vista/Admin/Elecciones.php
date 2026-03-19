@@ -31,11 +31,7 @@ $municipios = $modelo->obtenerMunicipiosPorEstado(isset($_GET['id_estado']) ? $_
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="../../css/dash.css">
-<<<<<<< HEAD
     <link rel="stylesheet" href="../../css/admin.css">
-=======
->>>>>>> Anthony
 </head>
 
 <body>
