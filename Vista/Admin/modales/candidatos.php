@@ -1,8 +1,7 @@
 <!-- MODAL AGREGAR CANDIDATO -->
-/<div class="modal" id="modalAgregar" tabindex="-1" aria-labelledby="modalAgregarLabel" aria-hidden="true">
+<div class="modal" id="modalAgregar" tabindex="-1" aria-labelledby="modalAgregarLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-
             <form id="formAgregarCandidato" enctype="multipart/form-data">
 
                 <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
@@ -12,11 +11,10 @@
                     <h5 class="modal-title" id="modalAgregarLabel">
                         <i class="bi bi-person-plus"></i> Agregar Candidato
                     </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
 
                 <div class="modal-body">
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -24,7 +22,6 @@
                                 <input class="form-control" type="text" name="nombre" id="nombre" required>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Apellido <span class="text-danger">*</span></label>
@@ -39,29 +36,25 @@
                                 <label class="form-label">Partido <span class="text-danger">*</span></label>
                                 <select class="form-select" name="id_partido" id="id_partido" required>
                                     <option value="">Seleccione un partido...</option>
-                                    <?php if (!empty($partidos)): ?>
-                                        <?php foreach ($partidos as $partido): ?>
-                                            <option value="<?= $partido['id_partido'] ?>">
-                                                <?= htmlspecialchars($partido['nombre_partido']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
+                                    <?php foreach ($partidos as $partido): ?>
+                                        <option value="<?= $partido['id_partido'] ?>">
+                                            <?= htmlspecialchars($partido['nombre_partido']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Tipo de Elección <span class="text-danger">*</span></label>
-                                <select class="form-select" name="id_tipo" id="id_tipo" required>
-                                    <option value="">Seleccione un tipo...</option>
-                                    <?php if (!empty($tiposEleccion)): ?>
-                                        <?php foreach ($tiposEleccion as $tipo): ?>
-                                            <option value="<?= $tipo['id_tipo'] ?>">
-                                                <?= htmlspecialchars($tipo['nombre_tipo']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
+                                <!-- ✅ Ahora es elección, no tipo -->
+                                <label class="form-label">Elección <span class="text-danger">*</span></label>
+                                <select class="form-select" name="id_eleccion" id="id_eleccion" required>
+                                    <option value="">Seleccione una elección...</option>
+                                    <?php foreach ($elecciones as $eleccion): ?>
+                                        <option value="<?= $eleccion['id_eleccion'] ?>">
+                                            <?= htmlspecialchars($eleccion['nombre_eleccion']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
@@ -74,7 +67,6 @@
                                 <input class="form-control" type="text" name="cargo" id="cargo" required>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Distrito <span class="text-danger">*</span></label>
@@ -90,7 +82,6 @@
                                 <input class="form-control" type="email" name="correo" id="correo" required>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Teléfono</label>
@@ -103,12 +94,14 @@
                         <label class="form-label">Foto del Candidato</label>
                         <div class="d-flex align-items-center gap-3">
                             <div class="position-relative">
-                                <img id="previewFoto" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' fill='%23dee2e6' viewBox='0 0 16 16'%3E%3Cpath d='M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM2 12.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z'/%3E%3Cpath d='M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1 .5.5h7a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5V1a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2a1.5 1.5 0 0 0 1.5-1.5V1a1.5 1.5 0 0 0-1.5-1.5h-7A1.5 1.5 0 0 0 1 1v12a1.5 1.5 0 0 0 1.5 1.5h7a1.5 1.5 0 0 0 1.5-1.5V3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2z'/%3E%3C/svg%3E"
+                                <img id="previewFoto"
+                                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' fill='%23dee2e6' viewBox='0 0 16 16'%3E%3Cpath d='M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM2 12.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z'/%3E%3C/svg%3E"
                                     alt="Preview" class="rounded-circle"
-                                    style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #dee2e6; cursor: pointer;">
-                                <input type="file" name="foto" id="foto" accept="image/jpeg,image/png,image/gif,image/webp"
+                                    style="width:120px;height:120px;object-fit:cover;border:3px solid #dee2e6;cursor:pointer;">
+                                <input type="file" name="foto" id="foto"
+                                    accept="image/jpeg,image/png,image/gif,image/webp"
                                     class="position-absolute"
-                                    style="opacity: 0; width: 120px; height: 120px; top: 0; left: 0; cursor: pointer;">
+                                    style="opacity:0;width:120px;height:120px;top:0;left:0;cursor:pointer;">
                             </div>
                             <div>
                                 <small class="text-muted">Formatos: JPEG, PNG, GIF, WebP</small><br>
@@ -130,22 +123,22 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-success" id="btnGuardar">Guardar</button>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success" id="btnGuardar">Guardar</button>
+                </div>
+
             </form>
         </div>
     </div>
-</div>
 </div>
 
 <!-- MODAL MODIFICAR CANDIDATO -->
 <div class="modal" id="modalModificar" tabindex="-1" aria-labelledby="modalModificarLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-
             <form id="formModificarCandidato" enctype="multipart/form-data">
 
                 <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
@@ -156,11 +149,10 @@
                     <h5 class="modal-title" id="modalModificarLabel">
                         <i class="bi bi-pencil"></i> Modificar Candidato
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
                 <div class="modal-body">
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -168,7 +160,6 @@
                                 <input class="form-control" type="text" name="nombre" id="modificar_nombre" required>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Apellido <span class="text-danger">*</span></label>
@@ -183,29 +174,25 @@
                                 <label class="form-label">Partido <span class="text-danger">*</span></label>
                                 <select class="form-select" name="id_partido" id="modificar_id_partido" required>
                                     <option value="">Seleccione un partido...</option>
-                                    <?php if (!empty($partidos)): ?>
-                                        <?php foreach ($partidos as $partido): ?>
-                                            <option value="<?= $partido['id_partido'] ?>">
-                                                <?= htmlspecialchars($partido['nombre_partido']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
+                                    <?php foreach ($partidos as $partido): ?>
+                                        <option value="<?= $partido['id_partido'] ?>">
+                                            <?= htmlspecialchars($partido['nombre_partido']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Tipo de Elección <span class="text-danger">*</span></label>
-                                <select class="form-select" name="id_tipo" id="modificar_id_tipo" required>
-                                    <option value="">Seleccione un tipo...</option>
-                                    <?php if (!empty($tiposEleccion)): ?>
-                                        <?php foreach ($tiposEleccion as $tipo): ?>
-                                            <option value="<?= $tipo['id_tipo'] ?>">
-                                                <?= htmlspecialchars($tipo['nombre_tipo']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
+                                <!-- ✅ Ahora es elección, no tipo -->
+                                <label class="form-label">Elección <span class="text-danger">*</span></label>
+                                <select class="form-select" name="id_eleccion" id="modificar_id_eleccion" required>
+                                    <option value="">Seleccione una elección...</option>
+                                    <?php foreach ($elecciones as $eleccion): ?>
+                                        <option value="<?= $eleccion['id_eleccion'] ?>">
+                                            <?= htmlspecialchars($eleccion['nombre_eleccion']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
@@ -218,7 +205,6 @@
                                 <input class="form-control" type="text" name="cargo" id="modificar_cargo" required>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Distrito <span class="text-danger">*</span></label>
@@ -234,7 +220,6 @@
                                 <input class="form-control" type="email" name="correo" id="modificar_correo" required>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Teléfono</label>
@@ -247,12 +232,14 @@
                         <label class="form-label">Foto del Candidato</label>
                         <div class="d-flex align-items-center gap-3">
                             <div class="position-relative">
-                                <img id="modificar_previewFoto" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' fill='%23dee2e6' viewBox='0 0 16 16'%3E%3Cpath d='M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM2 12.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z'/%3E%3Cpath d='M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1 .5.5h7a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5V1a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1h2a1.5 1.5 0 0 0 1.5-1.5V1a1.5 1.5 0 0 0-1.5-1.5h-7A1.5 1.5 0 0 0 1 1v12a1.5 1.5 0 0 0 1.5 1.5h7a1.5 1.5 0 0 0 1.5-1.5V3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2z'/%3E%3C/svg%3E"
+                                <img id="modificar_previewFoto"
+                                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' fill='%23dee2e6' viewBox='0 0 16 16'%3E%3Cpath d='M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM2 12.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z'/%3E%3C/svg%3E"
                                     alt="Preview" class="rounded-circle"
-                                    style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #dee2e6; cursor: pointer;">
-                                <input type="file" name="foto" id="modificar_foto" accept="image/jpeg,image/png,image/gif,image/webp"
+                                    style="width:120px;height:120px;object-fit:cover;border:3px solid #dee2e6;cursor:pointer;">
+                                <input type="file" name="foto" id="modificar_foto"
+                                    accept="image/jpeg,image/png,image/gif,image/webp"
                                     class="position-absolute"
-                                    style="opacity: 0; width: 120px; height: 120px; top: 0; left: 0; cursor: pointer;">
+                                    style="opacity:0;width:120px;height:120px;top:0;left:0;cursor:pointer;">
                             </div>
                             <div>
                                 <small class="text-muted">Formatos: JPEG, PNG, GIF, WebP</small><br>
@@ -274,7 +261,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="modal-footer">
@@ -283,7 +269,6 @@
                 </div>
 
             </form>
-
         </div>
     </div>
 </div>

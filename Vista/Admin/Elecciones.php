@@ -54,11 +54,8 @@ $municipios = $modelo->obtenerMunicipiosPorEstado(isset($_GET['id_estado']) ? $_
                         data-bs-target="#modalAgregarEleccion">
                         Agregar <i class="fa-solid fa-circle-plus"></i>
                     </button>
-<<<<<<< HEAD
                     <div class="container mt-3">
-=======
                     <div class="container mt-3" style="max-width: 600px;">
->>>>>>> Anthony
                         <?php
                         if (!empty($_SESSION["errores"])) {
                             foreach ($_SESSION["errores"] as $error) {
