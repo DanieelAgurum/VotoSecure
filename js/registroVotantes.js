@@ -663,7 +663,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const seccionInput = document.getElementById("seccion");
   if (seccionInput) seccionInput.addEventListener("input", function () { this.value = this.value.replace(/[^0-9]/g, ""); });
 
-  ["nombre", "apellido_paterno", "apellido_materno", "fecha_nacimiento", "genero", "entidad"].forEach(id => {
+["nombre", "apellido_paterno", "apellido_materno"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener("input", function() { 
+        this.value = this.value.toUpperCase(); 
+        generarCURP(); generarRFC(); generarClaveElector(); 
+      });
+      el.addEventListener("change", function() { 
+        this.value = this.value.toUpperCase(); 
+        generarCURP(); generarRFC(); generarClaveElector(); 
+      });
+      el.addEventListener("paste", function() { 
+        setTimeout(() => { 
+          this.value = this.value.toUpperCase(); 
+          generarCURP(); generarRFC(); generarClaveElector(); 
+        }, 10);
+      });
+    }
+  });
+
+  ["fecha_nacimiento", "genero", "entidad"].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
       el.addEventListener("input", () => { generarCURP(); generarRFC(); generarClaveElector(); });
@@ -701,22 +721,38 @@ async function checkHardwareStatus() {
   }
 }
 
-// ================= LIMPIEZA =================
-async function cleanupAfterRegistration() {
-  log("Limpiando estado después del registro...");
+// ================= RESET COMPLETO =================
+async function resetRegistroCompleto() {
+  log("🧹 RESET COMPLETO ejecutado");
+  
+  isRegistering = false;
+  cancelRequested = false;
   serialBuffer = "";
-  if (esp32Disponible()) {
-    try {
-      await safeWrite("RESET_READERS\n");
-      await new Promise(r => setTimeout(r, 300));
-      await checkHardwareStatus();
-    } catch (e) { log("Error al reiniciar: " + e.message); }
-  }
-  log("Listo para nuevo registro.");
+  
+  stopBackgroundNFCCheck();
+  await closeSwal();
+  
+  const btn = document.getElementById("btnRegistrar");
+  if (btn) btn.disabled = false;
   
   nfcDisconnectNotified = false;
   nfcReconnectNotified = false;
+  
+  if (esp32Disponible()) {
+    try {
+      await safeWrite("RESET_READERS\n");
+      await new Promise(r => setTimeout(r, 500));
+    } catch (e) {
+      log("Cleanup ESP32: " + e.message);
+    }
+  }
+  
   if (isConnected) startBackgroundNFCCheck();
+  log("✅ Reset completo listo para nuevo registro");
+}
+
+async function cleanupAfterRegistration() {
+  await resetRegistroCompleto();
 }
 
 // ================= BORRAR HUELLA DEL LECTOR =================
@@ -828,8 +864,9 @@ document.getElementById("registroForm").addEventListener("submit", async functio
     let token = null;
     let fingerId = null;
 
-    // Mostrar Swal solo con botón Cancelar
-    showRegistrationSwal("Paso 1: Identificación NFC", "Por favor, acerque la tarjeta al lector NFC");
+    // Mostrar Swal optimizado (sin "Paso 1")
+    showRegistrationSwal("Escanear Tarjeta", "Acerque la credencial al lector NFC");
+
 
     while (true) {
       if (cancelRequested) {
@@ -1079,13 +1116,12 @@ document.getElementById("registroForm").addEventListener("submit", async functio
     log("Error: " + err.message);
     showToast("Error: " + err.message, "error");
   } finally {
-    const btnRegistrar = document.getElementById("btnRegistrar");
-    if (btnRegistrar) btnRegistrar.disabled = false;
-    isRegistering = false;
-    cancelRequested = false;
-    log("Proceso de registro terminado, botón habilitado");
+    // 🔧 RESET COMPLETO GARANTIZADO
+    await resetRegistroCompleto();
+    log("✅ Form submit finalizado con reset completo");
   }
 });
+
 
 async function hardResetHardware() {
   if (!esp32Disponible()) {
