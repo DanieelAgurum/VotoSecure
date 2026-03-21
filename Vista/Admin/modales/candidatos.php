@@ -49,31 +49,14 @@
 
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Cargo</label>
-                                <select name="cargo" id="cargo" class="form-select" required>
-                                    <option value="">Seleccione un cargo</option>
-                                    <optgroup label="Presidencial">
-                                        <option value="Presidente">Presidente</option>
-                                        <option value="Vicepresidente">Vicepresidente</option>
-                                    </optgroup>
-                                    <optgroup label="Municipal">
-                                        <option value="Alcalde">Alcalde</option>
-                                        <option value="Regidor">Regidor</option>
-                                        <option value="Síndico">Síndico</option>
-                                    </optgroup>
-                                    <optgroup label="Escolar">
-                                        <option value="Presidente de Sociedad de Alumnos">Presidente de Sociedad de Alumnos</option>
-                                        <option value="Secretario de Sociedad de Alumnos">Secretario de Sociedad de Alumnos</option>
-                                        <option value="Tesorero de Sociedad de Alumnos">Tesorero de Sociedad de Alumnos</option>
-                                        <option value="Vocal Escolar">Vocal Escolar</option>
-                                    </optgroup>
-                                    <optgroup label="Consejo Académico">
-                                        <option value="Rector">Rector</option>
-                                        <option value="Decano">Decano</option>
-                                        <option value="Director Académico">Director Académico</option>
-                                        <option value="Representante Estudiantil">Representante Estudiantil</option>
-                                        <option value="Representante Docente">Representante Docente</option>
-                                    </optgroup>
+                                <label class="form-label">Cargo <span class="text-danger">*</span></label>
+                                <select class="form-select" name="cargo" id="cargo" required>
+                                    <option value="">Seleccione un cargo...</option>
+                                    <option value="Presidente">Presidente</option>
+                                    <option value="Senadores">Senadores</option>
+                                    <option value="Diputados">Diputados</option>
+                                    <option value="Gobernador">Gobernador</option>
+                                    <option value="Alcalde">Alcalde</option>
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -186,31 +169,14 @@
 
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Cargo</label>
-                                <select name="cargo" id="modificar_cargo" class="form-select" required>
-                                    <option value="">Seleccione un cargo</option>
-                                    <optgroup label="Presidencial">
-                                        <option value="Presidente">Presidente</option>
-                                        <option value="Vicepresidente">Vicepresidente</option>
-                                    </optgroup>
-                                    <optgroup label="Municipal">
-                                        <option value="Alcalde">Alcalde</option>
-                                        <option value="Regidor">Regidor</option>
-                                        <option value="Síndico">Síndico</option>
-                                    </optgroup>
-                                    <optgroup label="Escolar">
-                                        <option value="Presidente de Sociedad de Alumnos">Presidente de Sociedad de Alumnos</option>
-                                        <option value="Secretario de Sociedad de Alumnos">Secretario de Sociedad de Alumnos</option>
-                                        <option value="Tesorero de Sociedad de Alumnos">Tesorero de Sociedad de Alumnos</option>
-                                        <option value="Vocal Escolar">Vocal Escolar</option>
-                                    </optgroup>
-                                    <optgroup label="Consejo Académico">
-                                        <option value="Rector">Rector</option>
-                                        <option value="Decano">Decano</option>
-                                        <option value="Director Académico">Director Académico</option>
-                                        <option value="Representante Estudiantil">Representante Estudiantil</option>
-                                        <option value="Representante Docente">Representante Docente</option>
-                                    </optgroup>
+                                <label class="form-label">Cargo <span class="text-danger">*</span></label>
+                                <select class="form-select" name="cargo" id="modificar_cargo" required>
+                                    <option value="">Seleccione un cargo...</option>
+                                    <option value="Presidente">Presidente</option>
+                                    <option value="Senadores">Senadores</option>
+                                    <option value="Diputados">Diputados</option>
+                                    <option value="Gobernador">Gobernador</option>
+                                    <option value="Alcalde">Alcalde</option>
                                 </select>
                             </div>
                             <div class="mb-3">
