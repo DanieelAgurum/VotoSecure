@@ -184,4 +184,17 @@ body {
     .user-profile {
         font-size: 12px;
     }
+    
+}
+/* ── Fix modal centrado ── */
+.modal {
+    z-index: 1055 !important;
+}
+
+.modal-backdrop {
+    z-index: 1054 !important;
+}
+
+.sidebar {
+    z-index: 1040 !important;
 }

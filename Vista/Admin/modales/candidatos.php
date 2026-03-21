@@ -1,6 +1,6 @@
 <!-- MODAL AGREGAR CANDIDATO -->
-<div class="modal" id="modalAgregar" tabindex="-1" aria-labelledby="modalAgregarLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade" id="modalAgregar" tabindex="-1" aria-labelledby="modalAgregarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <form id="formAgregarCandidato" enctype="multipart/form-data">
 
@@ -46,7 +46,6 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <!-- ✅ Ahora es elección, no tipo -->
                                 <label class="form-label">Elección <span class="text-danger">*</span></label>
                                 <select class="form-select" name="id_eleccion" id="id_eleccion" required>
                                     <option value="">Seleccione una elección...</option>
@@ -64,7 +63,31 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Cargo <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text" name="cargo" id="cargo" required>
+                                <select class="form-select" name="cargo" id="cargo" required>
+                                    <option value="">Seleccione un cargo...</option>
+                                    <optgroup label="Presidencial">
+                                        <option value="Presidente">Presidente</option>
+                                        <option value="Vicepresidente">Vicepresidente</option>
+                                    </optgroup>
+                                    <optgroup label="Municipal">
+                                        <option value="Alcalde">Alcalde</option>
+                                        <option value="Regidor">Regidor</option>
+                                        <option value="Síndico">Síndico</option>
+                                    </optgroup>
+                                    <optgroup label="Escolar">
+                                        <option value="Presidente de Sociedad de Alumnos">Presidente de Sociedad de Alumnos</option>
+                                        <option value="Secretario de Sociedad de Alumnos">Secretario de Sociedad de Alumnos</option>
+                                        <option value="Tesorero de Sociedad de Alumnos">Tesorero de Sociedad de Alumnos</option>
+                                        <option value="Vocal Escolar">Vocal Escolar</option>
+                                    </optgroup>
+                                    <optgroup label="Consejo Académico">
+                                        <option value="Rector">Rector</option>
+                                        <option value="Decano">Decano</option>
+                                        <option value="Director Académico">Director Académico</option>
+                                        <option value="Representante Estudiantil">Representante Estudiantil</option>
+                                        <option value="Representante Docente">Representante Docente</option>
+                                    </optgroup>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -136,8 +159,8 @@
 </div>
 
 <!-- MODAL MODIFICAR CANDIDATO -->
-<div class="modal" id="modalModificar" tabindex="-1" aria-labelledby="modalModificarLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade" id="modalModificar" tabindex="-1" aria-labelledby="modalModificarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <form id="formModificarCandidato" enctype="multipart/form-data">
 
@@ -184,7 +207,6 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <!-- ✅ Ahora es elección, no tipo -->
                                 <label class="form-label">Elección <span class="text-danger">*</span></label>
                                 <select class="form-select" name="id_eleccion" id="modificar_id_eleccion" required>
                                     <option value="">Seleccione una elección...</option>
@@ -202,7 +224,31 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Cargo <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text" name="cargo" id="modificar_cargo" required>
+                                <select class="form-select" name="cargo" id="modificar_cargo" required>
+                                    <option value="">Seleccione un cargo...</option>
+                                    <optgroup label="Presidencial">
+                                        <option value="Presidente">Presidente</option>
+                                        <option value="Vicepresidente">Vicepresidente</option>
+                                    </optgroup>
+                                    <optgroup label="Municipal">
+                                        <option value="Alcalde">Alcalde</option>
+                                        <option value="Regidor">Regidor</option>
+                                        <option value="Síndico">Síndico</option>
+                                    </optgroup>
+                                    <optgroup label="Escolar">
+                                        <option value="Presidente de Sociedad de Alumnos">Presidente de Sociedad de Alumnos</option>
+                                        <option value="Secretario de Sociedad de Alumnos">Secretario de Sociedad de Alumnos</option>
+                                        <option value="Tesorero de Sociedad de Alumnos">Tesorero de Sociedad de Alumnos</option>
+                                        <option value="Vocal Escolar">Vocal Escolar</option>
+                                    </optgroup>
+                                    <optgroup label="Consejo Académico">
+                                        <option value="Rector">Rector</option>
+                                        <option value="Decano">Decano</option>
+                                        <option value="Director Académico">Director Académico</option>
+                                        <option value="Representante Estudiantil">Representante Estudiantil</option>
+                                        <option value="Representante Docente">Representante Docente</option>
+                                    </optgroup>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
