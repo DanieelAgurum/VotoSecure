@@ -15,6 +15,7 @@ let isRegistering = false;
 let nfcDisconnectNotified = false;
 let nfcReconnectNotified = false;
 let backgroundCheckInterval = null;
+let backgroundActive = false; // bandera para cancelar iteración en vuelo del background
 let registrationSwal = null;
 
 const esp32Status = document.getElementById("esp32Status");
@@ -119,34 +120,42 @@ function updateHardwareStatus(nfc) {
 // ================= VERIFICACIÓN EN BACKGROUND PARA DETECTAR DESCONEXIONES =================
 async function startBackgroundNFCCheck() {
   if (backgroundCheckInterval || isRegistering) return;
-  
+
   log("Iniciando verificación de NFC en background...");
-  
+  backgroundActive = true;
+
   backgroundCheckInterval = setInterval(async () => {
-    if (!isConnected || isRegistering) {
-      return;
-    }
+    if (!isConnected || isRegistering || !backgroundActive) return;
 
     if (!port || !port.readable || !port.writable) {
       log("Puerto no disponible para verificación NFC");
       return;
     }
-    
+
     try {
       await safeWrite("STATUS\n");
-      
+
+      // Si mientras esperaba el write se activó el registro → no leer, descartar
+      if (!backgroundActive || isRegistering) {
+        log("Background: STATUS enviado pero registro iniciado, descartando respuesta");
+        return;
+      }
+
       const msg = await Promise.race([
         readLine(),
         new Promise(resolve => setTimeout(() => resolve(null), 1000))
       ]);
-      
+
+      // Verificar de nuevo tras el readLine — puede que el registro haya empezado
+      if (!backgroundActive || isRegistering) return;
+
       if (!msg) return;
-      
+
       const cleanMsg = msg.trim();
-      
+
       if (cleanMsg.startsWith("NFC:")) {
         const nfcOk = cleanMsg.includes("OK");
-        
+
         if (nfcOk !== nfcStatus) {
           nfcDisconnectNotified = false;
           nfcReconnectNotified = false;
@@ -157,14 +166,12 @@ async function startBackgroundNFCCheck() {
           showToast("NFC desconectado", "error");
           log("NFC desconectado detectado - Estado: FAIL");
           nfcDisconnectNotified = true;
-        }
-        else if (nfcOk && !nfcStatus && !nfcReconnectNotified) {
+        } else if (nfcOk && !nfcStatus && !nfcReconnectNotified) {
           updateHardwareStatus(true);
           showToast("NFC reconectado", "success");
           log("NFC reconectado detectado - Estado: OK");
           nfcReconnectNotified = true;
-        }
-        else if (nfcOk !== nfcStatus) {
+        } else if (nfcOk !== nfcStatus) {
           nfcStatus = nfcOk;
           updateHardwareStatus(nfcOk);
           log("NFC estado actualizado: " + (nfcOk ? "OK" : "FAIL"));
@@ -177,6 +184,7 @@ async function startBackgroundNFCCheck() {
 }
 
 function stopBackgroundNFCCheck() {
+  backgroundActive = false; // ← cancela cualquier iteración en vuelo
   if (backgroundCheckInterval) {
     clearInterval(backgroundCheckInterval);
     backgroundCheckInterval = null;
@@ -724,29 +732,24 @@ async function checkHardwareStatus() {
 // ================= RESET COMPLETO =================
 async function resetRegistroCompleto() {
   log("🧹 RESET COMPLETO ejecutado");
-  
+
   isRegistering = false;
   cancelRequested = false;
+  backgroundActive = false;
   serialBuffer = "";
-  
+
   stopBackgroundNFCCheck();
   await closeSwal();
-  
+
   const btn = document.getElementById("btnRegistrar");
   if (btn) btn.disabled = false;
-  
+
   nfcDisconnectNotified = false;
   nfcReconnectNotified = false;
-  
-  if (esp32Disponible()) {
-    try {
-      await safeWrite("RESET_READERS\n");
-      await new Promise(r => setTimeout(r, 500));
-    } catch (e) {
-      log("Cleanup ESP32: " + e.message);
-    }
-  }
-  
+
+  // NO mandamos RESET_READERS aquí — genera NFC_RESET_OK que
+  // contamina el buffer del siguiente REGISTER.
+
   if (isConnected) startBackgroundNFCCheck();
   log("✅ Reset completo listo para nuevo registro");
 }
@@ -784,17 +787,22 @@ async function sendCancelToESP32() {
   try {
     logEnvio("CANCEL", "ESP32");
     await safeWrite("CANCEL\n");
-    
-    // Esperar confirmación de cancelación
-    const msg = await Promise.race([
-      readLine(),
-      new Promise(resolve => setTimeout(() => resolve(null), 2000))
-    ]);
-    
-    if (msg && msg.includes("CANCELLED")) {
-      log("ESP32 confirmó cancelación");
-      return true;
+
+    // Drenar mensajes hasta recibir CANCELLED o 1.5s de silencio
+    const deadline = Date.now() + 1500;
+    while (Date.now() < deadline) {
+      const msg = await Promise.race([
+        readLine(),
+        new Promise(resolve => setTimeout(() => resolve(null), 300))
+      ]);
+      if (!msg) break; // silencio → ESP32 terminó
+      log("◄ Cancel drain: " + msg.trim());
+      if (msg.includes("CANCELLED") || msg.includes("REGISTER_CANCELLED")) {
+        log("ESP32 confirmó cancelación");
+        break;
+      }
     }
+    serialBuffer = "";
     return true;
   } catch (e) {
     log("Error enviando cancelación: " + e.message);
@@ -854,25 +862,28 @@ document.getElementById("registroForm").addEventListener("submit", async functio
     log("==========================================");
     log("INICIANDO PROCESO DE REGISTRO...");
     logDatos({ rfc: rfcInput.value, curp: curpInput.value, seccion: seccionInput.value, tieneFoto: !!capturedImageData }, "DATOS_VOTANTE");
-    
+
+    backgroundActive = false;
+    stopBackgroundNFCCheck();
     serialBuffer = "";
-    
+
     logEnvio("REGISTER", "ESP32");
     await safeWrite("REGISTER\n");
 
     let uid = null;
     let token = null;
     let fingerId = null;
+    let cancelSent = false; // garantiza que CANCEL se manda solo una vez
 
     // Mostrar Swal optimizado (sin "Paso 1")
     showRegistrationSwal("Escanear Tarjeta", "Acerque la credencial al lector NFC");
 
-
     while (true) {
-      if (cancelRequested) {
+      // ── Manejar cancelación (una sola vez) ───────────────────
+      if (cancelRequested && !cancelSent) {
+        cancelSent = true;
         log("Cancelación solicitada, enviando comando al ESP32...");
         await sendCancelToESP32();
-        serialBuffer = "";
         await closeSwal();
         showToast("Registro cancelado.", "info");
         await cleanupAfterRegistration();
@@ -884,8 +895,10 @@ document.getElementById("registroForm").addEventListener("submit", async functio
         new Promise(resolve => setTimeout(() => resolve(null), 5000))
       ]);
 
+      // Timeout — revisar cancelación pendiente
       if (msg === null) {
-        if (cancelRequested) {
+        if (cancelRequested && !cancelSent) {
+          cancelSent = true;
           await sendCancelToESP32();
           await closeSwal();
           showToast("Registro cancelado.", "info");
@@ -900,10 +913,11 @@ document.getElementById("registroForm").addEventListener("submit", async functio
       if (!cleanMsg) continue;
       logRecepcion(cleanMsg, "ESP32");
 
-      if (cancelRequested) {
+      // Si llegó cancelación mientras procesábamos un mensaje → salir limpiamente
+      if (cancelRequested && !cancelSent) {
+        cancelSent = true;
         log("Cancelación detectada después de: " + cleanMsg);
         await sendCancelToESP32();
-        serialBuffer = "";
         await closeSwal();
         showToast("Registro cancelado.", "info");
         await cleanupAfterRegistration();
@@ -1109,6 +1123,11 @@ document.getElementById("registroForm").addEventListener("submit", async functio
           await cleanupAfterRegistration();
           break;
         }
+      }
+      else {
+        // Mensaje desconocido (ej: NFC_RESET_OK, LED_OK_DONE, etc.)
+        // Ignorar silenciosamente y seguir esperando
+        log("⚠️ Mensaje ignorado: " + cleanMsg);
       }
     }
   } catch (err) {

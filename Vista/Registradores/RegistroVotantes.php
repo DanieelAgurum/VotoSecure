@@ -1,8 +1,12 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 session_start();
 
-$timeout = 300;
-
+$timeout = 1000;
 
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 1) {
     header('Location: ../login');
@@ -23,6 +27,24 @@ if (isset($_SESSION['last_activity'])) {
 $_SESSION['last_activity'] = time();
 
 define('BASE_URL', '/VotoSecure');
+
+// ── Cargar secciones para el select ──────────────────────────
+require_once '../../api/conexion.php';
+
+$stmtSecciones = $pdo->query(
+    "SELECT s.numero_seccion,
+            m.nombre AS municipio,
+            e.nombre AS estado
+     FROM secciones s
+     JOIN municipios m ON s.id_municipio = m.id_municipio
+     JOIN estados   e ON m.id_estado     = e.id_estado
+     ORDER BY e.nombre, m.nombre, s.numero_seccion"
+);
+$grupossecciones = [];
+foreach ($stmtSecciones->fetchAll() as $s) {
+    $key = $s['estado'] . ' — ' . $s['municipio'];
+    $grupossecciones[$key][] = $s['numero_seccion'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +56,8 @@ define('BASE_URL', '/VotoSecure');
     <title>Registro de Votantes - VotoSecure</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/RegistroVotantes.css">
     <link rel="icon" type="image/x-icon" href="<?= BASE_URL ?>/img/vs.ico">
@@ -367,8 +391,24 @@ define('BASE_URL', '/VotoSecure');
                         <label class="form-label required-field">Sección Electoral</label>
                         <div class="input-wrapper">
                             <i class="fas fa-layer-group"></i>
-                            <input type="text" class="form-control" id="seccion" name="seccion" placeholder="0000" maxlength="4">
+                            <select class="form-select select2-seccion" id="seccion" name="seccion">
+                                <option value=""></option>
+                                <?php foreach ($grupossecciones as $grupo => $nums):
+                                    // $grupo = "Aguascalientes — Aguascalientes"
+                                    [$estado, $municipio] = explode(' — ', $grupo, 2);
+                                ?>
+                                    <optgroup label="<?= htmlspecialchars($grupo) ?>">
+                                        <?php foreach ($nums as $num): ?>
+                                            <option value="<?= $num ?>"
+                                                data-search="<?= htmlspecialchars($num . ' ' . $municipio . ' ' . $estado) ?>">
+                                                Sección <?= $num ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </optgroup>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
+                        <small class="text-muted">Busca por número de sección, municipio o estado.</small>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label required-field">Clave de Elector</label>
@@ -393,7 +433,38 @@ define('BASE_URL', '/VotoSecure');
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="/votosecure/js/registroVotantes.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#seccion').select2({
+                placeholder: '— Busca por número, municipio o estado —',
+                allowClear: true,
+                width: '100%',
+                language: {
+                    noResults: function () { return 'No se encontró ninguna sección'; },
+                    searching:  function () { return 'Buscando...'; }
+                },
+                // Matcher personalizado: busca en data-search (número + municipio + estado)
+                matcher: function (params, data) {
+                    // Sin término → mostrar todo
+                    if (!params.term || params.term.trim() === '') return data;
+
+                    const term = params.term.trim().toLowerCase()
+                        .normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // quitar acentos
+
+                    // Buscar en el atributo data-search del <option>
+                    const searchAttr = ($(data.element).data('search') || data.text)
+                        .toString().toLowerCase()
+                        .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+                    if (searchAttr.includes(term)) return data;
+                    return null;
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
