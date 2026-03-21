@@ -185,16 +185,16 @@ body {
         font-size: 12px;
     }
     
-}
-/* ── Fix modal centrado ── */
-.modal {
-    z-index: 1055 !important;
+    /* ── Fix z-index modal sobre sidebar ── */
+.sidebar {
+    z-index: 1040 !important;
 }
 
 .modal-backdrop {
-    z-index: 1054 !important;
+    z-index: 1050 !important;
 }
 
-.sidebar {
-    z-index: 1040 !important;
+.modal {
+    z-index: 1055 !important;
+}
 }
