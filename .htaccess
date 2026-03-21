@@ -3,6 +3,7 @@
 # = ========================================================
 RewriteEngine On
 RewriteBase /votosecure/
+
 # = ========================================================
 # ✅ EXCEPCIONES PERMITIDAS (Rutas específicas)
 # = ========================================================
@@ -25,6 +26,7 @@ RewriteRule ^vista/admin/reportes/?$ vista/admin/Reportes.php [L,QSA,NC]
 
 #Votantes
 RewriteRule ^vista/votantes/?$ vista/votantes/Plantilla.php [L,QSA,NC]
+RewriteRule ^vista/votantes/plantilla/?$ vista/votantes/Plantilla.php [L,QSA,NC]
 
 # = ========================================================
 # 🔒 EVITAR LISTADO DE DIRECTORIOS
@@ -36,6 +38,7 @@ Options -Indexes
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
+
 # = ========================================================
 # ⚠️ PÁGINAS DE ERROR PERSONALIZADAS
 # = ========================================================
