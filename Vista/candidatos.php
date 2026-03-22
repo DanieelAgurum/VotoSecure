@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 // ==========================
 // CANDIDATOS DESDE BASE DE DATOS
@@ -29,8 +28,11 @@ ksort($secciones);
 ?>
 
 >>>>>>> 87851b1 (,)
+<<<<<<< HEAD
 =======
 >>>>>>> 2b5f066 (Candidatos en la vista usuario)
+=======
+>>>>>>> 9e4129e (,)
 <!DOCTYPE html>
 <html lang="es">
 
