@@ -1,9 +1,4 @@
 <?php
-session_start();
-if (!isset($_SESSION['rol'])) {
-    header('Location: ../login');
-    exit;
-}
 define('BASE_URL', '/VotoSecure');
 ?>
 <!DOCTYPE html>
