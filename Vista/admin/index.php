@@ -5,127 +5,22 @@ if (!isset($_SESSION['id']) || $_SESSION['rol'] != 2) {
     header('Location: /VotoSecure/Vista/login.php');
     exit();
 }
+
+require_once '../../Modelo/graficasMdl.php';
+$modelo = new graficasMdl();
+$data   = $modelo->getDashboardData();
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Administrativo - VotoSecure</title>
+    <title>Dashboard - VotoSecure</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="../../css/admin.css">
     <link rel="stylesheet" href="../../css/dash.css">
-    <style>
-        .dashboard-title {
-            color: var(--text-light);
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .chart-card {
-            background: rgba(248, 250, 252, 0.97);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.18);
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .chart-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 40px rgba(15, 23, 42, 0.25);
-        }
-
-        .chart-card-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .chart-card-subtitle {
-            font-size: 12px;
-            color: #64748B;
-            margin-bottom: 20px;
-        }
-
-        .winner-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: linear-gradient(135deg, #F59E0B, #FBBF24);
-            color: #1E293B;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 20px;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .stat-mini {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #F1F5F9;
-        }
-
-        .stat-mini:last-child {
-            border-bottom: none;
-        }
-
-        .stat-mini-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .stat-mini-pct {
-            font-size: 13px;
-            font-weight: 700;
-            color: #2563EB;
-        }
-
-        .progress-bar-custom {
-            height: 6px;
-            background: #E2E8F0;
-            border-radius: 3px;
-            margin-top: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            border-radius: 3px;
-            background: linear-gradient(90deg, #2563EB, #22D3EE);
-        }
-
-        .section-label {
-            color: rgba(248, 250, 252, 0.7);
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-            margin-top: 10px;
-        }
-
-        canvas {
-            max-height: 260px !important;
-        }
-    </style>
+    <link rel="stylesheet" href="../../css/graficas.css">
 </head>
 <body>
 
@@ -133,11 +28,69 @@ if (!isset($_SESSION['id']) || $_SESSION['rol'] != 2) {
 
 <div class="main-content">
 
-    <div class="dashboard-title">
-        <i class="bi bi-bar-chart-fill"></i> Resultados en Tiempo Real
+    <!-- HEADER -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div class="dashboard-title">
+            <i class="bi bi-bar-chart-fill"></i> Resultados en Tiempo Real
+        </div>
+        <div class="refresh-indicator" id="refreshIndicator">
+            <span class="refresh-dot"></span>
+             <span id="countdown">   En vivo </span>
+            <button class="btn-refresh" id="btnRefresh" title="Actualizar ahora">
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
+        </div>
     </div>
 
-    <!-- FILA 1 — Partido ganando + Candidato ganando general -->
+    <!-- STATS RÁPIDOS -->
+    <div class="row mb-4" id="statsRow">
+        <div class="col-6 col-lg-3">
+            <div class="stat-card-dash">
+                <div class="stat-card-icon" style="background:rgba(37,99,235,0.12);color:#2563EB;">
+                    <i class="bi bi-check2-circle"></i>
+                </div>
+                <div class="stat-card-info">
+                    <div class="stat-card-number" id="statTotalVotos"><?= number_format($data['total_votos']) ?></div>
+                    <div class="stat-card-label">Votos emitidos</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-card-dash">
+                <div class="stat-card-icon" style="background:rgba(16,185,129,0.12);color:#10B981;">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <div class="stat-card-info">
+                    <div class="stat-card-number" id="statParticipacion"><?= $data['participacion'] ?>%</div>
+                    <div class="stat-card-label">Participación</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-card-dash">
+                <div class="stat-card-icon" style="background:rgba(245,158,11,0.12);color:#F59E0B;">
+                    <i class="bi bi-trophy-fill"></i>
+                </div>
+                <div class="stat-card-info">
+                    <div class="stat-card-number" id="statPartidoLider"><?= htmlspecialchars($data['partido_lider']['partido']) ?></div>
+                    <div class="stat-card-label">Partido líder</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-card-dash">
+                <div class="stat-card-icon" style="background:rgba(139,92,246,0.12);color:#8B5CF6;">
+                    <i class="bi bi-bar-chart-steps"></i>
+                </div>
+                <div class="stat-card-info">
+                    <div class="stat-card-number"><?= $data['puestos'] ?></div>
+                    <div class="stat-card-label">Puestos en juego</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FILA 1 — Partidos -->
     <div class="row">
         <div class="col-lg-8">
             <div class="chart-card">
@@ -145,120 +98,167 @@ if (!isset($_SESSION['id']) || $_SESSION['rol'] != 2) {
                     <i class="bi bi-bar-chart" style="color:#2563EB;"></i>
                     Votos por Partido
                 </div>
-                <div class="chart-card-subtitle">Comparativa general de todos los partidos</div>
-                <div class="winner-badge">
-                    <i class="bi bi-trophy-fill"></i> Partido Final lidera con 42%
+                <div class="chart-card-subtitle">Comparativa general acumulada</div>
+                <div class="winner-badge" id="badgePartido">
+                    <i class="bi bi-trophy-fill"></i>
+                    <?= htmlspecialchars($data['partido_lider']['partido']) ?> lidera con <?= $data['partido_lider']['votos_total'] ?> votos
                 </div>
                 <canvas id="chartPartidos"></canvas>
             </div>
         </div>
-
         <div class="col-lg-4">
             <div class="chart-card">
                 <div class="chart-card-title">
                     <i class="bi bi-pie-chart" style="color:#F59E0B;"></i>
-                    Distribución de Partidos
+                    Distribución
                 </div>
                 <div class="chart-card-subtitle">Porcentaje del total de votos</div>
                 <canvas id="chartPartidosPie"></canvas>
-                <div class="mt-3">
+                <div class="mt-3" id="listPartidos">
+                    <?php
+                    $colores = ['linear-gradient(90deg,#2563EB,#22D3EE)','linear-gradient(90deg,#10B981,#34D399)','linear-gradient(90deg,#F59E0B,#FBBF24)','linear-gradient(90deg,#EF4444,#F87171)','linear-gradient(90deg,#8B5CF6,#A78BFA)'];
+                    $medallas = ['🥇','🥈','🥉','4️⃣','5️⃣'];
+                    $puestosGanados = $data['puestos_ganados'];
+                    $totalVotos = $data['partido_lider']['votos_total'];
+                    $i = 0;
+                    foreach ($puestosGanados as $partido => $ganados):
+                        $pct = $data['total_votos'] > 0 ? round(($ganados / array_sum($puestosGanados)) * 100, 1) : 0;
+                    ?>
                     <div class="stat-mini">
-                        <div>
-                            <div class="stat-mini-name">🥇 Partido Final</div>
-                            <div class="progress-bar-custom"><div class="progress-fill" style="width:42%;background:linear-gradient(90deg,#2563EB,#22D3EE);"></div></div>
+                        <div style="flex:1;">
+                            <div class="stat-mini-name"><?= ($medallas[$i] ?? '▪') . ' ' . htmlspecialchars($partido) ?></div>
+                            <div class="progress-bar-custom">
+                                <div class="progress-fill" style="width:<?= $pct ?>%;background:<?= $colores[$i] ?? '#2563EB' ?>;"></div>
+                            </div>
                         </div>
-                        <div class="stat-mini-pct">42%</div>
+                        <div class="stat-mini-pct ms-3"><?= $ganados ?> ptos</div>
                     </div>
-                    <div class="stat-mini">
-                        <div>
-                            <div class="stat-mini-name">🥈 Partido Principal</div>
-                            <div class="progress-bar-custom"><div class="progress-fill" style="width:35%;background:linear-gradient(90deg,#10B981,#34D399);"></div></div>
-                        </div>
-                        <div class="stat-mini-pct">35%</div>
-                    </div>
-                    <div class="stat-mini">
-                        <div>
-                            <div class="stat-mini-name">🥉 Partido Republicano</div>
-                            <div class="progress-bar-custom"><div class="progress-fill" style="width:23%;background:linear-gradient(90deg,#F59E0B,#FBBF24);"></div></div>
-                        </div>
-                        <div class="stat-mini-pct">23%</div>
-                    </div>
+                    <?php $i++; endforeach; ?>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- FILA 2 — Candidatos por cargo -->
-    <div class="section-label"><i class="bi bi-person-badge"></i> Candidatos por Cargo</div>
+    <!-- FILA 2 — Candidatos por puesto (dinámico) -->
+    <div class="section-label mt-2"><i class="bi bi-person-badge"></i> Resultados por Puesto</div>
+
+    <div class="row" id="rowPuestos">
+        <?php
+        $coloresPuesto = ['#EF4444','#10B981','#8B5CF6','#2563EB','#F59E0B','#EC4899'];
+        foreach ($data['resultados'] as $idx => $r):
+            $color = $coloresPuesto[$idx % count($coloresPuesto)];
+            $colorRgb = hexdec(substr($color,1,2)) . ',' . hexdec(substr($color,3,2)) . ',' . hexdec(substr($color,5,2));
+        ?>
+        <div class="col-lg-4">
+            <div class="chart-card">
+                <div class="chart-card-title">
+                    <i class="bi bi-person-fill" style="color:<?= $color ?>;"></i>
+                    <?= htmlspecialchars($r['puesto']) ?>
+                </div>
+                <div class="chart-card-subtitle">
+                    <?= $r['total'] ?> votos válidos
+                    <?php if ($r['omitidos'] > 0): ?>
+                        · <span class="text-danger"><?= $r['omitidos'] ?> omitidos</span>
+                    <?php endif; ?>
+                </div>
+                <?php if (!empty($r['ganador']['nombre_candidato']) && $r['ganador']['nombre_candidato'] !== '—'): ?>
+                <div class="winner-badge">
+                    <i class="bi bi-trophy-fill"></i>
+                    <?= htmlspecialchars($r['ganador']['nombre_candidato']) ?>
+                    · <?= $r['ganador']['porcentaje'] ?>%
+                </div>
+                <?php endif; ?>
+                <canvas id="chartPuesto_<?= $idx ?>"></canvas>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+
+    <!-- FILA 3 — Votos omitidos por puesto -->
+    <div class="section-label mt-2"><i class="bi bi-slash-circle"></i> Votos Omitidos por Puesto</div>
 
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-12">
             <div class="chart-card">
                 <div class="chart-card-title">
-                    <i class="bi bi-star-fill" style="color:#EF4444;"></i>
-                    Candidatos a Presidente
+                    <i class="bi bi-x-circle" style="color:#EF4444;"></i>
+                    Votos Omitidos
                 </div>
-                <div class="chart-card-subtitle">Elección presidencial</div>
-                <div class="winner-badge">
-                    <i class="bi bi-trophy-fill"></i> Claudia Sheinbaum lidera
-                </div>
-                <canvas id="chartPresidente"></canvas>
-            </div>
-        </div>
-
-        <div class="col-lg-4">
-            <div class="chart-card">
-                <div class="chart-card-title">
-                    <i class="bi bi-building" style="color:#10B981;"></i>
-                    Candidatos a Alcalde
-                </div>
-                <div class="chart-card-subtitle">Elección municipal</div>
-                <div class="winner-badge">
-                    <i class="bi bi-trophy-fill"></i> Jaime Flores lidera
-                </div>
-                <canvas id="chartAlcalde"></canvas>
-            </div>
-        </div>
-
-        <div class="col-lg-4">
-            <div class="chart-card">
-                <div class="chart-card-title">
-                    <i class="bi bi-geo-alt-fill" style="color:#8B5CF6;"></i>
-                    Candidatos a Gobernador
-                </div>
-                <div class="chart-card-subtitle">Elección estatal</div>
-                <div class="winner-badge">
-                    <i class="bi bi-trophy-fill"></i> Ricardo Anaya lidera
-                </div>
-                <canvas id="chartGobernador"></canvas>
+                <div class="chart-card-subtitle">Cantidad de votos en blanco u omitidos por cada puesto</div>
+                <canvas id="chartOmitidos" style="max-height:200px!important;"></canvas>
             </div>
         </div>
     </div>
 
-    <!-- FILA 3 — Tendencia votos + Participación -->
+    <!-- FILA 4 — Participación -->
     <div class="row">
-        <div class="col-lg-7">
-            <div class="chart-card">
-                <div class="chart-card-title">
-                    <i class="bi bi-graph-up-arrow" style="color:#2563EB;"></i>
-                    Tendencia de Votos por Día
-                </div>
-                <div class="chart-card-subtitle">Acumulado de los últimos 7 días</div>
-                <canvas id="chartTendencia"></canvas>
-            </div>
-        </div>
-
         <div class="col-lg-5">
             <div class="chart-card">
                 <div class="chart-card-title">
-                    <i class="bi bi-people-fill" style="color:#F59E0B;"></i>
+                    <i class="bi bi-people-fill" style="color:#10B981;"></i>
                     Participación Ciudadana
                 </div>
-                <div class="chart-card-subtitle">Votantes registrados vs votantes activos</div>
+                <div class="chart-card-subtitle">Votantes registrados vs votos emitidos</div>
                 <canvas id="chartParticipacion"></canvas>
                 <div class="mt-3 text-center">
-                    <span style="font-size:28px;font-weight:700;color:#10B981;">68%</span>
+                    <span class="stat-big-number" id="statBigPct"><?= $data['participacion'] ?>%</span>
                     <div style="font-size:12px;color:#64748B;">de participación total</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA DETALLADA -->
+        <div class="col-lg-7">
+            <div class="chart-card">
+                <div class="chart-card-title">
+                    <i class="bi bi-table" style="color:#2563EB;"></i>
+                    Tabla de Resultados Detallada
+                </div>
+                <div class="chart-card-subtitle">Todos los candidatos ordenados por votos</div>
+                <div class="table-responsive">
+                    <table class="table-resultados">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Candidato</th>
+                                <th>Partido</th>
+                                <th>Puesto</th>
+                                <th>Votos</th>
+                                <th>%</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $pos = 1;
+                            foreach ($data['resultados'] as $r):
+                                foreach ($r['votos'] as $v):
+                            ?>
+                            <tr class="<?= $pos === 1 ? 'fila-lider' : '' ?>">
+                                <td>
+                                    <?php if ($pos === 1): ?>
+                                        <span class="medal gold">🥇</span>
+                                    <?php elseif ($pos === 2): ?>
+                                        <span class="medal">🥈</span>
+                                    <?php elseif ($pos === 3): ?>
+                                        <span class="medal">🥉</span>
+                                    <?php else: ?>
+                                        <span class="pos-num"><?= $pos ?></span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="candidato-nombre"><?= htmlspecialchars($v['nombre_candidato']) ?></td>
+                                <td><span class="partido-tag"><?= htmlspecialchars($v['partido']) ?></span></td>
+                                <td class="text-muted" style="font-size:12px;"><?= htmlspecialchars($r['puesto']) ?></td>
+                                <td class="votos-num"><?= number_format($v['votos']) ?></td>
+                                <td>
+                                    <div class="pct-bar-wrap">
+                                        <div class="pct-bar-fill" style="width:<?= $v['porcentaje'] ?>%"></div>
+                                        <span><?= $v['porcentaje'] ?>%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php $pos++; endforeach; endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -266,234 +266,16 @@ if (!isset($_SESSION['id']) || $_SESSION['rol'] != 2) {
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../js/dash.js"></script>
+<!-- Data para JS -->
 <script>
-const gridColor = 'rgba(15,23,42,0.06)';
-const font = { family: 'Segoe UI', size: 12 };
-
-// ── Partidos barras horizontales ──
-new Chart(document.getElementById('chartPartidos'), {
-    type: 'bar',
-    data: {
-        labels: ['Partido Final', 'Partido Principal', 'Partido Republicano'],
-        datasets: [{
-            label: 'Votos',
-            data: [1240, 1035, 680],
-            backgroundColor: [
-                'rgba(37,99,235,0.85)',
-                'rgba(16,185,129,0.85)',
-                'rgba(245,158,11,0.85)'
-            ],
-            borderColor: ['#2563EB','#10B981','#F59E0B'],
-            borderWidth: 2,
-            borderRadius: 8,
-            borderSkipped: false
-        }]
-    },
-    options: {
-        indexAxis: 'y',
-        responsive: true,
-        plugins: {
-            legend: { display: false },
-            tooltip: {
-                callbacks: {
-                    label: ctx => ` ${ctx.parsed.x.toLocaleString()} votos`
-                }
-            }
-        },
-        scales: {
-            x: {
-                grid: { color: gridColor },
-                ticks: { font }
-            },
-            y: {
-                grid: { display: false },
-                ticks: { font, color: '#334155' }
-            }
-        }
-    }
-});
-
-// ── Partidos pie ──
-new Chart(document.getElementById('chartPartidosPie'), {
-    type: 'doughnut',
-    data: {
-        labels: ['Partido Final', 'Partido Principal', 'Partido Republicano'],
-        datasets: [{
-            data: [42, 35, 23],
-            backgroundColor: ['#2563EB','#10B981','#F59E0B'],
-            borderWidth: 3,
-            borderColor: '#fff',
-            hoverOffset: 8
-        }]
-    },
-    options: {
-        responsive: true,
-        cutout: '68%',
-        plugins: {
-            legend: { display: false },
-            tooltip: {
-                callbacks: {
-                    label: ctx => ` ${ctx.label}: ${ctx.parsed}%`
-                }
-            }
-        }
-    }
-});
-
-// ── Presidente ──
-new Chart(document.getElementById('chartPresidente'), {
-    type: 'bar',
-    data: {
-        labels: ['C. Sheinbaum', 'R. Anaya', 'J. Flores'],
-        datasets: [{
-            label: 'Votos',
-            data: [890, 620, 430],
-            backgroundColor: ['rgba(239,68,68,0.85)','rgba(239,68,68,0.4)','rgba(239,68,68,0.25)'],
-            borderColor: '#EF4444',
-            borderWidth: 2,
-            borderRadius: 8,
-            borderSkipped: false
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-            x: { grid: { display: false }, ticks: { font } },
-            y: { grid: { color: gridColor }, ticks: { font } }
-        }
-    }
-});
-
-// ── Alcalde ──
-new Chart(document.getElementById('chartAlcalde'), {
-    type: 'bar',
-    data: {
-        labels: ['J. Flores', 'C. Sheinbaum', 'R. Anaya'],
-        datasets: [{
-            label: 'Votos',
-            data: [540, 410, 310],
-            backgroundColor: ['rgba(16,185,129,0.85)','rgba(16,185,129,0.4)','rgba(16,185,129,0.25)'],
-            borderColor: '#10B981',
-            borderWidth: 2,
-            borderRadius: 8,
-            borderSkipped: false
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-            x: { grid: { display: false }, ticks: { font } },
-            y: { grid: { color: gridColor }, ticks: { font } }
-        }
-    }
-});
-
-// ── Gobernador ──
-new Chart(document.getElementById('chartGobernador'), {
-    type: 'bar',
-    data: {
-        labels: ['R. Anaya', 'C. Sheinbaum', 'J. Flores'],
-        datasets: [{
-            label: 'Votos',
-            data: [720, 580, 290],
-            backgroundColor: ['rgba(139,92,246,0.85)','rgba(139,92,246,0.4)','rgba(139,92,246,0.25)'],
-            borderColor: '#8B5CF6',
-            borderWidth: 2,
-            borderRadius: 8,
-            borderSkipped: false
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-            x: { grid: { display: false }, ticks: { font } },
-            y: { grid: { color: gridColor }, ticks: { font } }
-        }
-    }
-});
-
-// ── Tendencia ──
-new Chart(document.getElementById('chartTendencia'), {
-    type: 'line',
-    data: {
-        labels: ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'],
-        datasets: [
-            {
-                label: 'Partido Final',
-                data: [140, 190, 175, 210, 245, 220, 260],
-                borderColor: '#2563EB',
-                backgroundColor: 'rgba(37,99,235,0.08)',
-                fill: true,
-                tension: 0.4,
-                pointBackgroundColor: '#2563EB',
-                pointRadius: 4
-            },
-            {
-                label: 'Partido Principal',
-                data: [120, 155, 145, 180, 200, 185, 210],
-                borderColor: '#10B981',
-                backgroundColor: 'rgba(16,185,129,0.08)',
-                fill: true,
-                tension: 0.4,
-                pointBackgroundColor: '#10B981',
-                pointRadius: 4
-            },
-            {
-                label: 'Partido Republicano',
-                data: [80, 100, 95, 115, 130, 120, 140],
-                borderColor: '#F59E0B',
-                backgroundColor: 'rgba(245,158,11,0.08)',
-                fill: true,
-                tension: 0.4,
-                pointBackgroundColor: '#F59E0B',
-                pointRadius: 4
-            }
-        ]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: { font, usePointStyle: true, padding: 16 }
-            }
-        },
-        scales: {
-            x: { grid: { color: gridColor }, ticks: { font } },
-            y: { grid: { color: gridColor }, ticks: { font } }
-        }
-    }
-});
-
-// ── Participación ──
-new Chart(document.getElementById('chartParticipacion'), {
-    type: 'doughnut',
-    data: {
-        labels: ['Votaron', 'No votaron'],
-        datasets: [{
-            data: [68, 32],
-            backgroundColor: ['#10B981','#E2E8F0'],
-            borderWidth: 0,
-            hoverOffset: 6
-        }]
-    },
-    options: {
-        responsive: true,
-        cutout: '75%',
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: { font, usePointStyle: true, padding: 16 }
-            }
-        }
-    }
-});
+const DASHBOARD_DATA = <?= json_encode($data) ?>;
+const REFRESH_URL    = '../../Controlador/graficasCtrl.php';
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../../js/dash.js"></script>
+<script src="../../js/graficas.js"></script>
 
 </body>
 </html>
