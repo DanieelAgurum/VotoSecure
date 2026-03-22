@@ -49,7 +49,6 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
         </div>
     </section>
 
-
     <!-- Candidatos -->
     <section id="candidatos" class="py-5">
         <div class="container">
@@ -281,7 +280,7 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
     </div>
 
     <!-- FAQ -->
-    <div class="faq-section m-3">
+    <div class="faq-section m-3" id="faq">
         <h2 class="faq-title">Preguntas Frecuentes</h2>
 
         <div class="faq-carousel mt-2">

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Propuestas - VotoSeguro</title>
-    <link rel="icon" type="image/x-icon" href="img/vs.ico">
+    <link rel="icon" type="image/x-icon" href="../img/vs.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="/votosecure/css/estilos.css">
     <link rel="stylesheet" href="/votosecure/css/candidatos.css">
@@ -169,30 +169,30 @@
                 <div class="all-proposals-container">
                     <h1 class="all-proposals-title">Propuestas de los Candidatos</h1>
                     <p class="all-proposals-subtitle">Conoce las propuestas de todos los candidatos</p>
-                    
+
                     <div class="all-proposals-grid">
                         <?php foreach ($candidatos as $key => $cand): ?>
                             <div class="proposal-preview-card">
                                 <div class="proposal-preview-header">
-                                    <img src="<?= $cand['foto'] ?>" 
-                                         alt="<?= $cand['nombre'] ?>" 
-                                         class="proposal-preview-photo">
+                                    <img src="<?= $cand['foto'] ?>"
+                                        alt="<?= $cand['nombre'] ?>"
+                                        class="proposal-preview-photo">
                                     <div class="proposal-preview-info">
                                         <h3 class="proposal-preview-name"><?= $cand['nombre'] ?></h3>
                                         <p class="proposal-preview-party"><?= $cand['partido'] ?></p>
                                         <p class="proposal-preview-position"><?= $cand['puesto'] ?></p>
                                     </div>
                                 </div>
-                                
+
                                 <?php if (!empty($cand['eslogan'])): ?>
                                     <p class="proposal-preview-slogan">"<?= htmlspecialchars($cand['eslogan']) ?>"</p>
                                 <?php endif; ?>
-                                
+
                                 <div class="proposal-preview-content">
                                     <h4>Propuesta Principal:</h4>
                                     <p><?= substr($cand['propuesta'], 0, 200) ?>...</p>
                                 </div>
-                                
+
                                 <a href="propuesta.php?id=<?= $key ?>" class="btn-view-proposal">
                                     Ver Propuesta Completa →
                                 </a>
@@ -210,7 +210,7 @@
                         <h1 class="proposal-name"><?= $candidato['nombre'] ?></h1>
                         <p class="proposal-party"><?= $candidato['partido'] ?></p>
                         <p class="proposal-position">Candidato a: <?= $candidato['puesto'] ?></p>
-                        
+
                         <?php if (!empty($candidato['eslogan'])): ?>
                             <p class="proposal-slogan">"<?= htmlspecialchars($candidato['eslogan']) ?>"</p>
                         <?php endif; ?>
@@ -220,7 +220,7 @@
                         <?php if (!empty($candidato['video'])): ?>
                             <div class="proposal-video">
                                 <?php if (strpos($candidato['video'], 'youtube') !== false || strpos($candidato['video'], 'youtu.be') !== false): ?>
-                                    <?php 
+                                    <?php
                                     $videoId = '';
                                     if (strpos($candidato['video'], 'youtu.be') !== false) {
                                         $videoId = str_replace('https://youtu.be/', '', $candidato['video']);
@@ -229,10 +229,10 @@
                                         $videoId = isset($params['v']) ? $params['v'] : '';
                                     }
                                     ?>
-                                    <iframe src="https://www.youtube.com/embed/<?= $videoId ?>" 
-                                            frameborder="0" 
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                            allowfullscreen></iframe>
+                                    <iframe src="https://www.youtube.com/embed/<?= $videoId ?>"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
                                 <?php endif; ?>
                             </div>
                         <?php endif; ?>

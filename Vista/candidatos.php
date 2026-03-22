@@ -1,7 +1,4 @@
 <?php
-// ==========================
-// CANDIDATOS DESDE BASE DE DATOS
-// ==========================
 require_once '../Modelo/candidatosMdl.php';
 
 $candidatoMdl = new Candidato();
@@ -23,7 +20,6 @@ foreach ($todosCandidatos as $cand) {
         'foto'           => !empty($cand['foto']) ? $cand['foto'] : '/VotoSecure/img/image.png'
     ];
 }
-
 ksort($secciones);
 ?>
 
@@ -48,12 +44,12 @@ ksort($secciones);
 
     <!-- Sección de Candidatos -->
     <section class="candidates-section">
-        <h1 class="candidates-title">Conoce a los Candidatos</h1>
+        <h2 class="fw-bold section-title">Conoce a los Candidatos</h2>
 
         <!-- Buscador de Candidatos -->
         <div class="search-container">
             <input type="text" id="searchInput" class="search-input" placeholder="Buscar candidato por nombre, partido o cargo...">
-            <span class="search-icon">🔍</span>
+            <span class="search-icon"><i class="bi bi-search"></i></span>
         </div>
 
         <?php if (empty($secciones)): ?>

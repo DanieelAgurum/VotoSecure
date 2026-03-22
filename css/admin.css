@@ -1,14 +1,13 @@
 :root {
-    --primary: #0F172A;
-    --secondary: #1E293B;
-    --accent: #22D3EE;
-    --bg-light: #F1F5F9;
-    --bg-soft: #E2E8F0;
-    --text-dark: #334155;
-    --text-light: #F8FAFC;
-    --success: #22C55E;
+    --primary: #1A1A1A;      /* Gris muy oscuro */
+    --secondary: #2B2B2B;    /* Gris oscuro */
+    --accent: #6E6E6E;       /* Gris medio neutro */
+    --bg-light: #F2F2F2;     /* Gris muy claro */
+    --bg-soft: #E0E0E0;      /* Gris claro suave */
+    --text-dark: #3C3C3C;    /* Gris oscuro para texto */
+    --text-light: #FAFAFA;   /* Gris casi blanco */
+    --success: #22C55E;      /* Mantengo tus colores funcionales */
     --danger: #EF4444;
-    --warning: #F59E0B;
 }
 
 body {
