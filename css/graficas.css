@@ -1,0 +1,427 @@
+/* ═══════════════════════════════════════════
+   GRAFICAS.CSS — VotoSecure Dashboard Pro
+   ═══════════════════════════════════════════ */
+
+/* ── Dashboard title ── */
+.dashboard-title {
+    color: #F8FAFC;
+    font-size: 24px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: -0.3px;
+}
+
+.dashboard-title i {
+    background: linear-gradient(135deg, #2563EB, #22D3EE);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 28px;
+}
+
+/* ── Refresh indicator ── */
+.refresh-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.08);
+    color: #CBD5E1;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(8px);
+    transition: background 0.3s;
+}
+
+.refresh-indicator:hover {
+    background: rgba(255,255,255,0.13);
+}
+
+.refresh-dot {
+    width: 8px;
+    height: 8px;
+    background: #10B981;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #10B981;
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+}
+
+.refreshing .refresh-dot {
+    background: #F59E0B;
+    box-shadow: 0 0 6px #F59E0B;
+    animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.4; transform: scale(1.4); }
+}
+
+.btn-refresh {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #94A3B8;
+    cursor: pointer;
+    font-size: 14px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.btn-refresh:hover {
+    background: rgba(255,255,255,0.2);
+    color: #F8FAFC;
+    transform: rotate(180deg);
+}
+
+.refreshing .btn-refresh {
+    animation: spin 0.7s linear infinite;
+    color: #F59E0B;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Stat cards dash ── */
+.stat-card-dash {
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 20px 22px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    box-shadow: 0 4px 24px rgba(15,23,42,0.10),
+                0 1px 4px rgba(15,23,42,0.06);
+    border: 1px solid rgba(226,232,240,0.8);
+    transition: all 0.25s cubic-bezier(.4,0,.2,1);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card-dash::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #2563EB, #22D3EE);
+    border-radius: 20px 0 0 20px;
+}
+
+.stat-card-dash:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(15,23,42,0.15),
+                0 4px 12px rgba(15,23,42,0.08);
+}
+
+.stat-card-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.stat-card-number {
+    font-size: 26px;
+    font-weight: 800;
+    color: #0F172A;
+    line-height: 1;
+    letter-spacing: -0.5px;
+}
+
+.stat-card-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #94A3B8;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ── Chart cards ── */
+.chart-card {
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 24px 26px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 24px rgba(15,23,42,0.09),
+                0 1px 4px rgba(15,23,42,0.05);
+    border: 1px solid rgba(226,232,240,0.8);
+    transition: all 0.25s cubic-bezier(.4,0,.2,1);
+}
+
+.chart-card:hover {
+    box-shadow: 0 12px 40px rgba(15,23,42,0.14),
+                0 4px 12px rgba(15,23,42,0.07);
+    transform: translateY(-3px);
+}
+
+.chart-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chart-card-subtitle {
+    font-size: 12px;
+    color: #94A3B8;
+    margin-bottom: 18px;
+    font-weight: 400;
+}
+
+/* ── Winner badge ── */
+.winner-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #F59E0B, #FBBF24);
+    color: #1E293B;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 5px 14px;
+    border-radius: 30px;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    box-shadow: 0 4px 12px rgba(245,158,11,0.35);
+}
+
+/* ── Stat mini (lista partidos) ── */
+.stat-mini {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.stat-mini:last-child { border-bottom: none; }
+
+.stat-mini-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1E293B;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+}
+
+.stat-mini-pct {
+    font-size: 13px;
+    font-weight: 800;
+    color: #2563EB;
+    white-space: nowrap;
+}
+
+.progress-bar-custom {
+    height: 5px;
+    background: #EFF6FF;
+    border-radius: 4px;
+    margin-top: 6px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.8s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── Section label ── */
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(248,250,252,0.55);
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ── Stat big number ── */
+.stat-big-number {
+    font-size: 48px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #10B981, #34D399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
+    line-height: 1;
+    letter-spacing: -2px;
+}
+
+/* ══════════════════════════════
+   TABLA DE RESULTADOS
+══════════════════════════════ */
+.table-resultados {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+}
+
+.table-resultados thead tr {
+    background: #F8FAFC;
+}
+
+.table-resultados th {
+    padding: 11px 14px;
+    text-align: left;
+    font-weight: 700;
+    color: #64748B;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 2px solid #E2E8F0;
+    white-space: nowrap;
+}
+
+.table-resultados th:first-child { border-radius: 10px 0 0 0; }
+.table-resultados th:last-child  { border-radius: 0 10px 0 0; }
+
+.table-resultados td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #F1F5F9;
+    vertical-align: middle;
+    color: #334155;
+}
+
+.table-resultados tbody tr {
+    transition: background 0.15s;
+}
+
+.table-resultados tbody tr:hover {
+    background: #F8FAFC;
+}
+
+.table-resultados tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Fila líder */
+.fila-lider {
+    background: linear-gradient(90deg, rgba(245,158,11,0.05), transparent) !important;
+}
+
+.fila-lider td:first-child {
+    border-left: 3px solid #F59E0B;
+}
+
+.fila-lider .candidato-nombre {
+    font-weight: 800;
+    color: #0F172A;
+}
+
+/* Candidato nombre */
+.candidato-nombre {
+    font-weight: 600;
+    color: #1E293B;
+}
+
+/* Partido tag */
+.partido-tag {
+    background: #EFF6FF;
+    color: #2563EB;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 8px;
+    white-space: nowrap;
+    border: 1px solid #DBEAFE;
+}
+
+/* Votos num */
+.votos-num {
+    font-weight: 800;
+    color: #0F172A;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Medallas */
+.medal { font-size: 18px; line-height: 1; }
+
+.pos-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: #F1F5F9;
+    color: #64748B;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 50%;
+}
+
+/* Barra porcentaje */
+.pct-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 90px;
+}
+
+.pct-bar-fill {
+    height: 6px;
+    background: linear-gradient(90deg, #2563EB, #22D3EE);
+    border-radius: 4px;
+    flex: 1;
+    max-width: 64px;
+    transition: width 0.8s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 1px 4px rgba(37,99,235,0.3);
+}
+
+.pct-bar-wrap span {
+    font-size: 12px;
+    font-weight: 700;
+    color: #334155;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── Canvas ── */
+canvas { max-height: 260px !important; }
+
+/* ── Scrollbar tabla ── */
+.table-responsive::-webkit-scrollbar { height: 4px; }
+.table-responsive::-webkit-scrollbar-track { background: #F1F5F9; border-radius: 4px; }
+.table-responsive::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+.table-responsive::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+/* ── Animación entrada cards ── */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.stat-card-dash,
+.chart-card {
+    animation: fadeUp 0.4s ease both;
+}
+
+.stat-card-dash:nth-child(1) { animation-delay: 0.05s; }
+.stat-card-dash:nth-child(2) { animation-delay: 0.10s; }
+.stat-card-dash:nth-child(3) { animation-delay: 0.15s; }
+.stat-card-dash:nth-child(4) { animation-delay: 0.20s; }
