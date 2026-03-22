@@ -1,3 +1,33 @@
+<?php
+// ==========================
+// CANDIDATOS DESDE BASE DE DATOS
+// ==========================
+require_once '../Modelo/candidatosMdl.php';
+
+$candidatoMdl = new Candidato();
+$todosCandidatos = $candidatoMdl->obtenerCandidatos();
+
+// Agrupar por cargo → secciones dinámicas
+$secciones = [];
+foreach ($todosCandidatos as $cand) {
+    if ($cand['estatus'] !== 'activo') continue;
+
+    $cargo = trim($cand['cargo']);
+    if (empty($cargo)) continue;
+
+    $secciones[$cargo][] = [
+        'id'             => $cand['id'],
+        'nombre'         => $cand['nombre'],
+        'apellido'       => $cand['apellido'],
+        'partido_nombre' => $cand['partido_nombre'] ?? 'Independiente',
+        'foto'           => !empty($cand['foto']) ? $cand['foto'] : '/VotoSecure/img/image.png'
+    ];
+}
+
+ksort($secciones);
+?>
+
+>>>>>>> 87851b1 (,)
 <!DOCTYPE html>
 <html lang="es">
 
