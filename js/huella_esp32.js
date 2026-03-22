@@ -423,7 +423,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (omitidos.length) {
                 Swal.fire({
-                    title: '⚠️ Votos omitidos',
+                    title: 'Votos omitidos',
                     html: `<strong>Puestos sin selección:</strong><br><br>
                            ${omitidos.join('<br>')}
                            <br><br><small><em>Se considerarán votos en blanco</em></small>`,
@@ -447,7 +447,7 @@ function _mostrarModalEspera(segundos, onCancelar) {
     const TIMEOUT_MS = segundos * 1000;
 
     Swal.fire({
-        title: '🔍 Verificación Biométrica',
+        title: 'Verificación Biométrica',
         html: `<div class="text-center">
                  <div class="spinner-border text-primary mb-3" style="width:4rem;height:4rem;"></div>
                  <p class="mb-0"><strong>Acerque su huella digital</strong><br>
