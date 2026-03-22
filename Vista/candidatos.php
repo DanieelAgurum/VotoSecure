@@ -1,14 +1,48 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+// ==========================
+// CANDIDATOS DESDE BASE DE DATOS
+// ==========================
+require_once '../Modelo/candidatosMdl.php';
+
+$candidatoMdl = new Candidato();
+$todosCandidatos = $candidatoMdl->obtenerCandidatos();
+
+// Agrupar por cargo → secciones dinámicas
+$secciones = [];
+foreach ($todosCandidatos as $cand) {
+    if ($cand['estatus'] !== 'activo') continue;
+
+    $cargo = trim($cand['cargo']);
+    if (empty($cargo)) continue;
+
+    $secciones[$cargo][] = [
+        'id'             => $cand['id'],
+        'nombre'         => $cand['nombre'],
+        'apellido'       => $cand['apellido'],
+        'partido_nombre' => $cand['partido_nombre'] ?? 'Independiente',
+        'foto'           => !empty($cand['foto']) ? $cand['foto'] : '/VotoSecure/img/image.png'
+    ];
+}
+
+ksort($secciones);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"> <link rel="icon" type="image/x-icon" href="/votosecure/img/vs.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Candidatos - VotoSeguro</title>
     <link rel="icon" type="image/x-icon" href="img/vs.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="/votosecure/css/estilos.css">
     <link rel="stylesheet" href="/votosecure/css/candidatos.css">
+
 </head>
 
 <body>
@@ -25,175 +59,50 @@
             <span class="search-icon">🔍</span>
         </div>
 
-        <!-- Sección: Presidente -->
-        <div class="election-section" data-position="presidente">
-            <div class="election-category">
-                <span class="category-dot"></span>
-                <h2 class="category-title">Presidencia</h2>
+        <?php if (empty($secciones)): ?>
+            <div class="text-center py-5 my-5">
+                <i class="bi bi-people-fill" style="font-size: 4rem; opacity: 0.5; color: #adb5bd;"></i>
+                <h3 class="mt-4 mb-1">No hay candidatos activos</h3>
+                <p class="lead text-muted">Los candidatos aparecerán aquí cuando sean aprobados por el administrador.</p>
             </div>
-            <div class="candidates-grid" id="candidatesGridPresidente">
-                <!-- Candidato 1 -->
-                <div class="candidate-card h-100" data-name="carlos martinez" data-party="partido azul" data-position="presidente">
-                    <div class="card-body text-center">
-                        <div class="avatar">👨‍💼</div>
-                        <h5 class="fw-bold mt-3">Carlos Martínez</h5>
-                        <span class="partido-badge">Partido Azul</span>
-                        <p class="mt-3">Educación digital, innovación tecnológica y desarrollo sostenible.</p>
-                        <a href="propuesta.php?id=1" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
-                    </div>
+        <?php else: ?>
+            <?php foreach ($secciones as $cargo => $listaCandidatos): ?>
+            <div class="election-section mb-5" data-position="<?= strtolower($cargo) ?>">
+                <div class="election-category">
+                    <span class="category-dot"></span>
+                    <h2 class="category-title"><?= ucwords(strtolower($cargo)) ?></h2>
                 </div>
-
-                <!-- Candidato 2 -->
-                <div class="candidate-card h-100" data-name="maría gonzález" data-party="partido rojo" data-position="presidente">
-                    <div class="card-body text-center">
-                        <div class="avatar">👩‍💼</div>
-                        <h5 class="fw-bold mt-3">María González</h5>
-                        <span class="partido-badge">Partido Rojo</span>
-                        <p class="mt-3">Crecimiento económico, empleo formal y bienestar social.</p>
-                        <a href="propuesta.php?id=2" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                <div class="candidates-grid" id="candidatesGrid<?= str_replace(' ', '', ucwords(strtolower($cargo))) ?>">
+                    <?php foreach ($listaCandidatos as $cand): 
+                        $nombreCompleto = trim($cand['nombre'] . ' ' . $cand['apellido']);
+                        $partidoNombre = $cand['partido_nombre'] ?? 'Independiente';
+                        $fotoSrc = !empty($cand['foto']) ? $cand['foto'] : '/VotoSecure/img/image.png';
+                        $avatarEmoji = strpos($nombreCompleto, 'a') !== false || strpos($nombreCompleto, 'A') !== false ? '👩‍💼' : '👨‍💼';
+                    ?>
+                    <div class="candidate-card h-100" 
+                         data-name="<?= strtolower($nombreCompleto) ?>" 
+                         data-party="<?= strtolower($partidoNombre) ?>" 
+                         data-position="<?= strtolower($cargo) ?>">
+                        <div class="card-body text-center">
+                            <?php if (strpos($cand['foto'], 'data:image/') === 0): ?>
+                                <img src="<?php echo htmlspecialchars($fotoSrc); ?>" alt="<?php echo htmlspecialchars($nombreCompleto); ?>" class="avatar-img" loading="lazy">
+                            <?php else: ?>
+                                <div class="avatar"><?php echo $avatarEmoji; ?></div>
+                                <?php if (!empty($cand['foto'])): ?>
+                                    <div class="avatar-overlay" style="background-image: url('<?php echo htmlspecialchars($fotoSrc); ?>');"></div>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                            <h5 class="fw-bold mt-3"><?= htmlspecialchars($nombreCompleto) ?></h5>
+                            <span class="partido-badge"><?= htmlspecialchars($partidoNombre) ?></span>
+                            <p class="mt-3 text-muted small">Candidato oficial para <?= ucwords(strtolower($cargo)) ?></p>
+                            <a href="propuesta.php?id=<?= $cand['id'] ?>" class="btn btn-accent mt-auto w-100">Ver Propuesta</a>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Candidato 3 -->
-                <div class="candidate-card h-100" data-name="roberto sánchez" data-party="partido verde" data-position="presidente">
-                    <div class="card-body text-center">
-                        <div class="avatar">👨‍💼</div>
-                        <h5 class="fw-bold mt-3">Roberto Sánchez</h5>
-                        <span class="partido-badge">Partido Verde</span>
-                        <p class="mt-3">Transición energética y políticas ambientales sostenibles.</p>
-                        <a href="propuesta.php?id=3" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
-                    </div>
-                </div>
-
-                <!-- Candidato 4 -->
-                <div class="candidate-card h-100" data-name="patricia rivera" data-party="partido gris" data-position="presidente">
-                    <div class="card-body text-center">
-                        <div class="avatar">👩‍💼</div>
-                        <h5 class="fw-bold mt-3">Patricia Rivera</h5>
-                        <span class="partido-badge">Partido Gris</span>
-                        <p class="mt-3">Justicia social, salud pública y educación gratuita.</p>
-                        <a href="propuesta.php?id=4" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
-                    </div>
-                </div>
-
-                <!-- Candidato 5 -->
-                <div class="candidate-card h-100" data-name="jorge ramírez" data-party="partido naranja" data-position="presidente">
-                    <div class="card-body text-center">
-                        <div class="avatar">👨‍💼</div>
-                        <h5 class="fw-bold mt-3">Jorge Ramírez</h5>
-                        <span class="partido-badge">Partido Naranja</span>
-                        <p class="mt-3">Libertad económica, reducción de impuestos y emprendedores.</p>
-                        <a href="propuesta.php?id=5" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
-                    </div>
-                </div>
-
-                <!-- Candidato 6 -->
-                <div class="candidate-card h-100" data-name="ana castro" data-party="partido dorado" data-position="presidente">
-                    <div class="card-body text-center">
-                        <div class="avatar">👩‍💼</div>
-                        <h5 class="fw-bold mt-3">Ana Castro</h5>
-                        <span class="partido-badge">Partido Dorado</span>
-                        <p class="mt-3">Seguridad nacional, orden y respeto a las leyes.</p>
-                        <a href="propuesta.php?id=6" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
-        </div>
-
-        <!-- Sección: Gobernador -->
-        <div class="election-section" data-position="gobernador">
-            <div class="election-category">
-                <span class="category-dot"></span>
-                <h2 class="category-title">Gobernación</h2>
-            </div>
-            <div class="candidates-grid" id="candidatesGridGobernador">
-                <!-- Candidato 7 -->
-                <div class="candidate-card h-100" data-name="laura hernández" data-party="partido nacional" data-position="gobernador">
-                    <div class="card-body text-center">
-                        <div class="avatar">👩‍💼</div>
-                        <h5 class="fw-bold mt-3">Laura Hernández</h5>
-                        <span class="partido-badge">Partido Nacional</span>
-                        <p class="mt-3">Desarrollo regional, infraestructura y obras públicas.</p>
-                        <a href="propuesta.php?id=7" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
-                    </div>
-                </div>
-
-                <!-- Candidato 8 -->
-                <div class="candidate-card h-100" data-name="miguel torres" data-party="partido azul" data-position="gobernador">
-                    <div class="card-body text-center">
-                        <div class="avatar">👨‍💼</div>
-                        <h5 class="fw-bold mt-3">Miguel Torres</h5>
-                        <span class="partido-badge">Partido Azul</span>
-                        <p class="mt-3">Agricultura, pesca y desarrollo costero sostenible.</p>
-                        <a href="propuesta.php?id=8" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
-                    </div>
-                </div>
-
-                <!-- Candidato 9 -->
-                <div class="candidate-card h-100" data-name="silvia meadows" data-party="partido verde" data-position="gobernador">
-                    <div class="card-body text-center">
-                        <div class="avatar">👩‍💼</div>
-                        <h5 class="fw-bold mt-3">Silvia Meadows</h5>
-                        <span class="partido-badge">Partido Verde</span>
-                        <p class="mt-3">Conservación de recursos naturales y ecoturismo.</p>
-                        <a href="propuesta.php?id=9" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sección: Alcalde -->
-        <div class="election-section" data-position="alcalde">
-            <div class="election-category">
-                <span class="category-dot"></span>
-                <h2 class="category-title">Alcaldía</h2>
-            </div>
-            <div class="candidates-grid" id="candidatesGridAlcalde">
-                <!-- Candidato 10 -->
-                <div class="candidate-card h-100" data-name="antonio lópez" data-party="partido morado" data-position="alcalde">
-                    <div class="card-body text-center">
-                        <div class="avatar">👨‍💼</div>
-                        <h5 class="fw-bold mt-3">Antonio López</h5>
-                        <span class="partido-badge">Partido Morado</span>
-                        <p class="mt-3">Seguridad ciudadana, transporte y servicios municipales.</p>
-                        <a href="propuesta.php?id=10" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
-                    </div>
-                </div>
-
-                <!-- Candidato 11 -->
-                <div class="candidate-card h-100" data-name="carmen ruiz" data-party="partido rojo" data-position="alcalde">
-                    <div class="card-body text-center">
-                        <div class="avatar">👩‍💼</div>
-                        <h5 class="fw-bold mt-3">Carmen Ruiz</h5>
-                        <span class="partido-badge">Partido Rojo</span>
-                        <p class="mt-3">Espacios públicos, parques y áreas recreativas.</p>
-                        <a href="propuesta.php?id=11" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
-                    </div>
-                </div>
-
-                <!-- Candidato 12 -->
-                <div class="candidate-card h-100" data-name="daniel ortega" data-party="partido naranja" data-position="alcalde">
-                    <div class="card-body text-center">
-                        <div class="avatar">👨‍💼</div>
-                        <h5 class="fw-bold mt-3">Daniel Ortega</h5>
-                        <span class="partido-badge">Partido Naranja</span>
-                        <p class="mt-3">Gestión de residuos, reciclaje y ciudad limpia.</p>
-                        <a href="propuesta.php?id=12" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
-                    </div>
-                </div>
-
-                <!-- Candidato 13 -->
-                <div class="candidate-card h-100" data-name="elena navarro" data-party="partido dorado" data-position="alcalde">
-                    <div class="card-body text-center">
-                        <div class="avatar">👩‍💼</div>
-                        <h5 class="fw-bold mt-3">Elena Navarro</h5>
-                        <span class="partido-badge">Partido Dorado</span>
-                        <p class="mt-3">Cultura, turismo y patrimonio histórico municipal.</p>
-                        <a href="propuesta.php?id=13" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </section>
 
     <!-- Footer -->
