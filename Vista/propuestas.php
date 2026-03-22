@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Propuestas - VotoSeguro</title>
-    <link rel="icon" type="image/x-icon" href="img/vs.ico">
+    <link rel="icon" type="image/x-icon" href="/votosecure/img/vs.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="/votosecure/css/estilos.css">
     <link rel="stylesheet" href="/votosecure/css/candidatos.css">
 </head>
@@ -100,37 +101,37 @@
             <?php if (!$candidato): ?>
                 <!-- Vista previa de todas las propuestas -->
                 <div class="all-proposals-container">
-                    <h1 class="all-proposals-title">Propuestas de los Candidatos</h1>
+                    <h2 class="fw-bold section-title">Propuestas de los Candidatos</h2>
                     <p class="all-proposals-subtitle">Conoce las propuestas de todos los candidatos</p>
-                    
+
                     <!-- Buscador de Propuestas -->
                     <div class="search-container">
                         <input type="text" id="searchProposalsInput" class="search-input" placeholder="Buscar candidato por nombre, partido o cargo...">
-                        <span class="search-icon">🔍</span>
+                        <span class="search-icon"><i class="bi bi-search"></i></span>
                     </div>
-                    
+
                     <div class="all-proposals-grid" id="proposalsGrid">
                         <?php foreach ($candidatos as $key => $cand): ?>
                             <div class="proposal-preview-card" data-name="<?= strtolower($cand['nombre']) ?>" data-party="<?= strtolower($cand['partido']) ?>" data-position="<?= strtolower($cand['puesto']) ?>">
                                 <div class="proposal-preview-header">
-                                    <img src="<?= $cand['foto'] ?>" 
-                                         alt="<?= $cand['nombre'] ?>" 
-                                         class="proposal-preview-photo">
+                                    <img src="<?= $cand['foto'] ?>"
+                                        alt="<?= $cand['nombre'] ?>"
+                                        class="proposal-preview-photo">
                                     <div class="proposal-preview-info">
                                         <h3 class="proposal-preview-name"><?= $cand['nombre'] ?></h3>
                                         <p class="proposal-preview-party"><?= $cand['partido'] ?></p>
                                         <p class="proposal-preview-position"><?= $cand['puesto'] ?></p>
                                     </div>
                                 </div>
-                                
+
                                 <?php if (!empty($cand['eslogan'])): ?>
                                     <p class="proposal-preview-slogan">"<?= htmlspecialchars($cand['eslogan']) ?>"</p>
                                 <?php endif; ?>
-                                
+
                                 <!-- Video preview -->
                                 <?php if (!empty($cand['video'])): ?>
                                     <div class="proposal-preview-video">
-                                        <?php 
+                                        <?php
                                         $videoId = '';
                                         if (strpos($cand['video'], 'youtube') !== false || strpos($cand['video'], 'youtu.be') !== false) {
                                             if (strpos($cand['video'], 'youtu.be') !== false) {
@@ -141,21 +142,21 @@
                                             }
                                         }
                                         ?>
-                                        <img src="https://img.youtube.com/vi/<?= $videoId ?>/mqdefault.jpg" 
-                                             alt="Video de <?= $cand['nombre'] ?>"
-                                             class="proposal-preview-video-thumb"
-                                             onclick="openVideoModal('<?= $videoId ?>', '<?= $cand['nombre'] ?>')">
+                                        <img src="https://img.youtube.com/vi/<?= $videoId ?>/mqdefault.jpg"
+                                            alt="Video de <?= $cand['nombre'] ?>"
+                                            class="proposal-preview-video-thumb"
+                                            onclick="openVideoModal('<?= $videoId ?>', '<?= $cand['nombre'] ?>')">
                                         <div class="proposal-preview-video-overlay" onclick="openVideoModal('<?= $videoId ?>', '<?= $cand['nombre'] ?>')">
                                             <span>▶</span>
                                         </div>
                                     </div>
                                 <?php endif; ?>
-                                
+
                                 <div class="proposal-preview-content">
                                     <h4>Propuesta Principal:</h4>
                                     <p><?= substr($cand['propuesta'], 0, 200) ?>...</p>
                                 </div>
-                                
+
                                 <a href="propuestas.php?id=<?= $key ?>" class="btn-view-proposal">
                                     Ver Propuesta Completa →
                                 </a>
@@ -174,7 +175,7 @@
                         <h1 class="proposal-name"><?= $candidato['nombre'] ?></h1>
                         <p class="proposal-party"><?= $candidato['partido'] ?></p>
                         <p class="proposal-position">Candidato a: <?= $candidato['puesto'] ?></p>
-                        
+
                         <!-- Eslogan -->
                         <?php if (!empty($candidato['eslogan'])): ?>
                             <p class="proposal-slogan">"<?= htmlspecialchars($candidato['eslogan']) ?>"</p>
@@ -184,7 +185,7 @@
                     <div class="proposal-body">
                         <!-- Video de campaña -->
                         <?php if (!empty($candidato['video'])): ?>
-                            <?php 
+                            <?php
                             $videoId = '';
                             if (strpos($candidato['video'], 'youtube') !== false || strpos($candidato['video'], 'youtu.be') !== false) {
                                 if (strpos($candidato['video'], 'youtu.be') !== false) {
@@ -196,9 +197,9 @@
                             }
                             ?>
                             <div class="proposal-video" onclick="openVideoModal('<?= $videoId ?>', '<?= $candidato['nombre'] ?>')">
-                                <img src="https://img.youtube.com/vi/<?= $videoId ?>/hqdefault.jpg" 
-                                     alt="Video de <?= $candidato['nombre'] ?>"
-                                     class="proposal-video-thumb">
+                                <img src="https://img.youtube.com/vi/<?= $videoId ?>/hqdefault.jpg"
+                                    alt="Video de <?= $candidato['nombre'] ?>"
+                                    class="proposal-video-thumb">
                                 <div class="proposal-video-overlay">
                                     <span>▶</span>
                                 </div>
@@ -243,11 +244,11 @@
         <div class="video-modal-content">
             <span class="video-modal-close" onclick="closeVideoModal()">&times;</span>
             <div class="video-modal-body">
-                <iframe id="videoModalIframe" 
-                        src="" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen></iframe>
+                <iframe id="videoModalIframe"
+                    src=""
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
             </div>
         </div>
     </div>
@@ -260,15 +261,15 @@
         const searchProposalsInput = document.getElementById('searchProposalsInput');
         if (searchProposalsInput) {
             const proposalCards = document.querySelectorAll('.proposal-preview-card');
-            
+
             searchProposalsInput.addEventListener('input', function(e) {
                 const searchTerm = e.target.value.toLowerCase().trim();
-                
+
                 proposalCards.forEach(card => {
                     const name = card.getAttribute('data-name') || '';
                     const party = card.getAttribute('data-party') || '';
                     const position = card.getAttribute('data-position') || '';
-                    
+
                     // Buscar en nombre, partido o cargo
                     if (name.includes(searchTerm) || party.includes(searchTerm) || position.includes(searchTerm)) {
                         card.style.display = '';
@@ -282,7 +283,7 @@
         function openVideoModal(videoId, candidateName) {
             // Detectar si es móvil
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            
+
             if (isMobile) {
                 // En móvil, abrir en YouTube
                 window.open('https://www.youtube.com/watch?v=' + videoId, '_blank');

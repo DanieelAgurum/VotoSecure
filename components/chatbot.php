@@ -37,5 +37,5 @@ $urlBase = getBaseUrl();
     </div>
 </div>
 
-<script src="<?= $urlBase ?>js/chatbot.js"></script>
-<script src="<?= $urlBase ?>js/abrirChatbot.js"></script>
+<script src="<?= $urlBase ?>/js/chatbot.js"></script>
+<script src="<?= $urlBase ?>/js/abrirChatbot.js"></script>
