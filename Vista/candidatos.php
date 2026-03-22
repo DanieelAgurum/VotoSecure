@@ -27,7 +27,6 @@ foreach ($todosCandidatos as $cand) {
 ksort($secciones);
 ?>
 
->>>>>>> 87851b1 (,)
 <!DOCTYPE html>
 <html lang="es">
 
