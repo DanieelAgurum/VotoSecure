@@ -21,6 +21,7 @@ RewriteRule ^vista/admin/elecciones/?$ vista/admin/Elecciones.php [L,QSA,NC]
 RewriteRule ^vista/admin/resultados/?$ vista/admin/Resultados.php [L,QSA,NC]
 RewriteRule ^vista/admin/partidos/?$ vista/admin/Partidos.php [L,QSA,NC]
 RewriteRule ^vista/admin/candidatos/?$ vista/admin/Candidatos.php [L,QSA,NC]
+RewriteRule ^vista/admin/propuestas/?$ vista/admin/Propuestas.php [L,QSA,NC]
 RewriteRule ^vista/admin/registros/?$ vista/admin/Registros.php [L,QSA,NC]
 RewriteRule ^vista/admin/reportes/?$ vista/admin/Reportes.php [L,QSA,NC]
 
