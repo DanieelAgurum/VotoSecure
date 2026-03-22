@@ -8,9 +8,13 @@ if (!isset($_SESSION['id']) || $_SESSION['rol'] != 2) {
 }
 
 require_once '../../Modelo/config/conexion.php';
-require_once '../../Modelo/partidosMdl.php';
-$modelo = new PartidosMdl($conexion);
-$partidos = $modelo->obtenerTodos();
+require_once '../../Modelo/propuestasMdl.php';
+
+$modelo = new PropuestasMdl($conexion);
+$propuestas = $modelo->obtenerConCandidato();
+$candidatos = $modelo->obtenerCandidatos();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +23,7 @@ $partidos = $modelo->obtenerTodos();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partidos Políticos - VotoSecure</title>
+    <title>Propuestas - VotoSecure</title>
     <link rel="icon" type="image/x-icon" href="../../img/vs.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -36,37 +40,31 @@ $partidos = $modelo->obtenerTodos();
 <body>
     <?php include __DIR__ . '/../../components/Admin/Navbar.php'; ?>
 
-    <main class="main-content" id="mainContent">
+    <main class="main-content">
         <div class="container-fluid mt-4">
             <div class="card shadow-sm">
-                <div class="card-header text-center text-dark">
-                    <h5 class="mb-0">
-                        Partidos Políticos
-                    </h5>
+                <div class="card-header text-center">
+                    <h5>Propuestas</h5>
                 </div>
-
                 <div class="card-body">
-                    <button type="button"
-                        class="btn btn-primary mb-3"
+                    <!-- BOTÓN -->
+                    <button class="btn btn-primary mb-3"
                         data-bs-toggle="modal"
-                        data-bs-target="#agregarContenido">
+                        data-bs-target="#agregarPropuesta">
                         Agregar <i class="fa-solid fa-circle-plus"></i>
                     </button>
+                    <!-- ALERTAS -->
                     <div class="container mt-3">
                         <?php
                         if (!empty($_SESSION["errores"])) {
                             foreach ($_SESSION["errores"] as $error) {
-                                echo "<div class='alert alert-danger alert-dismissible fade show'>$error
-                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                            </div>";
+                                echo "<div class='alert alert-danger'>$error</div>";
                             }
                             unset($_SESSION["errores"]);
                         }
 
                         if (!empty($_SESSION["success"])) {
-                            echo "<div class='alert alert-success alert-dismissible fade show'>" . $_SESSION["success"] . "
-                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                            </div>";
+                            echo "<div class='alert alert-success'>" . $_SESSION["success"] . "</div>";
                             unset($_SESSION["success"]);
                         }
                         ?>
@@ -74,65 +72,58 @@ $partidos = $modelo->obtenerTodos();
                     <!-- TABLA -->
                     <div class="table-responsive">
                         <table id="tablaContenido" class="table table-hover table-borderless align-middle">
-                            <thead class="table-info">
+                            <thead class="table-info text-center">
                                 <tr>
-                                    <th class="text-center">No. Partido</th>
-                                    <th class="text-center">Logo</th>
-                                    <th class="text-center">Nombre</th>
-                                    <th class="text-center">Siglas</th>
-                                    <th class="text-center">Estado</th>
-                                    <th class="text-center">Acciones</th>
+                                    <th>No.</th>
+                                    <th>Candidato</th>
+                                    <th>Título</th>
+                                    <th>Slogan</th>
+                                    <th>Misión</th>
+                                    <th>Propuesta</th>
+                                    <th>Video</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (!empty($partidos)) : ?>
-                                    <?php foreach ($partidos as $row) : ?>
-                                        <tr>
-                                            <td class="text-center"><?= htmlspecialchars($row['id_partido']); ?></td>
-
-                                            <td class="text-center">
-                                                <?php if (!empty($row['logo_partido'])) : ?>
-                                                    <img src="../../<?= htmlspecialchars($row['logo_partido']); ?>"
-                                                        width="50" height="50"
-                                                        style="object-fit:cover;">
-                                                <?php else : ?>
-                                                    <img src="../../img/partidos/sl.jpg"
-                                                        width="50" height="50"
-                                                        style="object-fit:cover;">
-                                                <?php endif; ?>
+                                <?php if (!empty($propuestas)): ?>
+                                    <?php foreach ($propuestas as $row): ?>
+                                        <tr class="text-center">
+                                            <td><?= $row['id_propuesta']; ?></td>
+                                            <td><?= htmlspecialchars($row['nombre']); ?> <?= htmlspecialchars($row['apellido']); ?></td>
+                                            <td><?= htmlspecialchars($row['titulo']); ?></td>
+                                            <td><?= htmlspecialchars($row['slogan']); ?></td>
+                                            <td>
+                                                <?= substr(htmlspecialchars($row['mision']), 0, 50); ?>...
                                             </td>
-
-                                            <td class="text-center"><?= htmlspecialchars($row['nombre_partido']); ?></td>
-                                            <td class="text-center"><?= htmlspecialchars($row['siglas']); ?></td>
-                                            <td class="text-center">
-                                                <?php if ($row['estatus'] == 1): ?>
-                                                    <span class="badge bg-success">Activo</span>
+                                            <td>
+                                                <?= substr(htmlspecialchars($row['propuesta_detallada']), 0, 50); ?>...
+                                            </td>
+                                            <td>
+                                                <?php if (!empty($row['video_url'])): ?>
+                                                    <a href="<?= $row['video_url']; ?>" target="_blank" class="btn btn-sm btn-dark">
+                                                        Ver
+                                                    </a>
                                                 <?php else: ?>
-                                                    <span class="badge bg-danger">Desactivado</span>
+                                                    <span class="text-muted">Sin video</span>
                                                 <?php endif; ?>
                                             </td>
-
                                             <td class="text-center">
-                                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal" title="Editar Partido"
-                                                    data-bs-target="#editarPartido_<?= $row['id_partido']; ?>">
+                                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal" title="Editar propuesta"
+                                                    data-bs-target="#editarPropuesta_<?= $row['id_propuesta']; ?>">
                                                     <i class="bi bi-pencil"></i>
                                                 </button>
-
-                                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" title="Eliminar Partido"
-                                                    data-bs-target="#eliminarPartido_<?= $row['id_partido']; ?>">
+                                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" title="Eliminar propuesta"
+                                                    data-bs-target="#eliminarPropuesta_<?= $row['id_propuesta']; ?>">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
-
-                                                <button class="btn btn-sm btn-info" data-bs-toggle="modal" title="Cambiar Estado"
-                                                    data-bs-target="#estadoPartido_<?= $row['id_partido']; ?>">
-                                                    <i class="bi bi-arrow-counterclockwise"></i>
-                                                </button>
                                             </td>
-                                            <?php include 'modales/partidos.php' ?>
+                                            <?php include 'modales/propuestas.php' ?>
                                         </tr>
                                     <?php endforeach; ?>
-                                <?php else : ?>
+                                <?php else: ?>
                                     <tr>
+                                        <td></td>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -144,22 +135,12 @@ $partidos = $modelo->obtenerTodos();
                             </tbody>
                         </table>
                     </div>
-                    <!-- FIN TABLA -->
+                    <!-- MODAL GLOBAL -->
+                    <?php include 'modales/propuestas.php'; ?>
                 </div>
-                <?php include 'modales/partidos.php' ?>
             </div>
         </div>
     </main>
-    <script>
-        function previewImage(event, previewId) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                const output = document.getElementById(previewId);
-                output.src = reader.result;
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    </script>
     <script>
         $(document).ready(function() {
 

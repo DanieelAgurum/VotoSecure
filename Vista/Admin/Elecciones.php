@@ -55,7 +55,6 @@ $municipios = $modelo->obtenerMunicipiosPorEstado(isset($_GET['id_estado']) ? $_
                         Agregar <i class="fa-solid fa-circle-plus"></i>
                     </button>
                     <div class="container mt-3">
-                    <div class="container mt-3" style="max-width: 600px;">
                         <?php
                         if (!empty($_SESSION["errores"])) {
                             foreach ($_SESSION["errores"] as $error) {

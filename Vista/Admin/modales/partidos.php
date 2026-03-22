@@ -17,7 +17,7 @@
 
                             <div class="rounded p-3 mb-3">
                                 <img id="previewCreate"
-                                    src="https://via.placeholder.com/200x200?text=Logo"
+                                    src="https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg"
                                     class="img-fluid rounded"
                                     style="max-height:200px;">
                             </div>
@@ -52,6 +52,9 @@
                     </div>
 
                     <div class="text-end mt-3">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
                         <button type="submit" class="btn btn-success">
                             Guardar
                         </button>
@@ -112,6 +115,9 @@
                         </div>
                     </div>
                     <div class="text-end mt-3">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
                         <button type="submit" class="btn btn-success">
                             Guardar Cambios
                         </button>
