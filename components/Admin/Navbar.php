@@ -63,9 +63,9 @@ $correoAdmin = $_SESSION['correo'];
         <li><a href="elecciones"><i class="bi bi-calendar-check"></i> Elecciones</a></li>
         <li><a href="resultados"><i class="bi bi-bar-chart"></i> Resultados</a></li>
         <li><a href="partidos"><i class="bi bi-building-fill-check"></i> Partidos</a></li>
-        <li><a href="candidatos"><i class="bi bi-person-badge"></i> Candidatos</a></li>
+        <li><a href="casillas"><i class="bi bi-clipboard-check"></i> Casillas</a></li>
         <li><a href="propuestas"><i class="bi bi-lightbulb"></i> Propuestas</a></li>
-    
+        <li><a href="candidatos"><i class="bi bi-person-badge"></i> Candidatos</a></li>
         <li><a href="reportes"><i class="bi bi-printer"></i> Reportes</a></li>
 
     </ul>

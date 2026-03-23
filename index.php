@@ -16,6 +16,53 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
     <link rel="icon" type="image/x-icon" href="img/vs.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="css/estilos.css">
+    <style>
+        /* ── Resultado CSE — grid de datos ─────────────────────────────── */
+        .cse-result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .75rem 1.25rem;
+        }
+        @media (max-width: 520px) {
+            .cse-result-grid { grid-template-columns: 1fr; }
+        }
+        .cse-info-block {
+            padding: .5rem 0;
+            border-bottom: 1px solid rgba(0,0,0,.06);
+        }
+        .cse-info-block:last-child { border-bottom: none; }
+        .cse-casilla-block {
+            grid-column: 1 / -1;
+            background: rgba(26,115,64,.06);
+            border: 1px solid rgba(26,115,64,.18);
+            border-left: 3px solid #1A7340;
+            border-radius: 4px;
+            padding: .6rem .9rem;
+        }
+        .cse-no-casilla {
+            background: rgba(192,57,43,.05);
+            border-color: rgba(192,57,43,.2);
+            border-left-color: #C0392B;
+        }
+        .cse-info-label {
+            font-size: .7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            color: #888;
+            margin-bottom: 2px;
+        }
+        .cse-ico { font-style: normal; margin-right: 3px; }
+        .cse-info-value {
+            font-size: .9rem;
+            font-weight: 600;
+            color: #1A1A1A;
+        }
+        .cse-value-big { font-size: 1rem; color: #1A7340; }
+        .cse-info-sub { font-size: .78rem; color: #555; margin-top: 1px; }
+        .cse-mono { font-family: 'Courier New', monospace; letter-spacing: .05em; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
 </head>
 
 <body>
@@ -63,17 +110,10 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
                     <div class="card candidato-card h-100 text-center">
                         <div class="card-body">
                             <div class="avatar">👨‍💼</div>
-
                             <h5 class="fw-bold mt-3">Candidato A</h5>
                             <span class="partido-badge">Partido Azul</span>
-
-                            <p class="mt-3">
-                                Educación digital, innovación tecnológica y desarrollo sostenible.
-                            </p>
-
-                            <a href="#" class="btn btn-accent mt-3 w-100">
-                                Ver Perfil
-                            </a>
+                            <p class="mt-3">Educación digital, innovación tecnológica y desarrollo sostenible.</p>
+                            <a href="#" class="btn btn-accent mt-3 w-100">Ver Perfil</a>
                         </div>
                     </div>
                 </div>
@@ -82,17 +122,10 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
                     <div class="card candidato-card h-100 text-center">
                         <div class="card-body">
                             <div class="avatar">👩‍💼</div>
-
                             <h5 class="fw-bold mt-3">Candidata B</h5>
                             <span class="partido-badge">Partido Rojo</span>
-
-                            <p class="mt-3">
-                                Crecimiento económico, empleo formal y bienestar social.
-                            </p>
-
-                            <a href="#" class="btn btn-accent mt-3 w-100">
-                                Ver Perfil
-                            </a>
+                            <p class="mt-3">Crecimiento económico, empleo formal y bienestar social.</p>
+                            <a href="#" class="btn btn-accent mt-3 w-100">Ver Perfil</a>
                         </div>
                     </div>
                 </div>
@@ -101,17 +134,10 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
                     <div class="card candidato-card h-100 text-center">
                         <div class="card-body">
                             <div class="avatar">👨‍💼</div>
-
                             <h5 class="fw-bold mt-3">Candidato C</h5>
                             <span class="partido-badge">Partido Verde</span>
-
-                            <p class="mt-3">
-                                Transición energética y políticas ambientales sostenibles.
-                            </p>
-
-                            <a href="#" class="btn btn-accent mt-3 w-100">
-                                Ver Perfil
-                            </a>
+                            <p class="mt-3">Transición energética y políticas ambientales sostenibles.</p>
+                            <a href="#" class="btn btn-accent mt-3 w-100">Ver Perfil</a>
                         </div>
                     </div>
                 </div>
@@ -133,9 +159,9 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
                     <?php while ($row = mysqli_fetch_assoc($resultado)) : ?>
 
                         <?php
-                        $ahora = new DateTime();
+                        $ahora  = new DateTime();
                         $inicio = new DateTime($row['fecha_inicio']);
-                        $fin = new DateTime($row['fecha_fin']);
+                        $fin    = new DateTime($row['fecha_fin']);
 
                         if ($ahora < $inicio) {
                             $estadoVisual = "proxima";
@@ -144,9 +170,6 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
                         } else {
                             $estadoVisual = "activa";
                         }
-
-                        $fecha_fin = $row['fecha_fin'];
-                        $id = $row['id_eleccion'];
                         ?>
                         <div class="proceso-wrapper">
                             <div class="card proceso-card text-center">
@@ -167,24 +190,16 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
                                             data-fecha="<?= $row['fecha_fin'] ?>"
                                             id="countdown-<?= $row['id_eleccion'] ?>">
                                         </div>
-                                        <button class="btn btn-accent w-100">
-                                            Votos en vivo
-                                        </button>
+                                        <button class="btn btn-accent w-100">Votos en vivo</button>
                                     <?php elseif ($estadoVisual == "proxima"): ?>
                                         <div class="countdown mt-2 mb-3"
                                             data-fecha="<?= $row['fecha_inicio'] ?>"
                                             id="countdown-<?= $row['id_eleccion'] ?>">
                                         </div>
-                                        <button class="btn btn-warning w-100" disabled>
-                                            Próximamente
-                                        </button>
+                                        <button class="btn btn-warning w-100" disabled>Próximamente</button>
                                     <?php else: ?>
-                                        <div class="badge bg-danger w-100 mb-3 py-2">
-                                            Finalizada
-                                        </div>
-                                        <button class="btn btn-secondary w-100">
-                                            Ver Resultados
-                                        </button>
+                                        <div class="badge bg-danger w-100 mb-3 py-2">Finalizada</div>
+                                        <button class="btn btn-secondary w-100">Ver Resultados</button>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -192,18 +207,15 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
                     <?php endwhile; ?>
                 <?php else: ?>
                     <div class="col-12 text-center">
-                        <div class="alert alert-info">
-                            No hay procesos activos en este momento.
-                        </div>
+                        <div class="alert alert-info">No hay procesos activos en este momento.</div>
                     </div>
                 <?php endif; ?>
             </div>
         </div>
     </section>
 
-    <!-- Consulta -->
+    <!-- Consulta de Sector Electoral -->
     <div class="cse-wrapper container mb-4">
-        <!-- Tarjeta -->
         <div class="cse-card">
             <h2 class="cse-heading">Consulta tu <span class="cse-heading-accent">sector</span> electoral</h2>
             <p class="cse-description">
@@ -249,21 +261,15 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
                 </button>
                 <div class="cse-chips">
                     <div class="cse-chip">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" /></svg>
                         Datos protegidos
                     </div>
                     <div class="cse-chip">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z" />
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z" /></svg>
                         Consulta 24/7
                     </div>
                     <div class="cse-chip">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L12 15.45 7.77 18l1.12-4.81-3.73-3.23 4.92-.42L12 5l1.92 4.53 4.92.42-3.73 3.23L16.23 18z" />
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L12 15.45 7.77 18l1.12-4.81-3.73-3.23 4.92-.42L12 5l1.92 4.53 4.92.42-3.73 3.23L16.23 18z" /></svg>
                         Resultado inmediato
                     </div>
                 </div>
@@ -271,29 +277,24 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
             <!-- Resultado -->
             <div class="cse-result" id="cse-result">
                 <div class="cse-result__title" id="cse-result-title"></div>
-                <div class="cse-result__body" id="cse-result-body"></div>
+                <div class="cse-result__body"  id="cse-result-body"></div>
             </div>
         </div>
-        <div class="cse-footer">
-            Servicio público gratuito
-        </div>
+        <div class="cse-footer">Servicio público gratuito</div>
     </div>
 
     <!-- FAQ -->
     <div class="faq-section m-3" id="faq">
         <h2 class="faq-title">Preguntas Frecuentes</h2>
-
         <div class="faq-carousel mt-2">
             <?php foreach ($intents as $intentKey => $intentData): ?>
                 <?php if (!isset($intentData['faq'])) continue; ?>
-
                 <div class="faq-card">
                     <div class="faq-card-inner">
                         <h4><?= $intentData['faq']['question']; ?></h4>
                         <p><?= $intentData['faq']['answer']; ?></p>
                     </div>
                 </div>
-
             <?php endforeach; ?>
         </div>
     </div>
@@ -307,6 +308,7 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
     <script src="js/carrusel.js"></script>
     <script src="js/nav.js"></script>
     <script src="js/contador.js"></script>
+    <script src="js/consultaCasilla.js"></script>
 </body>
 
 </html>
