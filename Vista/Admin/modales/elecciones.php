@@ -194,7 +194,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
-            <form action="../../Controlador/eleccionesCtrl.php" method="POST" enctype="multipart/form-data">
+            <form class="form-eliminar" action="../../Controlador/eleccionesCtrl.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="accion" value="eliminar">
                 <input type="hidden" name="id_eleccion" id="eliminar" value="<?= $row['id_eleccion']; ?>">
                 <div class="modal-header bg-danger text-white">
@@ -221,7 +221,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
-            <form action="../../Controlador/eleccionesCtrl.php" method="POST" enctype="multipart/form-data">
+            <form class="form-cancelar" action="../../Controlador/eleccionesCtrl.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="accion" value="cancelar">
                 <input type="hidden" name="cancelar_id" id="cancelar_id" value="<?= $row['id_eleccion']; ?>">
                 <div class="modal-header bg-info text-white">

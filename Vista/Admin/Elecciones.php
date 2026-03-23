@@ -31,6 +31,7 @@ $municipios = $modelo->obtenerMunicipiosPorEstado(isset($_GET['id_estado']) ? $_
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../../css/admin.css">
     <link rel="stylesheet" href="../../css/dash.css">
 </head>
@@ -54,24 +55,36 @@ $municipios = $modelo->obtenerMunicipiosPorEstado(isset($_GET['id_estado']) ? $_
                         data-bs-target="#modalAgregarEleccion">
                         Agregar <i class="fa-solid fa-circle-plus"></i>
                     </button>
-                    <div class="container mt-3">
-                        <?php
-                        if (!empty($_SESSION["errores"])) {
-                            foreach ($_SESSION["errores"] as $error) {
-                                echo "<div class='alert alert-danger alert-dismissible fade show'>
-                                $error
-                                <button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
-                            }
-                            unset($_SESSION["errores"]);
-                        }
-                        if (!empty($_SESSION["success"])) {
-                            echo "<div class='alert alert-success alert-dismissible fade show'>
-                            " . $_SESSION["success"] . "
-                            <button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
-                            unset($_SESSION["success"]);
-                        }
-                        ?>
-                    </div>
+                    <?php if (!empty($_SESSION["errores"])): ?>
+                        <script>
+                            Swal.fire({
+                                icon: 'error',
+                                title: '¡Atención!',
+                                html: `<ul class="text-start">
+                                <?php foreach ($_SESSION["errores"] as $error): ?>
+                                    <li><?= htmlspecialchars($error) ?></li>
+                                    <?php endforeach; ?>
+                                    </ul>`,
+                                confirmButtonColor: '#d33',
+                                confirmButtonText: 'Entendido'
+                            });
+                        </script>
+                    <?php unset($_SESSION["errores"]);
+                    endif; ?>
+
+                    <?php if (!empty($_SESSION["success"])): ?>
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Éxito!',
+                                text: '<?= htmlspecialchars($_SESSION["success"]) ?>',
+                                timer: 2500,
+                                timerProgressBar: true,
+                                showConfirmButton: false
+                            });
+                        </script>
+                    <?php unset($_SESSION["success"]);
+                    endif; ?>
                     <!-- TABLA -->
                     <div class="table-responsive">
                         <table id="tablaContenido" class="table table-hover table-borderless align-middle">
@@ -192,6 +205,43 @@ $municipios = $modelo->obtenerMunicipiosPorEstado(isset($_GET['id_estado']) ? $_
             </div>
         </div>
     </main>
+    <script>
+        document.querySelectorAll('.form-eliminar').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: '¿Eliminar elección?',
+                    text: 'Esta acción no se puede deshacer.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then(result => {
+                    if (result.isConfirmed) form.submit();
+                });
+            });
+        });
+
+        document.querySelectorAll('.form-cancelar').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: '¿Cancelar elección?',
+                    text: 'Esta acción no se puede deshacer.',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#0dcaf0',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Sí, cancelar',
+                    cancelButtonText: 'No'
+                }).then(result => {
+                    if (result.isConfirmed) form.submit();
+                });
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
 
