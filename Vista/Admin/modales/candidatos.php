@@ -177,10 +177,6 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Distrito</label>
-                                <input type="text" name="distrito" id="modificar_distrito" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
                                 <label class="form-label">Correo</label>
                                 <input type="email" name="correo" id="modificar_correo" class="form-control" required>
                             </div>
