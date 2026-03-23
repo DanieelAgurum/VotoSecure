@@ -129,7 +129,7 @@
 </div>
 
 <!-- Modal para activar/desactivar contenido-->
-<div class=" modal fade" id="estadoPartido_<?php echo $row['id_partido']; ?>" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <div class=" modal fade" id="estadoPartido_<?php echo $row['id_partido']; ?>" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
@@ -164,10 +164,10 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- Modal eliminar partido -->
-<div class="modal fade" id="eliminarPartido_<?= $row['id_partido']; ?>" tabindex="-1">
+<!-- <div class="modal fade" id="eliminarPartido_<?= $row['id_partido']; ?>" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
@@ -193,4 +193,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

@@ -154,33 +154,35 @@ $municipios = $modelo->obtenerMunicipiosPorEstado(isset($_GET['id_estado']) ? $_
                                             </td>
 
                                             <td class="text-center">
-                                                <?php if ($row['estado_calculado'] == 'Programada'): ?>
-                                                    <button class="btn btn-sm btn-warning"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#editarEleccion_<?= $row['id_eleccion']; ?>">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-danger"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#eliminarEleccion_<?= $row['id_eleccion']; ?>">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                    <button type="submit" class="btn btn-sm btn-dark"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#cancelarEleccion_<?= $row['id_eleccion']; ?>">
-                                                        <i class="bi bi-x-circle"></i>
-                                                    </button>
-                                                <?php else: ?>
-                                                    <button class="btn btn-sm btn-secondary" disabled>
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-secondary" disabled>
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-secondary" disabled>
-                                                        <i class="bi bi-x-circle"></i>
-                                                    </button>
-                                                <?php endif; ?>
+                                                <div class="d-flex justify-content-center align-items-center gap-1">
+                                                    <?php if ($row['estado_calculado'] == 'Programada'): ?>
+                                                        <button class="btn btn-sm btn-warning"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#editarEleccion_<?= $row['id_eleccion']; ?>">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                        <form class="form-eliminar d-inline" method="POST" action="../../Controlador/eleccionesCtrl.php">
+                                                            <input type="hidden" name="accion" value="eliminar">
+                                                            <input type="hidden" name="id_eleccion" value="<?= $row['id_eleccion'] ?>">
+                                                            <input type="hidden" name="nombre_eleccion" value="<?= htmlspecialchars($row['nombre_eleccion']) ?>">
+                                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                        <form class="form-cancelar d-inline" method="POST" action="../../Controlador/eleccionesCtrl.php">
+                                                            <input type="hidden" name="accion" value="cancelar">
+                                                            <input type="hidden" name="cancelar_id" value="<?= $row['id_eleccion'] ?>">
+                                                            <input type="hidden" name="nombre_eleccion" value="<?= htmlspecialchars($row['nombre_eleccion']) ?>">
+                                                            <button type="submit" class="btn btn-sm btn-dark">
+                                                                <i class="bi bi-x-circle"></i>
+                                                            </button>
+                                                        </form>
+                                                    <?php else: ?>
+                                                        <button class="btn btn-sm btn-secondary" disabled><i class="bi bi-pencil"></i></button>
+                                                        <button class="btn btn-sm btn-secondary" disabled><i class="bi bi-trash"></i></button>
+                                                        <button class="btn btn-sm btn-secondary" disabled><i class="bi bi-x-circle"></i></button>
+                                                    <?php endif; ?>
+                                                </div>
                                             </td>
                                             <?php include 'modales/elecciones.php'; ?>
                                         </tr>
@@ -209,9 +211,13 @@ $municipios = $modelo->obtenerMunicipiosPorEstado(isset($_GET['id_estado']) ? $_
         document.querySelectorAll('.form-eliminar').forEach(form => {
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
+
+                const nombre = this.querySelector('[name="nombre_eleccion"]').value;
+
                 Swal.fire({
                     title: '¿Eliminar elección?',
-                    text: 'Esta acción no se puede deshacer.',
+                    html: `¿Estás seguro de eliminar <strong>"${nombre}"</strong>?<br>
+                       <small class="text-muted">Esta acción no se puede deshacer.</small>`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
@@ -227,9 +233,13 @@ $municipios = $modelo->obtenerMunicipiosPorEstado(isset($_GET['id_estado']) ? $_
         document.querySelectorAll('.form-cancelar').forEach(form => {
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
+
+                const nombre = this.querySelector('[name="nombre_eleccion"]').value;
+
                 Swal.fire({
                     title: '¿Cancelar elección?',
-                    text: 'Esta acción no se puede deshacer.',
+                    html: `¿Estás seguro de cancelar <strong>"${nombre}"</strong>?<br>
+                       <small class="text-muted">Esta acción no se puede deshacer.</small>`,
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: '#0dcaf0',

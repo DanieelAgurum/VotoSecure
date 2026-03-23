@@ -79,7 +79,7 @@ $partidos = $modelo->obtenerTodos();
                                 timer: 2500,
                                 timerProgressBar: true,
                                 showConfirmButton: false,
-                                allowOutsideClick: true, 
+                                allowOutsideClick: true,
                                 allowEscapeKey: true
                             });
                         </script>
@@ -132,15 +132,25 @@ $partidos = $modelo->obtenerTodos();
                                                     <i class="bi bi-pencil"></i>
                                                 </button>
 
-                                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" title="Eliminar Partido"
-                                                    data-bs-target="#eliminarPartido_<?= $row['id_partido']; ?>">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
+                                                <form class="form-eliminar d-inline" method="POST" action="../../Controlador/partidosCtrl.php">
+                                                    <input type="hidden" name="accion" value="eliminar">
+                                                    <input type="hidden" name="id_partido" value="<?= $row['id_partido'] ?>">
+                                                    <input type="hidden" name="nombre_partido" value="<?= htmlspecialchars($row['nombre_partido']) ?>">
+                                                    <button type="submit" class="btn btn-sm btn-danger" title="Eliminar Partido">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
 
-                                                <button class="btn btn-sm btn-info" data-bs-toggle="modal" title="Cambiar Estado"
-                                                    data-bs-target="#estadoPartido_<?= $row['id_partido']; ?>">
-                                                    <i class="bi bi-arrow-counterclockwise"></i>
-                                                </button>
+                                                <form class="form-estado d-inline" method="POST" action="../../Controlador/partidosCtrl.php">
+                                                    <input type="hidden" name="accion" value="cambiarEstado">
+                                                    <input type="hidden" name="id_partido" value="<?= $row['id_partido'] ?>">
+                                                    <input type="hidden" name="nuevo_estado" value="<?= $row['estatus'] == 1 ? 0 : 1 ?>">
+                                                    <input type="hidden" name="nombre_partido" value="<?= htmlspecialchars($row['nombre_partido']) ?>">
+                                                    <input type="hidden" name="estado_actual" value="<?= $row['estatus'] ?>">
+                                                    <button type="submit" class="btn btn-sm btn-info" title="Cambiar Estado">
+                                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                             <?php include 'modales/partidos.php' ?>
                                         </tr>
@@ -179,19 +189,48 @@ $partidos = $modelo->obtenerTodos();
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
 
+                const nombre = this.querySelector('[name="nombre_partido"]').value;
+
                 Swal.fire({
                     title: '¿Eliminar partido?',
-                    text: 'Esta acción no se puede deshacer.',
+                    html: `¿Estás seguro de eliminar <strong>"${nombre}"</strong>?<br>
+                       <small class="text-muted">Esta acción no se puede deshacer.</small>`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#6c757d',
                     confirmButtonText: 'Sí, eliminar',
                     cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
+                }).then(result => {
+                    if (result.isConfirmed) form.submit();
+                });
+            });
+        });
+    </script>
+    <script>
+        document.querySelectorAll('.form-estado').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const nombre = this.querySelector('[name="nombre_partido"]').value;
+                const estadoActual = this.querySelector('[name="estado_actual"]').value;
+
+                // El mensaje cambia según el estado actual
+                const accion = estadoActual == 1 ? 'desactivar' : 'activar';
+                const icono = estadoActual == 1 ? 'warning' : 'question';
+                const color = estadoActual == 1 ? '#d33' : '#3085d6';
+
+                Swal.fire({
+                    title: `¿${accion.charAt(0).toUpperCase() + accion.slice(1)} partido?`,
+                    html: `¿Estás seguro de <strong>${accion}</strong> el partido <strong>"${nombre}"</strong>?`,
+                    icon: icono,
+                    showCancelButton: true,
+                    confirmButtonColor: color,
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: `Sí, ${accion}`,
+                    cancelButtonText: 'Cancelar'
+                }).then(result => {
+                    if (result.isConfirmed) form.submit();
                 });
             });
         });
