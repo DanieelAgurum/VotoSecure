@@ -183,15 +183,11 @@
             </div>
 
             <div class="modal-footer justify-content-end">
-                <form method="POST" action="../../Controlador/partidosCtrl.php">
+                <form class="form-eliminar" method="POST" action="../../Controlador/partidosCtrl.php">
                     <input type="hidden" name="accion" value="eliminar">
-                    <input type="hidden" name="id_partido" id="eliminar" value="<?= $row['id_partido']; ?>">
-
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Cancelar
-                    </button>
-                    <button type="submit" class="btn btn-danger">
-                        Eliminar
+                    <input type="hidden" name="id_partido" value="<?= $partido['id_partido'] ?>">
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i> Eliminar
                     </button>
                 </form>
             </div>
