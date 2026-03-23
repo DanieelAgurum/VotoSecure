@@ -65,7 +65,7 @@ $correoAdmin = $_SESSION['correo'];
         <li><a href="partidos"><i class="bi bi-building-fill-check"></i> Partidos</a></li>
         <li><a href="candidatos"><i class="bi bi-person-badge"></i> Candidatos</a></li>
         <li><a href="propuestas"><i class="bi bi-lightbulb"></i> Propuestas</a></li>
-        <li><a href="registros"><i class="bi bi-file-earmark-text"></i> Registros</a></li>
+    
         <li><a href="reportes"><i class="bi bi-printer"></i> Reportes</a></li>
 
     </ul>

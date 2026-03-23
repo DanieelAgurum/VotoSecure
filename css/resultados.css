@@ -1,0 +1,190 @@
+/* ══════════════════════════════
+   RESULTADOS.CSS — VotoSecure
+══════════════════════════════ */
+
+/* ── Ganador card ── */
+.ganador-card {
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 20px;
+    border-left: 5px solid #F59E0B;
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    border-left: 5px solid #F59E0B;
+    box-shadow: 0 4px 16px rgba(245,158,11,0.12);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.ganador-card::after {
+    content: '🏆';
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 36px;
+    opacity: 0.15;
+}
+
+.ganador-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(245,158,11,0.2);
+}
+
+.ganador-puesto {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #92400E;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ganador-nombre {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1E3A5F;
+    line-height: 1.2;
+    margin-bottom: 4px;
+}
+
+.ganador-partido {
+    display: inline-block;
+    background: #FDE68A;
+    color: #92400E;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+}
+
+.ganador-votos {
+    font-size: 32px;
+    font-weight: 900;
+    color: #F59E0B;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.ganador-pct {
+    font-size: 12px;
+    color: #78716C;
+    margin-top: 2px;
+}
+
+.ganador-barra {
+    height: 6px;
+    background: #FDE68A;
+    border-radius: 3px;
+    margin-top: 12px;
+    overflow: hidden;
+}
+
+.ganador-barra-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #F59E0B, #FBBF24);
+    border-radius: 3px;
+    transition: width 1s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── Sin ganador ── */
+.sin-votos-card {
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 20px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-left: 5px solid #CBD5E1;
+}
+
+.sin-votos-card .ganador-puesto { color: #94A3B8; }
+.sin-votos-card .ganador-nombre { color: #94A3B8; font-size: 15px; font-weight: 600; }
+
+/* ── Grafica puesto card ── */
+.puesto-grafica-card {
+    background: #FFFFFF;
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 20px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 2px 10px rgba(15,23,42,0.06);
+}
+
+.puesto-grafica-title {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #1E3A5F;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.puesto-grafica-sub {
+    font-size: 11px;
+    color: #94A3B8;
+    margin-bottom: 14px;
+}
+
+/* ── Tabla ── */
+.table-resultados-res {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.table-resultados-res thead tr { background: #1E3A5F; }
+
+.table-resultados-res th {
+    padding: 11px 14px;
+    text-align: left;
+    font-weight: 700;
+    color: #B8CCE0;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border: none;
+}
+
+.table-resultados-res td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #F1F5F9;
+    vertical-align: middle;
+    color: #334155;
+}
+
+.table-resultados-res tbody tr:hover { background: #F8FAFC; }
+.table-resultados-res tbody tr:last-child td { border-bottom: none; }
+
+.fila-ganador { background: rgba(245,158,11,0.06) !important; }
+.fila-ganador td:first-child { border-left: 3px solid #F59E0B; }
+
+/* ── Acta PDF preview badge ── */
+.acta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #1E3A5F;
+    color: #C8A84B;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-left: 3px solid #C8A84B;
+}
+
+/* ── Print ── */
+@media print {
+    .main-content { margin-left: 0 !important; }
+    .btn, .dashboard-title, select { display: none !important; }
+    .chart-card, .ganador-card { box-shadow: none !important; border: 1px solid #ddd !important; }
+}

@@ -1,228 +1,92 @@
 <?php
 session_start();
 
-require_once "../modelo/config/conexion.php";
-require_once "../Modelo/propuestasMdl.php";
-
-class PropuestasCtrl
-{
-
-    private $modelo;
-
-    public function __construct($conexion)
-    {
-        $this->modelo = new PropuestasMdl($conexion);
-    }
-
-    public function crear()
-    {
-        $candidato_id = $_POST["candidato_id"] ?? null;
-        $titulo = trim($_POST["titulo"] ?? "");
-        $slogan = trim($_POST["slogan"] ?? "");
-        $mision = trim($_POST["mision"] ?? "");
-        $propuesta_detallada = trim($_POST["propuesta_detallada"] ?? "");
-        $video_url = trim($_POST["video_url"] ?? "");
-
-        $errores = [];
-
-        if (empty($candidato_id)) {
-            $errores[] = "Debe seleccionar un candidato.";
-        }
-
-        if (empty($titulo)) {
-            $errores[] = "El título es obligatorio.";
-        }
-
-        if (empty($propuesta_detallada)) {
-            $errores[] = "La propuesta detallada es obligatoria.";
-        }
-
-        if (strlen($titulo) > 150) {
-            $errores[] = "El título no puede superar los 150 caracteres.";
-        }
-
-        if (!empty($slogan) && strlen($slogan) > 255) {
-            $errores[] = "El slogan es demasiado largo.";
-        }
-
-        if (!empty($mision) && strlen($mision) > 500) {
-            $errores[] = "La misión no puede superar los 500 caracteres.";
-        }
-
-        if (strlen($propuesta_detallada) < 20) {
-            $errores[] = "La propuesta debe tener al menos 20 caracteres.";
-        }
-
-        if (!preg_match("/^[\p{L}0-9\s.,áéíóúÁÉÍÓÚñÑ]+$/u", $titulo)) {
-            $errores[] = "El título contiene caracteres no válidos.";
-        }
-
-        if (!empty($video_url)) {
-
-            if (!filter_var($video_url, FILTER_VALIDATE_URL)) {
-                $errores[] = "La URL del video no es válida.";
-            }
-
-            if (!preg_match("/(youtube\.com|youtu\.be)/", $video_url)) {
-                $errores[] = "Solo se permiten enlaces de YouTube.";
-            }
-        }
-
-        if ($this->modelo->existeTitulo($titulo, $candidato_id)) {
-            $errores[] = "Ya existe una propuesta con ese título para este candidato.";
-        }
-
-        $titulo = htmlspecialchars($titulo, ENT_QUOTES, 'UTF-8');
-        $slogan = htmlspecialchars($slogan, ENT_QUOTES, 'UTF-8');
-        $mision = htmlspecialchars($mision, ENT_QUOTES, 'UTF-8');
-        $propuesta_detallada = htmlspecialchars($propuesta_detallada, ENT_QUOTES, 'UTF-8');
-
-        $video_url = $this->convertirYoutubeEmbed($video_url);
-
-        if (!empty($errores)) {
-            $_SESSION["errores"] = $errores;
-            header("Location: ../Vista/admin/propuestas.php");
-            exit;
-        }
-
-        if ($this->modelo->crear($candidato_id, $titulo, $slogan, $mision, $propuesta_detallada, $video_url)) {
-            $_SESSION["success"] = "Propuesta registrada correctamente.";
-        } else {
-            $_SESSION["errores"] = ["Error al registrar la propuesta."];
-        }
-
-        header("Location: ../Vista/admin/propuestas.php");
-        exit;
-    }
-
-    public function actualizar()
-    {
-        $id = $_POST["id"] ?? null;
-        $candidato_id = $_POST["candidato_id"] ?? null;
-        $titulo = trim($_POST["titulo"] ?? "");
-        $slogan = trim($_POST["slogan"] ?? "");
-        $mision = trim($_POST["mision"] ?? "");
-        $propuesta_detallada = trim($_POST["propuesta_detallada"] ?? "");
-        $video_url = trim($_POST["video_url"] ?? "");
-
-        $errores = [];
-
-        if (empty($id)) {
-            $errores[] = "ID inválido.";
-        }
-
-        if (empty($candidato_id)) {
-            $errores[] = "Debe seleccionar un candidato.";
-        }
-
-        if (empty($titulo)) {
-            $errores[] = "El título es obligatorio.";
-        }
-
-        if (empty($propuesta_detallada)) {
-            $errores[] = "La propuesta detallada es obligatoria.";
-        }
-
-        if (strlen($titulo) > 150) {
-            $errores[] = "El título es demasiado largo.";
-        }
-
-        if (!empty($mision) && strlen($mision) > 500) {
-            $errores[] = "La misión es demasiado larga.";
-        }
-
-        if (!empty($video_url)) {
-
-            if (!filter_var($video_url, FILTER_VALIDATE_URL)) {
-                $errores[] = "La URL del video no es válida.";
-            }
-
-            if (!preg_match("/(youtube\.com|youtu\.be)/", $video_url)) {
-                $errores[] = "Solo se permiten enlaces de YouTube.";
-            }
-        }
-
-        if ($this->modelo->existeTitulo($titulo, $candidato_id, $id)) {
-            $errores[] = "Ya existe otra propuesta con ese título para este candidato.";
-        }
-
-        $titulo = htmlspecialchars($titulo, ENT_QUOTES, 'UTF-8');
-        $slogan = htmlspecialchars($slogan, ENT_QUOTES, 'UTF-8');
-        $mision = htmlspecialchars($mision, ENT_QUOTES, 'UTF-8');
-        $propuesta_detallada = htmlspecialchars($propuesta_detallada, ENT_QUOTES, 'UTF-8');
-
-        $video_url = $this->convertirYoutubeEmbed($video_url);
-
-        if (!empty($errores)) {
-            $_SESSION["errores"] = $errores;
-            header("Location: ../Vista/admin/propuestas.php");
-            exit;
-        }
-
-        if ($this->modelo->actualizar($id, $candidato_id, $titulo, $slogan, $mision, $propuesta_detallada, $video_url)) {
-            $_SESSION["success"] = "Propuesta actualizada correctamente.";
-        } else {
-            $_SESSION["errores"] = ["Error al actualizar la propuesta."];
-        }
-
-        header("Location: ../Vista/admin/propuestas.php");
-        exit;
-    }
-
-    public function eliminar()
-    {
-        $id = $_POST["id"];
-
-        if ($this->modelo->eliminar($id)) {
-            $_SESSION["success"] = "Propuesta eliminada correctamente.";
-        } else {
-            $_SESSION["errores"] = ["Error al eliminar la propuesta."];
-        }
-
-        header("Location: ../Vista/admin/propuestas.php");
-        exit;
-    }
-
-    private function convertirYoutubeEmbed($url)
-    {
-        if (empty($url)) return null;
-
-        if (strpos($url, "embed") !== false) {
-            return $url;
-        }
-
-        if (strpos($url, "watch?v=") !== false) {
-            parse_str(parse_url($url, PHP_URL_QUERY), $params);
-            if (isset($params['v'])) {
-                return "https://www.youtube.com/embed/" . $params['v'];
-            }
-        }
-
-        if (strpos($url, "youtu.be/") !== false) {
-            $videoId = basename(parse_url($url, PHP_URL_PATH));
-            return "https://www.youtube.com/embed/" . $videoId;
-        }
-
-        return $url;
-    }
+if (!isset($_SESSION['id']) || $_SESSION['rol'] != 2) {
+    http_response_code(403); exit;
 }
 
-$controlador = new PropuestasCtrl($conexion);
+require_once __DIR__ . '/../Modelo/propuestasMdl.php';
 
-if (isset($_POST["accion"])) {
+header('Content-Type: application/json; charset=utf-8');
 
-    switch ($_POST["accion"]) {
+function respuesta($data) {
+    echo json_encode($data); exit;
+}
 
-        case "crear":
-            $controlador->crear();
-            break;
-
-        case "actualizar":
-            $controlador->actualizar();
-            break;
-
-        case "eliminar":
-            $controlador->eliminar();
-            break;
+function convertirYoutubeEmbed($url) {
+    if (empty($url)) return null;
+    if (strpos($url, 'embed') !== false) return $url;
+    if (strpos($url, 'watch?v=') !== false) {
+        parse_str(parse_url($url, PHP_URL_QUERY), $p);
+        return isset($p['v']) ? 'https://www.youtube.com/embed/' . $p['v'] : $url;
     }
+    if (strpos($url, 'youtu.be/') !== false) {
+        return 'https://www.youtube.com/embed/' . basename(parse_url($url, PHP_URL_PATH));
+    }
+    return $url;
+}
+
+$modelo = new PropuestasMdl();
+$accion = $_POST['accion'] ?? $_GET['accion'] ?? '';
+
+switch ($accion) {
+
+    case 'listar':
+        respuesta(['success' => true, 'data' => $modelo->obtenerTodas()]);
+
+    case 'obtener':
+        $id = (int)($_GET['id'] ?? 0);
+        if ($id <= 0) respuesta(['success' => false, 'error' => 'ID inválido']);
+        $prop = $modelo->obtenerPorId($id);
+        respuesta($prop ? ['success' => true, 'data' => $prop] : ['success' => false, 'error' => 'No encontrada']);
+
+    case 'candidatos':
+        respuesta(['success' => true, 'data' => $modelo->obtenerCandidatos()]);
+
+    case 'crear':
+        $titulo   = trim($_POST['titulo'] ?? '');
+        $cid      = (int)($_POST['candidato_id'] ?? 0);
+        $slogan   = trim($_POST['slogan'] ?? '');
+        $mision   = trim($_POST['mision'] ?? '');
+        $detalle  = trim($_POST['propuesta_detallada'] ?? '');
+        $video    = convertirYoutubeEmbed(trim($_POST['video_url'] ?? ''));
+
+        if (empty($titulo) || $cid <= 0 || strlen($detalle) < 20)
+            respuesta(['success' => false, 'error' => 'Faltan campos requeridos']);
+
+        if ($modelo->existeTitulo($titulo, $cid))
+            respuesta(['success' => false, 'error' => 'Ya existe una propuesta con ese título para este candidato']);
+
+        $ok = $modelo->crear($cid, $titulo, $slogan, $mision, $detalle, $video);
+        respuesta($ok ? ['success' => true, 'message' => 'Propuesta creada correctamente']
+                      : ['success' => false, 'error' => 'Error al crear la propuesta']);
+
+    case 'actualizar':
+        $id      = (int)($_POST['id'] ?? 0);
+        $titulo  = trim($_POST['titulo'] ?? '');
+        $cid     = (int)($_POST['candidato_id'] ?? 0);
+        $slogan  = trim($_POST['slogan'] ?? '');
+        $mision  = trim($_POST['mision'] ?? '');
+        $detalle = trim($_POST['propuesta_detallada'] ?? '');
+        $video   = convertirYoutubeEmbed(trim($_POST['video_url'] ?? ''));
+
+        if ($id <= 0 || empty($titulo) || $cid <= 0)
+            respuesta(['success' => false, 'error' => 'Faltan campos requeridos']);
+
+        if ($modelo->existeTitulo($titulo, $cid, $id))
+            respuesta(['success' => false, 'error' => 'Ya existe otra propuesta con ese título']);
+
+        $ok = $modelo->actualizar($id, $cid, $titulo, $slogan, $mision, $detalle, $video);
+        respuesta($ok ? ['success' => true, 'message' => 'Propuesta actualizada correctamente']
+                      : ['success' => false, 'error' => 'Error al actualizar']);
+
+    case 'eliminar':
+        $id = (int)($_POST['id'] ?? 0);
+        if ($id <= 0) respuesta(['success' => false, 'error' => 'ID inválido']);
+        $ok = $modelo->eliminar($id);
+        respuesta($ok ? ['success' => true, 'message' => 'Propuesta eliminada']
+                      : ['success' => false, 'error' => 'Error al eliminar']);
+
+    default:
+        respuesta(['success' => false, 'error' => 'Acción no válida']);
 }
