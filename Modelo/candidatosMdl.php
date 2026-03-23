@@ -1,7 +1,8 @@
 <?php
 require_once __DIR__ . '/config/conexion.php';
 
-class Candidato {
+class Candidato
+{
     private $id;
     private $nombre;
     private $apellido;
@@ -17,7 +18,8 @@ class Candidato {
 
     public function __construct() {}
 
-    private function validarDatos($datos) {
+    private function validarDatos($datos)
+    {
         $errores = [];
 
         if (empty($datos['nombre']) || strlen(trim($datos['nombre'])) < 2)
@@ -44,7 +46,8 @@ class Candidato {
         return $errores;
     }
 
-    private function obtenerTipoPorEleccion($id_eleccion, $conexion) {
+    private function obtenerTipoPorEleccion($id_eleccion, $conexion)
+    {
         $sql = "SELECT id_tipo FROM elecciones WHERE id_eleccion = :id_eleccion";
         $stmt = $conexion->prepare($sql);
         $stmt->execute([':id_eleccion' => (int)$id_eleccion]);
@@ -53,7 +56,8 @@ class Candidato {
         return (int)$row['id_tipo'];
     }
 
-    private function procesarFoto($file) {
+    private function procesarFoto($file)
+    {
         if (!isset($file['error']) || is_array($file['error'])) return null;
         if ($file['error'] === UPLOAD_ERR_NO_FILE) return null;
         if ($file['error'] !== UPLOAD_ERR_OK) throw new Exception("Error al subir la foto");
@@ -71,7 +75,8 @@ class Candidato {
         return "data:" . $mimeType . ";base64," . base64_encode(file_get_contents($file['tmp_name']));
     }
 
-    public function guardar($datos, $file = null) {
+    public function guardar($datos, $file = null)
+    {
         try {
             $errores = $this->validarDatos($datos);
             if (!empty($errores))
@@ -108,7 +113,6 @@ class Candidato {
             return $resultado
                 ? ['success' => true, 'message' => 'Candidato guardado correctamente']
                 : ['success' => false, 'error' => 'Error al guardar el candidato'];
-
         } catch (PDOException $e) {
             error_log("Error en guardar candidato: " . $e->getMessage());
             return ['success' => false, 'error' => 'Error de base de datos'];
@@ -118,7 +122,8 @@ class Candidato {
         }
     }
 
-    public function obtenerCandidatos() {
+    public function obtenerCandidatos()
+    {
         try {
             $conexion = (new Conexion())->conectar();
 
@@ -135,14 +140,14 @@ class Candidato {
             $stmt = $conexion->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
         } catch (PDOException $e) {
             error_log("Error en obtenerCandidatos: " . $e->getMessage());
             return [];
         }
     }
 
-    public function obtenerPartidos() {
+    public function obtenerPartidos()
+    {
         try {
             $conexion = (new Conexion())->conectar();
             $sql = "SELECT id_partido, nombre_partido, siglas, logo_partido 
@@ -156,7 +161,8 @@ class Candidato {
         }
     }
 
-    public function obtenerElecciones() {
+    public function obtenerElecciones()
+    {
         try {
             $conexion = (new Conexion())->conectar();
             // ✅ Sin filtro de estado — trae todas las elecciones
@@ -172,7 +178,8 @@ class Candidato {
         }
     }
 
-    public function eliminar($id) {
+    public function eliminar($id)
+    {
         try {
             if (empty($id) || !is_numeric($id))
                 return ['success' => false, 'error' => 'ID de candidato inválido'];
@@ -187,14 +194,14 @@ class Candidato {
             return $resultado
                 ? ['success' => true, 'message' => 'Candidato eliminado correctamente']
                 : ['success' => false, 'error' => 'Error al eliminar el candidato'];
-
         } catch (PDOException $e) {
             error_log("Error en eliminar candidato: " . $e->getMessage());
             return ['success' => false, 'error' => 'Error de base de datos'];
         }
     }
 
-    public function obtenerPorId($id) {
+    public function obtenerPorId($id)
+    {
         try {
             if (empty($id) || !is_numeric($id))
                 return ['success' => false, 'error' => 'ID de candidato inválido'];
@@ -220,14 +227,14 @@ class Candidato {
             return $candidato
                 ? ['success' => true, 'candidato' => $candidato]
                 : ['success' => false, 'error' => 'Candidato no encontrado'];
-
         } catch (PDOException $e) {
             error_log("Error en obtenerPorId: " . $e->getMessage());
             return ['success' => false, 'error' => 'Error de base de datos'];
         }
     }
 
-    public function modificar($datos, $file = null) {
+    public function modificar($datos, $file = null)
+    {
         try {
             $errores = $this->validarDatos($datos);
             if (!empty($errores))
@@ -279,7 +286,6 @@ class Candidato {
             }
 
             return ['success' => false, 'error' => 'Error al actualizar el candidato'];
-
         } catch (PDOException $e) {
             error_log("Error en modificar candidato: " . $e->getMessage());
             return ['success' => false, 'error' => 'Error de base de datos'];
@@ -289,23 +295,23 @@ class Candidato {
         }
     }
 
-    public function getCandidatosEleccionCercana($limit = 3) {
+    public function getCandidatosEleccionCercana($limit = 3)
+    {
         try {
             $conexion = (new Conexion())->conectar();
             if ($conexion === null) return [];
 
             // Encontrar ID de la elección más cercana (priorizando futuras)
-            $sqlEleccion = "SELECT id_eleccion FROM elecciones 
-                            ORDER BY 
-                              CASE 
-                                WHEN fecha_inicio > CURDATE() THEN (fecha_inicio - CURDATE()) 
-                                ELSE (CURDATE() - fecha_fin) * -1 
-                              END ASC 
-                            LIMIT 1";
+            $sqlEleccion = "SELECT id_eleccion 
+            FROM elecciones
+            WHERE fecha_inicio > CURDATE()
+            ORDER BY fecha_inicio ASC
+            LIMIT 1;";
+            
             $stmtEleccion = $conexion->prepare($sqlEleccion);
             $stmtEleccion->execute();
             $eleccion = $stmtEleccion->fetch(PDO::FETCH_ASSOC);
-            
+
             if (!$eleccion) return [];
 
             $idEleccion = $eleccion['id_eleccion'];
@@ -320,14 +326,13 @@ class Candidato {
                     WHERE c.id_eleccion = :id_eleccion AND c.estatus = 'activo'
                     ORDER BY c.id DESC 
                     LIMIT :limit";
-            
+
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(':id_eleccion', $idEleccion, PDO::PARAM_INT);
             $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
             $stmt->execute();
-            
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("Error en getCandidatosEleccionCercana: " . $e->getMessage());
             return [];
