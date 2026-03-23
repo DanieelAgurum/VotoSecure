@@ -1,16 +1,26 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/VotoSecure/Modelo/propuestasMdl.php';
-$modelo     = new PropuestasMdl();
-$propuestas = $modelo->obtenerTodas();
-$id         = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-$propuesta  = $id > 0 ? $modelo->obtenerPorId($id) : null;
+$modelo    = new PropuestasMdl();
+$id        = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+$propuesta = null;
+if ($id > 0) {
+    $propuesta = $modelo->obtenerPorId($id);
+    if (!$propuesta) {
+        $resultados = $modelo->obtenerPorCandidato($id);
+        $propuesta  = !empty($resultados) ? $resultados[0] : null;
+        if ($propuesta) {
+            $propuesta = $modelo->obtenerPorId($propuesta['id_propuesta']);
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Propuestas - VotoSecure</title>
+    <title>Propuesta - VotoSecure</title>
     <link rel="icon" type="image/x-icon" href="/votosecure/img/vs.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -19,107 +29,43 @@ $propuesta  = $id > 0 ? $modelo->obtenerPorId($id) : null;
 </head>
 <body>
 
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/VotoSecure/Vista/components/nav.php'; ?>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/VotoSecure/components/nav.php'; ?>
 
 <main class="prop-main">
+
 <?php if (!$propuesta): ?>
 
-    <!-- ── LISTADO ── -->
-    <div class="prop-listado-header">
-        <h1 class="prop-listado-titulo">Propuestas de Candidatos</h1>
-        <p class="prop-listado-sub">Conoce las propuestas de todos los candidatos registrados</p>
-        <div class="prop-buscador-wrap">
-            <i class="bi bi-search prop-buscador-icon"></i>
-            <input type="text" id="buscador" class="prop-buscador"
-                   placeholder="Buscar por nombre, partido o cargo...">
-        </div>
-    </div>
-
-    <div class="prop-grid" id="propGrid">
-        <?php if (empty($propuestas)): ?>
-            <div class="prop-vacio">
-                <i class="bi bi-file-earmark-x"></i>
-                <p>No hay propuestas registradas aún</p>
-            </div>
-        <?php else: ?>
-            <?php foreach ($propuestas as $p): ?>
-            <div class="prop-card"
-                 data-nombre="<?= strtolower($p['nombre'] . ' ' . $p['apellido']) ?>"
-                 data-partido="<?= strtolower($p['nombre_partido'] ?? '') ?>"
-                 data-cargo="<?= strtolower($p['cargo'] ?? '') ?>">
-
-                <div class="prop-card-header">
-                    <?php if (!empty($p['foto'])): ?>
-                        <img src="<?= htmlspecialchars($p['foto']) ?>"
-                             alt="<?= htmlspecialchars($p['nombre']) ?>"
-                             class="prop-card-foto">
-                    <?php else: ?>
-                        <div class="prop-card-foto-placeholder">
-                            <i class="bi bi-person"></i>
-                        </div>
-                    <?php endif; ?>
-                    <div class="prop-card-info">
-                        <h3 class="prop-card-nombre">
-                            <?= htmlspecialchars($p['nombre'] . ' ' . $p['apellido']) ?>
-                        </h3>
-                        <span class="prop-card-partido">
-                            <?= htmlspecialchars($p['nombre_partido'] ?? 'Independiente') ?>
-                        </span>
-                        <span class="prop-card-cargo">
-                            <?= htmlspecialchars($p['cargo'] ?? '') ?>
-                        </span>
-                    </div>
-                </div>
-
-                <?php if (!empty($p['slogan'])): ?>
-                    <p class="prop-card-slogan">"<?= htmlspecialchars($p['slogan']) ?>"</p>
-                <?php endif; ?>
-
-                <?php if (!empty($p['video_url'])): ?>
-                    <div class="prop-card-video-wrap">
-                        <?php
-                        $vid = '';
-                        if (preg_match('/embed\/([a-zA-Z0-9_-]+)/', $p['video_url'], $m)) $vid = $m[1];
-                        elseif (preg_match('/v=([a-zA-Z0-9_-]+)/', $p['video_url'], $m)) $vid = $m[1];
-                        ?>
-                        <?php if ($vid): ?>
-                            <img src="https://img.youtube.com/vi/<?= $vid ?>/mqdefault.jpg"
-                                 alt="Video" class="prop-card-thumb"
-                                 onclick="abrirVideo('<?= $vid ?>')">
-                            <div class="prop-card-play" onclick="abrirVideo('<?= $vid ?>')">
-                                <i class="bi bi-play-circle-fill"></i>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                <?php endif; ?>
-
-                <p class="prop-card-preview">
-                    <?= htmlspecialchars(mb_substr($p['propuesta_detallada'] ?? '', 0, 160)) ?>...
-                </p>
-
-                <a href="?id=<?= $p['id_propuesta'] ?>" class="prop-card-btn">
-                    Ver propuesta completa <i class="bi bi-arrow-right"></i>
-                </a>
-            </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
+    <div class="prop-detalle" style="text-align:center;padding:80px 20px;">
+        <div style="font-size:64px;margin-bottom:20px;">📋</div>
+        <h2 style="font-size:24px;font-weight:800;color:#1a1a1a;margin-bottom:10px;">
+            Sin propuesta registrada
+        </h2>
+        <p style="font-size:15px;color:#6e6e6e;margin-bottom:28px;">
+            Este candidato aún no tiene una propuesta publicada.
+        </p>
+        <a href="candidatos.php" class="prop-volver" style="display:inline-flex;">
+            <i class="bi bi-arrow-left"></i> Volver a Candidatos
+        </a>
     </div>
 
 <?php else: ?>
 
-    <!-- ── DETALLE ── -->
     <div class="prop-detalle">
 
-        <a href="propuestas.php" class="prop-volver">
-            <i class="bi bi-arrow-left"></i> Volver a Propuestas
+        <a href="candidatos.php" class="prop-volver">
+            <i class="bi bi-arrow-left"></i> Volver a Candidatos
         </a>
 
-        <!-- Encabezado candidato -->
         <div class="prop-detalle-header">
             <div class="prop-detalle-foto-wrap">
-                <?php if (!empty($propuesta['foto'])): ?>
-                    <img src="<?= htmlspecialchars($propuesta['foto']) ?>"
-                         alt="<?= htmlspecialchars($propuesta['nombre']) ?>"
+                <?php
+                $foto     = $propuesta['foto'] ?? '';
+                $esBase64 = strpos($foto, 'data:image') === 0;
+                $tieneRuta = !empty($foto) && !$esBase64;
+                ?>
+                <?php if ($esBase64 || $tieneRuta): ?>
+                    <img src="<?= htmlspecialchars($foto) ?>"
+                         alt="<?= htmlspecialchars($propuesta['nombre'] ?? '') ?>"
                          class="prop-detalle-foto">
                 <?php else: ?>
                     <div class="prop-detalle-foto-placeholder">
@@ -135,7 +81,7 @@ $propuesta  = $id > 0 ? $modelo->obtenerPorId($id) : null;
                     <?php endif; ?>
                 </div>
                 <h1 class="prop-detalle-nombre">
-                    <?= htmlspecialchars($propuesta['nombre'] . ' ' . $propuesta['apellido']) ?>
+                    <?= htmlspecialchars(($propuesta['nombre'] ?? '') . ' ' . ($propuesta['apellido'] ?? '')) ?>
                 </h1>
                 <div class="prop-detalle-cargo">
                     Candidato a: <?= htmlspecialchars($propuesta['cargo'] ?? '') ?>
@@ -147,16 +93,21 @@ $propuesta  = $id > 0 ? $modelo->obtenerPorId($id) : null;
                 <?php endif; ?>
                 <div class="prop-detalle-chips">
                     <?php if (!empty($propuesta['distrito'])): ?>
-                        <span class="prop-chip"><i class="bi bi-geo-alt"></i> <?= htmlspecialchars($propuesta['distrito']) ?></span>
+                        <span class="prop-chip">
+                            <i class="bi bi-geo-alt"></i>
+                            <?= htmlspecialchars($propuesta['distrito']) ?>
+                        </span>
                     <?php endif; ?>
                     <?php if (!empty($propuesta['correo'])): ?>
-                        <span class="prop-chip"><i class="bi bi-envelope"></i> <?= htmlspecialchars($propuesta['correo']) ?></span>
+                        <span class="prop-chip">
+                            <i class="bi bi-envelope"></i>
+                            <?= htmlspecialchars($propuesta['correo']) ?>
+                        </span>
                     <?php endif; ?>
                 </div>
             </div>
         </div>
 
-        <!-- Video -->
         <?php if (!empty($propuesta['video_url'])): ?>
             <div class="prop-detalle-video-wrap">
                 <iframe src="<?= htmlspecialchars($propuesta['video_url']) ?>?rel=0"
@@ -167,15 +118,15 @@ $propuesta  = $id > 0 ? $modelo->obtenerPorId($id) : null;
             </div>
         <?php endif; ?>
 
-        <!-- Título propuesta -->
         <div class="prop-detalle-titulo-wrap">
-            <h2 class="prop-detalle-titulo"><?= htmlspecialchars($propuesta['titulo']) ?></h2>
+            <h2 class="prop-detalle-titulo">
+                <?= htmlspecialchars($propuesta['titulo'] ?? '') ?>
+            </h2>
             <span class="prop-detalle-fecha">
                 Publicada el <?= date('d/m/Y', strtotime($propuesta['created_at'])) ?>
             </span>
         </div>
 
-        <!-- Misión -->
         <?php if (!empty($propuesta['mision'])): ?>
             <div class="prop-seccion">
                 <div class="prop-seccion-header">
@@ -188,7 +139,6 @@ $propuesta  = $id > 0 ? $modelo->obtenerPorId($id) : null;
             </div>
         <?php endif; ?>
 
-        <!-- Propuesta detallada -->
         <?php if (!empty($propuesta['propuesta_detallada'])): ?>
             <div class="prop-seccion">
                 <div class="prop-seccion-header">
@@ -201,15 +151,15 @@ $propuesta  = $id > 0 ? $modelo->obtenerPorId($id) : null;
             </div>
         <?php endif; ?>
 
-        <a href="propuestas.php" class="prop-volver mt-4">
-            <i class="bi bi-arrow-left"></i> Volver a Propuestas
+        <a href="candidatos.php" class="prop-volver mt-4">
+            <i class="bi bi-arrow-left"></i> Volver a Candidatos
         </a>
+
     </div>
 
 <?php endif; ?>
 </main>
 
-<!-- Modal video -->
 <div class="prop-modal-video" id="modalVideo" onclick="cerrarVideo()">
     <div class="prop-modal-video-inner" onclick="event.stopPropagation()">
         <button class="prop-modal-close" onclick="cerrarVideo()">
@@ -221,28 +171,14 @@ $propuesta  = $id > 0 ? $modelo->obtenerPorId($id) : null;
     </div>
 </div>
 
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/VotoSecure/Vista/components/footer.php'; ?>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/VotoSecure/components/footer.php'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/votosecure/js/nav.js"></script>
 <script>
-// Buscador
-const buscador = document.getElementById('buscador');
-if (buscador) {
-    buscador.addEventListener('input', function() {
-        const q = this.value.toLowerCase().trim();
-        document.querySelectorAll('.prop-card').forEach(card => {
-            const match = card.dataset.nombre.includes(q) ||
-                          card.dataset.partido.includes(q) ||
-                          card.dataset.cargo.includes(q);
-            card.style.display = match ? '' : 'none';
-        });
-    });
-}
-
-// Video modal
 function abrirVideo(vid) {
-    document.getElementById('videoIframe').src = 'https://www.youtube.com/embed/' + vid + '?autoplay=1';
+    document.getElementById('videoIframe').src =
+        'https://www.youtube.com/embed/' + vid + '?autoplay=1';
     document.getElementById('modalVideo').classList.add('activo');
     document.body.style.overflow = 'hidden';
 }
