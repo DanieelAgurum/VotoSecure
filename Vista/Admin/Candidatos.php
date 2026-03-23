@@ -4,7 +4,7 @@ session_start();
 require_once("../../Modelo/candidatosMdl.php");
 
 if (!isset($_SESSION['id']) || $_SESSION['rol'] != 2) {
-    header('Location: /VotoSecure/Vista/login.php');
+    header('Location: /VotoSecure/Vista/login');
     exit();
 }
 

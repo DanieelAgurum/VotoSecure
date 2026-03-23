@@ -9,6 +9,7 @@ class PropuestasMdl {
         $this->pdo = (new Conexion())->conectar();
     }
 
+    // ✅ Alias para compatibilidad con el código del equipo
     public function obtenerConCandidato() {
         return $this->obtenerTodas();
     }
@@ -38,23 +39,6 @@ class PropuestasMdl {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // ── Con JOIN completo para propuesta.php ──
-    public function obtenerPorCandidatoId($candidato_id) {
-        $stmt = $this->pdo->prepare(
-            "SELECT p.*, c.nombre, c.apellido, c.cargo, c.foto, c.correo, c.telefono, c.distrito,
-                    par.nombre_partido, par.siglas, par.logo_partido
-             FROM propuestas p
-             INNER JOIN candidatos c ON p.candidato_id = c.id
-             LEFT JOIN partidos par ON c.id_partido = par.id_partido
-             WHERE p.candidato_id = :cid
-             ORDER BY p.created_at DESC
-             LIMIT 1"
-        );
-        $stmt->execute([':cid' => $candidato_id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    // ── Sin JOIN, solo propuestas ──
     public function obtenerPorCandidato($candidato_id) {
         $stmt = $this->pdo->prepare(
             "SELECT * FROM propuestas WHERE candidato_id = :id ORDER BY created_at DESC"
