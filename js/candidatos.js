@@ -171,10 +171,9 @@ function actualizarFila(c) {
     const partidoSelect = document.getElementById('modificar_id_partido');
     fila.children[3].textContent = partidoSelect.options[partidoSelect.selectedIndex].text;
 
-    fila.children[4].textContent = c.tipo_nombre; // ✅ viene del servidor
+    fila.children[4].textContent = c.tipo_nombre; 
     fila.children[5].textContent = c.cargo;
-    fila.children[6].textContent = c.distrito;
-    fila.children[7].innerHTML   = c.estatus === 'activo'
+    fila.children[6].innerHTML   = c.estatus === 'activo'
         ? '<span class="badge bg-success">Activo</span>'
         : '<span class="badge bg-danger">Inactivo</span>';
 }
