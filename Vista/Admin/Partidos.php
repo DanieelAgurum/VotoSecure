@@ -96,7 +96,7 @@ $partidos = $modelo->obtenerTodos();
                                                         width="50" height="50"
                                                         style="object-fit:cover;">
                                                 <?php else : ?>
-                                                    <img src="../../img/partidos/sl.jpg"
+                                                    <img src="https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg"
                                                         width="50" height="50"
                                                         style="object-fit:cover;">
                                                 <?php endif; ?>

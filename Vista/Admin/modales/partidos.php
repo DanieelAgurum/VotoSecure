@@ -86,7 +86,7 @@
                             <label class="form-label fw-bold">Vista previa</label>
                             <div class="rounded p-3 mb-3">
                                 <img id="previewEdit_<?php echo $row['id_partido']; ?>"
-                                    src="<?php echo !empty($row['logo_partido']) ? '../../' . $row['logo_partido'] : 'https://via.placeholder.com/200x200?text=Logo'; ?>"
+                                    src="<?php echo !empty($row['logo_partido']) ? '../../' . $row['logo_partido'] : 'https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg'; ?>"
                                     class="img-fluid rounded"
                                     style="max-height:200px;">
                             </div>
