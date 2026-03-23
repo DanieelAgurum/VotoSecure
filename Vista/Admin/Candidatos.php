@@ -68,7 +68,6 @@ $elecciones = $candidato->obtenerElecciones();
                                         <th class="text-center">Partido</th>
                                         <th class="text-center">Tipo</th>
                                         <th class="text-center">Cargo</th>
-                                        <th class="text-center">Distrito</th>
                                         <th class="text-center">Estatus</th>
                                         <th class="text-center">Acciones</th>
                                     </tr>
@@ -76,7 +75,7 @@ $elecciones = $candidato->obtenerElecciones();
                                 <tbody>
                                     <?php if (empty($lista)): ?>
                                         <tr>
-                                            <td colspan="9" class="text-center">No hay candidatos registrados</td>
+                                            <td colspan="8" class="text-center">No hay candidatos registrados</td>
                                         </tr>
                                     <?php else: ?>
                                         <?php foreach ($lista as $row): ?>
@@ -98,7 +97,6 @@ $elecciones = $candidato->obtenerElecciones();
                                                 <td class="text-center"><?= htmlspecialchars($row['partido_nombre']) ?></td>
                                                 <td class="text-center"><?= htmlspecialchars($row['tipo_nombre']) ?></td>
                                                 <td class="text-center"><?= htmlspecialchars($row['cargo']) ?></td>
-                                                <td class="text-center"><?= htmlspecialchars($row['distrito']) ?></td>
                                                 <td class="text-center">
                                                     <?php if ($row['estatus'] == 'activo'): ?>
                                                         <span class="badge bg-success">Activo</span>
@@ -134,7 +132,6 @@ $elecciones = $candidato->obtenerElecciones();
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/VotoSecure/js/dash.js"></script>
 
-    <!-- DataTables -->
     <script>
         $(document).ready(function() {
             $('#tablaCandidatos').DataTable({
@@ -161,7 +158,7 @@ $elecciones = $candidato->obtenerElecciones();
                 pageLength:  5,
                 lengthMenu:  [5, 10, 25, 50],
                 columnDefs: [
-                    { orderable: false, targets: [0, 8] } // Foto y Acciones no ordenables
+                    { orderable: false, targets: [0, 7] }
                 ]
             });
         });

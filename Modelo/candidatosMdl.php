@@ -10,7 +10,6 @@ class Candidato
     private $id_eleccion;
     private $id_tipo;
     private $cargo;
-    private $distrito;
     private $correo;
     private $telefono;
     private $foto;
@@ -36,9 +35,6 @@ class Candidato
 
         if (empty($datos['cargo']) || strlen(trim($datos['cargo'])) < 2)
             $errores[] = "El cargo debe tener al menos 2 caracteres";
-
-        if (empty($datos['distrito']))
-            $errores[] = "El distrito es requerido";
 
         if (!empty($datos['correo']) && !filter_var($datos['correo'], FILTER_VALIDATE_EMAIL))
             $errores[] = "El correo electrónico no es válido";
@@ -91,9 +87,9 @@ class Candidato
             $id_tipo = $this->obtenerTipoPorEleccion($datos['id_eleccion'], $conexion);
 
             $sql = "INSERT INTO candidatos
-                        (nombre, apellido, id_partido, id_eleccion, id_tipo, cargo, distrito, correo, telefono, foto, estatus)
+                        (nombre, apellido, id_partido, id_eleccion, id_tipo, cargo, correo, telefono, foto, estatus)
                     VALUES
-                        (:nombre, :apellido, :id_partido, :id_eleccion, :id_tipo, :cargo, :distrito, :correo, :telefono, :foto, :estatus)";
+                        (:nombre, :apellido, :id_partido, :id_eleccion, :id_tipo, :cargo, :correo, :telefono, :foto, :estatus)";
 
             $stmt = $conexion->prepare($sql);
             $resultado = $stmt->execute([
@@ -103,9 +99,8 @@ class Candidato
                 ':id_eleccion' => (int)$datos['id_eleccion'],
                 ':id_tipo'     => $id_tipo,
                 ':cargo'       => trim($datos['cargo']),
-                ':distrito'    => trim($datos['distrito']),
-                ':correo'      => trim($datos['correo']),
-                ':telefono'    => trim($datos['telefono']),
+                ':correo'      => trim($datos['correo'] ?? ''),
+                ':telefono'    => trim($datos['telefono'] ?? ''),
                 ':foto'        => $foto,
                 ':estatus'     => $datos['estatus'] === 'inactivo' ? 'inactivo' : 'activo'
             ]);
@@ -165,7 +160,6 @@ class Candidato
     {
         try {
             $conexion = (new Conexion())->conectar();
-            // ✅ Sin filtro de estado — trae todas las elecciones
             $sql = "SELECT id_eleccion, nombre_eleccion, id_tipo 
                     FROM elecciones 
                     ORDER BY nombre_eleccion ASC";
@@ -250,10 +244,10 @@ class Candidato
 
             $sql = $foto !== null
                 ? "UPDATE candidatos SET nombre=:nombre, apellido=:apellido, id_partido=:id_partido,
-                       id_eleccion=:id_eleccion, id_tipo=:id_tipo, cargo=:cargo, distrito=:distrito,
+                       id_eleccion=:id_eleccion, id_tipo=:id_tipo, cargo=:cargo,
                        correo=:correo, telefono=:telefono, foto=:foto, estatus=:estatus WHERE id=:id"
                 : "UPDATE candidatos SET nombre=:nombre, apellido=:apellido, id_partido=:id_partido,
-                       id_eleccion=:id_eleccion, id_tipo=:id_tipo, cargo=:cargo, distrito=:distrito,
+                       id_eleccion=:id_eleccion, id_tipo=:id_tipo, cargo=:cargo,
                        correo=:correo, telefono=:telefono, estatus=:estatus WHERE id=:id";
 
             $stmt = $conexion->prepare($sql);
@@ -266,9 +260,8 @@ class Candidato
                 ':id_eleccion' => (int)$datos['id_eleccion'],
                 ':id_tipo'     => $id_tipo,
                 ':cargo'       => trim($datos['cargo']),
-                ':distrito'    => trim($datos['distrito']),
-                ':correo'      => trim($datos['correo']),
-                ':telefono'    => trim($datos['telefono']),
+                ':correo'      => trim($datos['correo'] ?? ''),
+                ':telefono'    => trim($datos['telefono'] ?? ''),
                 ':estatus'     => $datos['estatus'] === 'inactivo' ? 'inactivo' : 'activo'
             ];
 
@@ -301,22 +294,16 @@ class Candidato
             $conexion = (new Conexion())->conectar();
             if ($conexion === null) return [];
 
-            // Encontrar ID de la elección más cercana (priorizando futuras)
-            $sqlEleccion = "SELECT id_eleccion 
-            FROM elecciones
-            WHERE fecha_inicio > CURDATE()
-            ORDER BY fecha_inicio ASC
-            LIMIT 1;";
-            
+            $sqlEleccion = "SELECT id_eleccion FROM elecciones
+                            WHERE fecha_inicio > CURDATE()
+                            ORDER BY fecha_inicio ASC LIMIT 1";
+
             $stmtEleccion = $conexion->prepare($sqlEleccion);
             $stmtEleccion->execute();
             $eleccion = $stmtEleccion->fetch(PDO::FETCH_ASSOC);
 
             if (!$eleccion) return [];
 
-            $idEleccion = $eleccion['id_eleccion'];
-
-            // Obtener candidatos activos de esa elección
             $sql = "SELECT c.*, 
                            p.nombre_partido AS partido_nombre,
                            e.nombre_eleccion AS eleccion_nombre
@@ -328,7 +315,7 @@ class Candidato
                     LIMIT :limit";
 
             $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(':id_eleccion', $idEleccion, PDO::PARAM_INT);
+            $stmt->bindValue(':id_eleccion', $eleccion['id_eleccion'], PDO::PARAM_INT);
             $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
             $stmt->execute();
 

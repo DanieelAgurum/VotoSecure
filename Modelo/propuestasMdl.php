@@ -79,7 +79,7 @@ class PropuestasMdl
     {
         $query = "SELECT p.*,
                          c.nombre, c.apellido, c.cargo, c.foto,
-                         c.correo, c.telefono, c.distrito,
+                         c.correo, c.telefono,
                          par.nombre_partido, par.siglas, par.logo_partido
                   FROM {$this->tabla} p
                   INNER JOIN candidatos c ON p.candidato_id = c.id
@@ -103,7 +103,7 @@ class PropuestasMdl
     {
         $query = "SELECT p.*,
                          c.nombre, c.apellido, c.cargo, c.foto,
-                         c.correo, c.telefono, c.distrito,
+                         c.correo, c.telefono,
                          par.nombre_partido, par.siglas, par.logo_partido
                   FROM {$this->tabla} p
                   INNER JOIN candidatos c ON p.candidato_id = c.id
