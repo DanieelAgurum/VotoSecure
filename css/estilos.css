@@ -12,17 +12,16 @@ body {
 }
 
 :root {
-    --primary: #0F172A;
-    --secondary: #1E293B;
-    --accent: #22D3EE;
-    --bg-light: #F1F5F9;
-    --bg-soft: #E2E8F0;
-    --text-dark: #334155;
-    --text-light: #F8FAFC;
-    --success: #22C55E;
+    --primary: #1A1A1A;      /* Gris muy oscuro */
+    --secondary: #2B2B2B;    /* Gris oscuro */
+    --accent: #6E6E6E;       /* Gris medio neutro */
+    --bg-light: #F2F2F2;     /* Gris muy claro */
+    --bg-soft: #E0E0E0;      /* Gris claro suave */
+    --text-dark: #3C3C3C;    /* Gris oscuro para texto */
+    --text-light: #FAFAFA;   /* Gris casi blanco */
+    --success: #22C55E;      /* Mantengo tus colores funcionales */
     --danger: #EF4444;
 }
-
 
 /* Navbar personalizada */
 .navbar-custom {
@@ -272,7 +271,7 @@ h2 {
 }
 
 .faq-card-inner:hover {
-    border: 1px solid #6366f1;
+    border: 1px solid var(--accent);
 }
 
 /* Candidatos */
@@ -478,8 +477,8 @@ h2 {
 }
 
 .footer-bottom {
-    background-color: #081421;
-    color: var(--bg-light);
+    background-color: var(--secondary);
+    color: var(--bg-soft);
 }
 
 /* Responsive */
@@ -940,18 +939,18 @@ h2 {
 .cse-heading {
     font-size: 1.55rem;
     font-weight: 700;
-    color: var(--text-dark);
+    color: var(--primary);
     line-height: 1.25;
     margin-bottom: 0.35rem;
 }
 
 .cse-heading-accent {
-    color: var(--primary);
+    color: var(--accent);
 }
 
 .cse-description {
     font-size: 0.92rem;
-    color: #5a6a7e;
+    color: var(--accent);
     margin-bottom: 2rem;
     line-height: 1.6;
 }

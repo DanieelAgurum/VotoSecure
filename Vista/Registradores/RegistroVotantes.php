@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 
 session_start();
 
@@ -79,12 +75,12 @@ foreach ($stmtSecciones->fetchAll() as $s) {
                 </div>
                 <div class="row g-3 mb-4 align-items-center">
                     <div class="col-md-4">
-                        <button type="button" id="btnConnect" class="btn btn-warning w-100" onclick="toggleConnectESP32()">
+                        <button type="button" id="btnConnect" class="btn btn-root-warning w-100" onclick="toggleConnectESP32()">
                             <i class="fas fa-plug"></i> Conectar ESP32
                         </button>
                     </div>
                     <div class="col-md-4">
-                        <span id="esp32Status"><span class="badge bg-secondary">No conectado</span></span>
+                        <span id="esp32Status"><span class="badge bg-root-muted">No conectado</span></span>
                     </div>
                 </div>
 
@@ -107,11 +103,11 @@ foreach ($stmtSecciones->fetchAll() as $s) {
                     <div class="col-lg-4 col-md-6 mb-3">
                         <div class="photo-options">
                             <!-- Opción: Tomar foto con cámara -->
-                            <button type="button" class="btn btn-outline-primary w-100 mb-2" onclick="openCamera()">
+                            <button type="button" class="btn btn-outline-root w-100 mb-2" onclick="openCamera()">
                                 <i class="fas fa-camera"></i> Tomar Foto
                             </button>
                             <!-- Opción: Buscar en archivos -->
-                            <button type="button" class="btn btn-outline-secondary w-100" onclick="document.getElementById('foto').click()">
+                            <button type="button" class="btn btn-outline-root-soft w-100" onclick="document.getElementById('foto').click()">
                                 <i class="fas fa-folder-open"></i> Buscar Archivo
                             </button>
                             <input type="file" id="foto" name="foto" accept="image/*" style="display: none;" onchange="previewImage(event)">
@@ -148,14 +144,14 @@ foreach ($stmtSecciones->fetchAll() as $s) {
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" onclick="closeCamera()">Cancelar</button>
-                                <button type="button" class="btn btn-primary" id="captureBtn" onclick="capturePhoto()">
+                                <button type="button" class="btn btn-root-muted" onclick="closeCamera()">Cancelar</button>
+                                <button type="button" class="btn btn-root" id="captureBtn" onclick="capturePhoto()">
                                     <i class="fas fa-camera"></i> Capturar
                                 </button>
-                                <button type="button" class="btn btn-success" id="retakeBtn" onclick="retakePhoto()" style="display: none;">
+                                <button type="button" class="btn btn-root-action" id="retakeBtn" onclick="retakePhoto()" style="display: none;">
                                     <i class="fas fa-redo"></i> Repetir
                                 </button>
-                                <button type="button" class="btn btn-info" id="usePhotoBtn" onclick="usePhoto()" style="display: none;">
+                                <button type="button" class="btn btn-root-info" id="usePhotoBtn" onclick="usePhoto()" style="display: none;">
                                     <i class="fas fa-check"></i> Usar Foto
                                 </button>
                             </div>

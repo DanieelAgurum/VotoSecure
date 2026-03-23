@@ -118,6 +118,12 @@ class HuellaESP32 {
         }
 
         if (line === 'FINGER_OK') {
+            // Cancelar el timer de no_match si estaba pendiente
+            if (this._noMatchTimer) {
+                clearTimeout(this._noMatchTimer);
+                this._noMatchTimer = null;
+            }
+
             const data = {
                 valida:     true,
                 votante_id: this._tmpFingerId   || 0,
@@ -146,8 +152,21 @@ class HuellaESP32 {
         if (line === 'FINGER_NO_MATCH') {
             console.warn('Huella no reconocida en sensor.');
             if (this.pendingVerify) {
-                this.pendingVerify.resolve({ no_match: true });
-                this.pendingVerify = null;
+                // ⚠️ No resolver de inmediato: el sensor AS608 a veces manda FINGER_NO_MATCH
+                // en un primer intento y luego FINGER_OK si el dedo sigue puesto.
+                // Esperamos 2.5s — si en ese tiempo llega FINGER_OK, él resuelve la Promise.
+                // Si no llega nada, ahí sí resolvemos con no_match.
+                if (this._noMatchTimer) clearTimeout(this._noMatchTimer);
+                const pendingAtThisMoment = this.pendingVerify;
+                this._noMatchTimer = setTimeout(() => {
+                    // Solo resolver si la Promise sigue siendo la misma (no fue resuelta por FINGER_OK)
+                    if (this.pendingVerify === pendingAtThisMoment && this.pendingVerify) {
+                        console.warn('Sin FINGER_OK tras espera → resolviendo como no_match.');
+                        this.pendingVerify.resolve({ no_match: true });
+                        this.pendingVerify = null;
+                    }
+                    this._noMatchTimer = null;
+                }, 2500);
             }
             return;
         }
@@ -404,7 +423,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (omitidos.length) {
                 Swal.fire({
-                    title: '⚠️ Votos omitidos',
+                    title: 'Votos omitidos',
                     html: `<strong>Puestos sin selección:</strong><br><br>
                            ${omitidos.join('<br>')}
                            <br><br><small><em>Se considerarán votos en blanco</em></small>`,
@@ -423,8 +442,68 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+// ─── Mostrar modal de espera con contador regresivo ──────────
+function _mostrarModalEspera(segundos, onCancelar) {
+    const TIMEOUT_MS = segundos * 1000;
+
+    Swal.fire({
+        title: 'Verificación Biométrica',
+        html: `<div class="text-center">
+                 <div class="spinner-border text-primary mb-3" style="width:4rem;height:4rem;"></div>
+                 <p class="mb-0"><strong>Acerque su huella digital</strong><br>
+                 <small class="text-muted">Coloque el dedo en el lector</small></p>
+                 <div class="mt-3">
+                   <span id="swal-countdown"
+                         style="font-size:2rem;font-weight:700;color:#06B6D4;">${segundos}</span>
+                   <span class="text-muted" style="font-size:.85rem;">s</span>
+                 </div>
+               </div>`,
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        didOpen: () => {
+            // Cancelar
+            Swal.getCancelButton().onclick = () => {
+                if (window.huella.pendingVerify) {
+                    window.huella.pendingVerify.reject(new Error('Proceso cancelado por usuario'));
+                    window.huella.pendingVerify = null;
+                }
+                Swal.close();
+                if (typeof onCancelar === 'function') onCancelar();
+            };
+
+            // Contador regresivo
+            let restante = segundos;
+            const countdownEl = document.getElementById('swal-countdown');
+            const intervalo = setInterval(() => {
+                restante--;
+                if (countdownEl) {
+                    countdownEl.textContent = restante;
+                    // Cambiar color al llegar a los últimos 10s
+                    if (restante <= 10) countdownEl.style.color = '#EF4444';
+                }
+                if (restante <= 0) clearInterval(intervalo);
+            }, 1000);
+
+            // Guardar referencia para limpiarlo si el modal se cierra antes
+            Swal._countdownInterval = intervalo;
+        },
+        willClose: () => {
+            if (Swal._countdownInterval) {
+                clearInterval(Swal._countdownInterval);
+                Swal._countdownInterval = null;
+            }
+        }
+    });
+
+    return TIMEOUT_MS;
+}
+
 // ─── Verificación biométrica y envío de voto ─────────────────
-async function _verificarHuella(votos) {
+async function _verificarHuella(votos, intentoActual = 1) {
+    const MAX_INTENTOS = 3;
+
     if (!window.huella?.port) {
         Swal.fire({
             title: 'ESP32 No Detectado',
@@ -436,46 +515,49 @@ async function _verificarHuella(votos) {
     }
 
     try {
-        // Spinner mientras espera la huella
-        Swal.fire({
-            title: '🔍 Verificación Biométrica',
-            html: `<div class="text-center">
-                     <div class="spinner-border text-primary mb-3" style="width:4rem;height:4rem;"></div>
-                     <p class="mb-0"><strong>Acerque su huella digital</strong><br>
-                     <small class="text-muted">Coloque el dedo en el lector (30s máx.)</small></p>
-                   </div>`,
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            didOpen: () => {
-                Swal.getCancelButton().onclick = () => {
-                    // Cancelar también la Promise pendiente del sensor
-                    if (window.huella.pendingVerify) {
-                        window.huella.pendingVerify.reject(new Error('Proceso cancelado por usuario'));
-                        window.huella.pendingVerify = null;
-                    }
-                    Swal.close();
-                };
-            }
-        });
+        // Modal con contador regresivo
+        _mostrarModalEspera(30);
 
-        console.log('Verificando huella...');
+        console.log(`Verificando huella... (intento ${intentoActual}/${MAX_INTENTOS})`);
         const huellaData = await window.huella.verifyFingerprint(30000);
 
         Swal.close();
 
-        // Huella no registrada en el sensor → mostrar mensaje pero NO guardar nada
+        // Huella no reconocida → reintentar hasta MAX_INTENTOS
         if (huellaData.no_match) {
-            await window.huella.sendCommand('VOTO_OK');
-            _limpiarBoleta();
-            Swal.fire({
-                title: '¡Gracias por votar!',
-                text: 'Tu participación ha sido registrada.',
-                icon: 'success',
-                confirmButtonText: 'Finalizar'
-            });
-            return;
+            if (intentoActual < MAX_INTENTOS) {
+                const result = await Swal.fire({
+                    title: '❌ Huella no reconocida',
+                    html: `<p>No se pudo identificar tu huella.<br>
+                           <strong>Intento ${intentoActual} de ${MAX_INTENTOS}</strong></p>
+                           <p class="text-muted" style="font-size:.9rem;">
+                             Coloca el dedo con más presión y centrado en el sensor.
+                           </p>`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: '🔄 Reintentar',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#22D3EE'
+                });
+
+                if (result.isConfirmed) {
+                    return _verificarHuella(votos, intentoActual + 1);
+                }
+                // Usuario canceló en el aviso
+                return;
+            } else {
+                // Agotó todos los intentos
+                Swal.fire({
+                    title: '⛔ Acceso denegado',
+                    html: `<p>No se reconoció tu huella después de <strong>${MAX_INTENTOS} intentos</strong>.</p>
+                           <p class="text-muted" style="font-size:.9rem;">
+                             Contacta a un administrador si crees que es un error.
+                           </p>`,
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
         }
 
         console.log('Huella capturada, ID sensor:', huellaData.votante_id);
