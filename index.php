@@ -23,27 +23,37 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
             grid-template-columns: 1fr 1fr;
             gap: .75rem 1.25rem;
         }
+
         @media (max-width: 520px) {
-            .cse-result-grid { grid-template-columns: 1fr; }
+            .cse-result-grid {
+                grid-template-columns: 1fr;
+            }
         }
+
         .cse-info-block {
             padding: .5rem 0;
-            border-bottom: 1px solid rgba(0,0,0,.06);
+            border-bottom: 1px solid rgba(0, 0, 0, .06);
         }
-        .cse-info-block:last-child { border-bottom: none; }
+
+        .cse-info-block:last-child {
+            border-bottom: none;
+        }
+
         .cse-casilla-block {
             grid-column: 1 / -1;
-            background: rgba(26,115,64,.06);
-            border: 1px solid rgba(26,115,64,.18);
+            background: rgba(26, 115, 64, .06);
+            border: 1px solid rgba(26, 115, 64, .18);
             border-left: 3px solid #1A7340;
             border-radius: 4px;
             padding: .6rem .9rem;
         }
+
         .cse-no-casilla {
-            background: rgba(192,57,43,.05);
-            border-color: rgba(192,57,43,.2);
+            background: rgba(192, 57, 43, .05);
+            border-color: rgba(192, 57, 43, .2);
             border-left-color: #C0392B;
         }
+
         .cse-info-label {
             font-size: .7rem;
             font-weight: 700;
@@ -52,16 +62,39 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
             color: #888;
             margin-bottom: 2px;
         }
-        .cse-ico { font-style: normal; margin-right: 3px; }
+
+        .cse-ico {
+            font-style: normal;
+            margin-right: 3px;
+        }
+
         .cse-info-value {
             font-size: .9rem;
             font-weight: 600;
             color: #1A1A1A;
         }
-        .cse-value-big { font-size: 1rem; color: #1A7340; }
-        .cse-info-sub { font-size: .78rem; color: #555; margin-top: 1px; }
-        .cse-mono { font-family: 'Courier New', monospace; letter-spacing: .05em; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .cse-value-big {
+            font-size: 1rem;
+            color: #1A7340;
+        }
+
+        .cse-info-sub {
+            font-size: .78rem;
+            color: #555;
+            margin-top: 1px;
+        }
+
+        .cse-mono {
+            font-family: 'Courier New', monospace;
+            letter-spacing: .05em;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
@@ -105,43 +138,39 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
             </div>
 
             <div class="row g-4">
-
-                <div class="col-md-4">
-                    <div class="card candidato-card h-100 text-center">
-                        <div class="card-body">
-                            <div class="avatar">👨‍💼</div>
-                            <h5 class="fw-bold mt-3">Candidato A</h5>
-                            <span class="partido-badge">Partido Azul</span>
-                            <p class="mt-3">Educación digital, innovación tecnológica y desarrollo sostenible.</p>
-                            <a href="#" class="btn btn-accent mt-3 w-100">Ver Perfil</a>
+                <?php 
+                require_once __DIR__ . '/Modelo/candidatosMdl.php';
+                $candidatoMdl = new Candidato($conexion);
+                $candidatos = $candidatoMdl->getCandidatosEleccionCercana(3);
+                ?>
+                
+                <?php if (empty($candidatos)): ?>
+                    <div class="col-12">
+                        <div class="text-center py-5">
+                            <i class="bi bi-people-fill" style="font-size: 4rem; opacity: 0.5; color: #adb5bd;"></i>
+                            <h3 class="mt-4 mb-1">No hay candidatos activos</h3>
+                            <p class="lead text-muted">Los candidatos aparecerán aquí cuando sean aprobados por el administrador para la elección más cercana.</p>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card candidato-card h-100 text-center">
-                        <div class="card-body">
-                            <div class="avatar">👩‍💼</div>
-                            <h5 class="fw-bold mt-3">Candidata B</h5>
-                            <span class="partido-badge">Partido Rojo</span>
-                            <p class="mt-3">Crecimiento económico, empleo formal y bienestar social.</p>
-                            <a href="#" class="btn btn-accent mt-3 w-100">Ver Perfil</a>
+                <?php else: ?>
+                    <?php foreach ($candidatos as $cand): ?>
+                    <div class="col-md-4">
+                        <div class="card candidato-card h-100 text-center">
+                            <div class="card-body">
+                                <?php if (!empty($cand['foto'])): ?>
+                                    <img src="<?= htmlspecialchars($cand['foto']) ?>" alt="<?= htmlspecialchars($cand['nombre'] . ' ' . $cand['apellido']) ?>" class="foto-candidato" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; margin-bottom: 1rem;">
+                                <?php else: ?>
+                                    <div class="avatar" style="font-size: 3rem; line-height: 120px;"><?= strtoupper(substr($cand['nombre'], 0, 1) . substr($cand['apellido'], 0, 1)) ?></div>
+                                <?php endif; ?>
+                                <h5 class="fw-bold mt-3"><?= htmlspecialchars($cand['nombre'] . ' ' . $cand['apellido']) ?></h5>
+                                <span class="partido-badge"><?= htmlspecialchars($cand['partido_nombre']) ?></span>
+                                <p class="mt-3"><?= htmlspecialchars($cand['cargo'] ?? 'Candidato') ?></p>
+                                <a href="Vista/propuesta.php?id=<?= $cand['id'] ?>" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card candidato-card h-100 text-center">
-                        <div class="card-body">
-                            <div class="avatar">👨‍💼</div>
-                            <h5 class="fw-bold mt-3">Candidato C</h5>
-                            <span class="partido-badge">Partido Verde</span>
-                            <p class="mt-3">Transición energética y políticas ambientales sostenibles.</p>
-                            <a href="#" class="btn btn-accent mt-3 w-100">Ver Perfil</a>
-                        </div>
-                    </div>
-                </div>
-
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </section>
@@ -261,15 +290,21 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
                 </button>
                 <div class="cse-chips">
                     <div class="cse-chip">
-                        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" /></svg>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+                        </svg>
                         Datos protegidos
                     </div>
                     <div class="cse-chip">
-                        <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z" /></svg>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z" />
+                        </svg>
                         Consulta 24/7
                     </div>
                     <div class="cse-chip">
-                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L12 15.45 7.77 18l1.12-4.81-3.73-3.23 4.92-.42L12 5l1.92 4.53 4.92.42-3.73 3.23L16.23 18z" /></svg>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L12 15.45 7.77 18l1.12-4.81-3.73-3.23 4.92-.42L12 5l1.92 4.53 4.92.42-3.73 3.23L16.23 18z" />
+                        </svg>
                         Resultado inmediato
                     </div>
                 </div>
@@ -277,7 +312,7 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
             <!-- Resultado -->
             <div class="cse-result" id="cse-result">
                 <div class="cse-result__title" id="cse-result-title"></div>
-                <div class="cse-result__body"  id="cse-result-body"></div>
+                <div class="cse-result__body" id="cse-result-body"></div>
             </div>
         </div>
         <div class="cse-footer">Servicio público gratuito</div>
@@ -309,6 +344,6 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
     <script src="js/nav.js"></script>
     <script src="js/contador.js"></script>
     <script src="js/consultaCasilla.js"></script>
+    <script src="js/indexCandidatos.js"></script>
 </body>
-
 </html>

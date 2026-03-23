@@ -288,4 +288,49 @@ class Candidato {
             return ['success' => false, 'error' => $e->getMessage()];
         }
     }
+
+    public function getCandidatosEleccionCercana($limit = 3) {
+        try {
+            $conexion = (new Conexion())->conectar();
+            if ($conexion === null) return [];
+
+            // Encontrar ID de la elección más cercana (priorizando futuras)
+            $sqlEleccion = "SELECT id_eleccion FROM elecciones 
+                            ORDER BY 
+                              CASE 
+                                WHEN fecha_inicio > CURDATE() THEN (fecha_inicio - CURDATE()) 
+                                ELSE (CURDATE() - fecha_fin) * -1 
+                              END ASC 
+                            LIMIT 1";
+            $stmtEleccion = $conexion->prepare($sqlEleccion);
+            $stmtEleccion->execute();
+            $eleccion = $stmtEleccion->fetch(PDO::FETCH_ASSOC);
+            
+            if (!$eleccion) return [];
+
+            $idEleccion = $eleccion['id_eleccion'];
+
+            // Obtener candidatos activos de esa elección
+            $sql = "SELECT c.*, 
+                           p.nombre_partido AS partido_nombre,
+                           e.nombre_eleccion AS eleccion_nombre
+                    FROM candidatos c
+                    INNER JOIN partidos p ON c.id_partido = p.id_partido
+                    INNER JOIN elecciones e ON c.id_eleccion = e.id_eleccion
+                    WHERE c.id_eleccion = :id_eleccion AND c.estatus = 'activo'
+                    ORDER BY c.id DESC 
+                    LIMIT :limit";
+            
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(':id_eleccion', $idEleccion, PDO::PARAM_INT);
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            error_log("Error en getCandidatosEleccionCercana: " . $e->getMessage());
+            return [];
+        }
+    }
 }
