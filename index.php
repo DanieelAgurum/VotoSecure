@@ -96,6 +96,7 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
             }
         }
     </style>
+
 </head>
 
 <body>
@@ -138,12 +139,12 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
             </div>
 
             <div class="row g-4">
-                <?php 
+                <?php
                 require_once __DIR__ . '/Modelo/candidatosMdl.php';
                 $candidatoMdl = new Candidato($conexion);
                 $candidatos = $candidatoMdl->getCandidatosEleccionCercana(3);
                 ?>
-                
+
                 <?php if (empty($candidatos)): ?>
                     <div class="col-12">
                         <div class="text-center py-5">
@@ -154,21 +155,21 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
                     </div>
                 <?php else: ?>
                     <?php foreach ($candidatos as $cand): ?>
-                    <div class="col-md-4">
-                        <div class="card candidato-card h-100 text-center">
-                            <div class="card-body">
-                                <?php if (!empty($cand['foto'])): ?>
-                                    <img src="<?= htmlspecialchars($cand['foto']) ?>" alt="<?= htmlspecialchars($cand['nombre'] . ' ' . $cand['apellido']) ?>" class="foto-candidato" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; margin-bottom: 1rem;">
-                                <?php else: ?>
-                                    <div class="avatar" style="font-size: 3rem; line-height: 120px;"><?= strtoupper(substr($cand['nombre'], 0, 1) . substr($cand['apellido'], 0, 1)) ?></div>
-                                <?php endif; ?>
-                                <h5 class="fw-bold mt-3"><?= htmlspecialchars($cand['nombre'] . ' ' . $cand['apellido']) ?></h5>
-                                <span class="partido-badge"><?= htmlspecialchars($cand['partido_nombre']) ?></span>
-                                <p class="mt-3"><?= htmlspecialchars($cand['cargo'] ?? 'Candidato') ?></p>
-                                <a href="Vista/propuesta.php?id=<?= $cand['id'] ?>" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                        <div class="col-md-4">
+                            <div class="card candidato-card h-100 text-center">
+                                <div class="card-body">
+                                    <?php if (!empty($cand['foto'])): ?>
+                                        <img src="<?= htmlspecialchars($cand['foto']) ?>" alt="<?= htmlspecialchars($cand['nombre'] . ' ' . $cand['apellido']) ?>" class="foto-candidato" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; margin-bottom: 1rem;">
+                                    <?php else: ?>
+                                        <div class="avatar" style="font-size: 3rem; line-height: 120px;"><?= strtoupper(substr($cand['nombre'], 0, 1) . substr($cand['apellido'], 0, 1)) ?></div>
+                                    <?php endif; ?>
+                                    <h5 class="fw-bold mt-3"><?= htmlspecialchars($cand['nombre'] . ' ' . $cand['apellido']) ?></h5>
+                                    <span class="partido-badge"><?= htmlspecialchars($cand['partido_nombre']) ?></span>
+                                    <p class="mt-3"><?= htmlspecialchars($cand['cargo'] ?? 'Candidato') ?></p>
+                                    <a href="Vista/propuesta.php?id=<?= $cand['id'] ?>" class="btn btn-accent mt-3 w-100">Ver Propuesta</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
@@ -219,7 +220,7 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
                                             data-fecha="<?= $row['fecha_fin'] ?>"
                                             id="countdown-<?= $row['id_eleccion'] ?>">
                                         </div>
-                                        <button class="btn btn-accent w-100">Votos en vivo</button>
+                                        <a href="vista/resultados" class="btn btn-accent w-100">Votos en vivo</a>
                                     <?php elseif ($estadoVisual == "proxima"): ?>
                                         <div class="countdown mt-2 mb-3"
                                             data-fecha="<?= $row['fecha_inicio'] ?>"
@@ -228,7 +229,7 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
                                         <button class="btn btn-warning w-100" disabled>Próximamente</button>
                                     <?php else: ?>
                                         <div class="badge bg-danger w-100 mb-3 py-2">Finalizada</div>
-                                        <button class="btn btn-secondary w-100">Ver Resultados</button>
+                                        <a href="vista/resultados" class="btn btn-secondary w-100">Ver Resultados</a>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -346,4 +347,5 @@ $resultado = $eleccionesMdl->obtenerEleccionesActivas();
     <script src="js/consultaCasilla.js"></script>
     <script src="js/indexCandidatos.js"></script>
 </body>
+
 </html>
