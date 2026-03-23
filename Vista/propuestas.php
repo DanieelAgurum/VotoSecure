@@ -24,7 +24,6 @@ $propuestas = $id === 0 ? $modelo->obtenerTodas() : [];
 <main class="prop-main">
 <?php if (!$propuesta): ?>
 
-    <!-- ── LISTADO ── -->
     <div class="prop-listado-header">
         <h1 class="prop-listado-titulo">Propuestas de Candidatos</h1>
         <p class="prop-listado-sub">Conoce las propuestas de todos los candidatos registrados</p>
@@ -35,95 +34,96 @@ $propuestas = $id === 0 ? $modelo->obtenerTodas() : [];
         </div>
     </div>
 
-    <div class="prop-grid" id="propGrid">
-        <?php if (empty($propuestas)): ?>
-            <div class="prop-vacio">
-                <i class="bi bi-file-earmark-x"></i>
-                <p>No hay propuestas registradas aún</p>
-            </div>
-        <?php else: ?>
-            <?php foreach ($propuestas as $p):
-                $vid = '';
-                if (!empty($p['video_url'])) {
-                    if (preg_match('/embed\/([a-zA-Z0-9_-]+)/', $p['video_url'], $m)) $vid = $m[1];
-                    elseif (preg_match('/v=([a-zA-Z0-9_-]+)/', $p['video_url'], $m))   $vid = $m[1];
-                }
-            ?>
-            <div class="prop-card"
-                 data-nombre="<?= strtolower($p['nombre'] . ' ' . $p['apellido']) ?>"
-                 data-partido="<?= strtolower($p['nombre_partido'] ?? '') ?>"
-                 data-cargo="<?= strtolower($p['cargo'] ?? '') ?>">
+    <div class="prop-grid-wrap">
+        <div class="prop-grid" id="propGrid">
 
-                <!-- ── Foto grande arriba ── -->
-                <div class="prop-card-img-wrap"
-                     <?= $vid ? "onclick=\"abrirVideo('{$vid}')\" style=\"cursor:pointer;\"" : '' ?>>
-
-                    <?php if (!empty($p['foto'])): ?>
-                        <img src="<?= htmlspecialchars($p['foto']) ?>"
-                             alt="<?= htmlspecialchars($p['nombre']) ?>"
-                             class="prop-card-foto">
-                    <?php else: ?>
-                        <div class="prop-card-foto-placeholder">
-                            <i class="bi bi-person"></i>
-                        </div>
-                    <?php endif; ?>
-
-                    <span class="prop-card-cargo-badge">
-                        <?= htmlspecialchars($p['cargo'] ?? '') ?>
-                    </span>
-
-                    <span class="prop-card-partido-badge">
-                        <?= htmlspecialchars($p['nombre_partido'] ?? 'Independiente') ?>
-                    </span>
-
-                    <?php if ($vid): ?>
-                        <div class="prop-card-play-overlay">
-                            <i class="bi bi-play-circle-fill"></i>
-                        </div>
-                    <?php endif; ?>
+            <?php if (empty($propuestas)): ?>
+                <div class="prop-vacio">
+                    <i class="bi bi-file-earmark-x"></i>
+                    <p>No hay propuestas registradas aún</p>
                 </div>
+            <?php else: ?>
+                <?php foreach ($propuestas as $p):
+                    $vid = '';
+                    if (!empty($p['video_url'])) {
+                        if (preg_match('/embed\/([a-zA-Z0-9_-]+)/', $p['video_url'], $m)) $vid = $m[1];
+                        elseif (preg_match('/v=([a-zA-Z0-9_-]+)/', $p['video_url'], $m))   $vid = $m[1];
+                    }
+                ?>
+                <div class="prop-card"
+                     data-nombre="<?= strtolower($p['nombre'] . ' ' . $p['apellido']) ?>"
+                     data-partido="<?= strtolower($p['nombre_partido'] ?? '') ?>"
+                     data-cargo="<?= strtolower($p['cargo'] ?? '') ?>">
 
-                <!-- ── Cuerpo ── -->
-                <div class="prop-card-body">
-                    <h3 class="prop-card-nombre">
-                        <?= htmlspecialchars($p['nombre'] . ' ' . $p['apellido']) ?>
-                    </h3>
-                    <p class="prop-card-titulo">
-                        <?= htmlspecialchars($p['titulo']) ?>
-                    </p>
-                    <?php if (!empty($p['slogan'])): ?>
-                        <p class="prop-card-slogan">
-                            "<?= htmlspecialchars($p['slogan']) ?>"
-                        </p>
-                    <?php endif; ?>
-                    <p class="prop-card-preview">
-                        <?= htmlspecialchars(mb_substr($p['propuesta_detallada'] ?? '', 0, 180)) ?>...
-                    </p>
-                </div>
+                    <!-- Foto grande -->
+                    <div class="prop-card-img-wrap"
+                         <?= $vid ? "onclick=\"abrirVideo('{$vid}')\" style=\"cursor:pointer;\"" : '' ?>>
 
-                <!-- ── Footer ── -->
-                <div class="prop-card-footer">
-                    <a href="?id=<?= $p['id_propuesta'] ?>" class="prop-card-btn">
-                        Ver propuesta <i class="bi bi-arrow-right"></i>
-                    </a>
-                    <?php if ($vid): ?>
-                        <span class="prop-card-video-badge"
-                              onclick="abrirVideo('<?= $vid ?>')"
-                              style="cursor:pointer;">
-                            <i class="bi bi-youtube" style="color:#EF4444;font-size:14px;"></i>
-                            Video
+                        <?php if (!empty($p['foto'])): ?>
+                            <img src="<?= htmlspecialchars($p['foto']) ?>"
+                                 alt="<?= htmlspecialchars($p['nombre']) ?>"
+                                 class="prop-card-foto">
+                        <?php else: ?>
+                            <div class="prop-card-foto-placeholder">
+                                <i class="bi bi-person"></i>
+                            </div>
+                        <?php endif; ?>
+
+                        <span class="prop-card-cargo-badge">
+                            <?= htmlspecialchars($p['cargo'] ?? '') ?>
                         </span>
-                    <?php endif; ?>
-                </div>
+                        <span class="prop-card-partido-badge">
+                            <?= htmlspecialchars($p['nombre_partido'] ?? 'Independiente') ?>
+                        </span>
+                        <?php if ($vid): ?>
+                            <div class="prop-card-play-overlay">
+                                <i class="bi bi-play-circle-fill"></i>
+                            </div>
+                        <?php endif; ?>
+                    </div>
 
-            </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
+                    <!-- Cuerpo -->
+                    <div class="prop-card-body">
+                        <h3 class="prop-card-nombre">
+                            <?= htmlspecialchars($p['nombre'] . ' ' . $p['apellido']) ?>
+                        </h3>
+                        <p class="prop-card-titulo">
+                            <?= htmlspecialchars($p['titulo']) ?>
+                        </p>
+                        <?php if (!empty($p['slogan'])): ?>
+                            <p class="prop-card-slogan">
+                                "<?= htmlspecialchars($p['slogan']) ?>"
+                            </p>
+                        <?php endif; ?>
+                        <p class="prop-card-preview">
+                            <?= htmlspecialchars(mb_substr($p['propuesta_detallada'] ?? '', 0, 180)) ?>...
+                        </p>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="prop-card-footer">
+                        <a href="?id=<?= $p['id_propuesta'] ?>" class="prop-card-btn">
+                            Ver propuesta <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <?php if ($vid): ?>
+                            <span class="prop-card-video-badge"
+                                  onclick="abrirVideo('<?= $vid ?>')"
+                                  style="cursor:pointer;">
+                                <i class="bi bi-youtube" style="color:#EF4444;font-size:14px;"></i>
+                                Video
+                            </span>
+                        <?php endif; ?>
+                    </div>
+
+                </div><!-- fin prop-card -->
+                <?php endforeach; ?>
+            <?php endif; ?>
+
+        </div><!-- fin prop-grid -->
+    </div><!-- fin prop-grid-wrap -->
 
 <?php else: ?>
 
-    <!-- ── DETALLE ── -->
     <div class="prop-detalle">
 
         <a href="propuestas.php" class="prop-volver">
@@ -229,7 +229,6 @@ $propuestas = $id === 0 ? $modelo->obtenerTodas() : [];
 <?php endif; ?>
 </main>
 
-<!-- Modal video -->
 <div class="prop-modal-video" id="modalVideo" onclick="cerrarVideo()">
     <div class="prop-modal-video-inner" onclick="event.stopPropagation()">
         <button class="prop-modal-close" onclick="cerrarVideo()">
