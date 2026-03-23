@@ -1,9 +1,11 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/VotoSecure/modelo/config/conexion.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/VotoSecure/Modelo/propuestasMdl.php';
-$modelo     = new PropuestasMdl();
-$id         = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-$propuesta  = $id > 0 ? $modelo->obtenerPorId($id) : null;
-$propuestas = $id === 0 ? $modelo->obtenerTodas() : [];
+
+$modelo = new PropuestasMdl($conexion);
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$propuesta = $id > 0 ? $modelo->obtenerPorId($id) : null;
+$propuestas = $id === 0 ? $modelo->obtenerConCandidato() : [];
 ?>
 <!DOCTYPE html>
 <html lang="es">

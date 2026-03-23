@@ -33,6 +33,7 @@ $candidatos = $modelo->obtenerCandidatos();
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../../css/admin.css">
     <link rel="stylesheet" href="../../css/dash.css">
 </head>
@@ -53,22 +54,36 @@ $candidatos = $modelo->obtenerCandidatos();
                         data-bs-target="#agregarPropuesta">
                         Agregar <i class="fa-solid fa-circle-plus"></i>
                     </button>
-                    <!-- ALERTAS -->
-                    <div class="container mt-3">
-                        <?php
-                        if (!empty($_SESSION["errores"])) {
-                            foreach ($_SESSION["errores"] as $error) {
-                                echo "<div class='alert alert-danger'>$error</div>";
-                            }
-                            unset($_SESSION["errores"]);
-                        }
+                    <?php if (!empty($_SESSION["errores"])): ?>
+                        <script>
+                            Swal.fire({
+                                icon: 'error',
+                                title: '¡Atención!',
+                                html: `<ul class="text-start">
+                                <?php foreach ($_SESSION["errores"] as $error): ?>
+                                    <li><?= htmlspecialchars($error) ?></li>
+                                    <?php endforeach; ?>
+                                    </ul>`,
+                                confirmButtonColor: '#d33',
+                                confirmButtonText: 'Entendido'
+                            });
+                        </script>
+                    <?php unset($_SESSION["errores"]);
+                    endif; ?>
 
-                        if (!empty($_SESSION["success"])) {
-                            echo "<div class='alert alert-success'>" . $_SESSION["success"] . "</div>";
-                            unset($_SESSION["success"]);
-                        }
-                        ?>
-                    </div>
+                    <?php if (!empty($_SESSION["success"])): ?>
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Éxito!',
+                                text: '<?= htmlspecialchars($_SESSION["success"]) ?>',
+                                timer: 2500,
+                                timerProgressBar: true,
+                                showConfirmButton: false
+                            });
+                        </script>
+                    <?php unset($_SESSION["success"]);
+                    endif; ?>
                     <!-- TABLA -->
                     <div class="table-responsive">
                         <table id="tablaContenido" class="table table-hover table-borderless align-middle">
@@ -112,10 +127,14 @@ $candidatos = $modelo->obtenerCandidatos();
                                                     data-bs-target="#editarPropuesta_<?= $row['id_propuesta']; ?>">
                                                     <i class="bi bi-pencil"></i>
                                                 </button>
-                                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" title="Eliminar propuesta"
-                                                    data-bs-target="#eliminarPropuesta_<?= $row['id_propuesta']; ?>">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
+                                                <form class="form-eliminar d-inline" method="POST" action="../../Controlador/propuestasCtrl.php">
+                                                    <input type="hidden" name="accion" value="eliminar">
+                                                    <input type="hidden" name="id" value="<?= $row['id_propuesta'] ?>">
+                                                    <input type="hidden" name="nombre_candidato" value="<?= htmlspecialchars($row['nombre'] . ' ' . $row['apellido']) ?>">
+                                                    <button type="submit" class="btn btn-sm btn-danger" title="Eliminar propuesta">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                             <?php include 'modales/propuestas.php' ?>
                                         </tr>
@@ -141,6 +160,29 @@ $candidatos = $modelo->obtenerCandidatos();
             </div>
         </div>
     </main>
+    <script>
+        document.querySelectorAll('.form-eliminar').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const nombre = this.querySelector('[name="nombre_candidato"]').value;
+
+                Swal.fire({
+                    title: '¿Eliminar propuesta?',
+                    html: `¿Estás seguro de eliminar la propuesta de <strong>"${nombre}"</strong>?<br>
+                       <small class="text-muted">Esta acción no se puede deshacer.</small>`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then(result => {
+                    if (result.isConfirmed) form.submit();
+                });
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
 
